@@ -1,0 +1,46 @@
+.logo {
+	padding:0;
+	padding-top: 5px;
+	padding-left: 10px;
+	width:auto;
+	float:left;
+	height:130px;
+	background-color: #fff;
+}
+
+.logo h1{
+	margin:0;
+	padding:0px 0 0;
+	font-size:36px;
+	font-weight:normal;
+	line-height:1.2em;
+	text-transform:uppercase;
+}
+.logo h1>a{
+	padding-left: 4px;
+}
+h1 {
+	margin:0;
+	padding:34px 0 0;
+	font-size:36px;
+	font-weight:normal;
+	line-height:1.2em;
+	text-transform:uppercase;
+}
+.logo a, .logo a:hover {
+	color:#ffae00;
+	text-decoration:none;
+}
+h1 span {
+}
+h1 small {
+	display:block;
+	font-size:18px;
+	line-height:1.2em;
+	letter-spacing:normal;
+	text-transform:uppercase;
+	border-top: 3px solid #CC3300;
+	padding-top: 6px;
+	padding-left: 6px;
+	color:#3f3f3f;
+}

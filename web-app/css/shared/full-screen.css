@@ -1,0 +1,341 @@
+/*
+Template Name: BusyBusiness
+File: Layout CSS
+Author: OS Templates
+Author URI: http://www.os-templates.com/
+Licence: <a href="http://www.os-templates.com/template-terms">Website Template Licence</a>
+*/
+
+@import url(navi.css);
+@import url(forms.css);
+@import url(tables.css);
+@import url(featured_slide.css);
+
+body{
+	margin:0;
+	padding:0;
+	font-size:12px;
+	font-family:verdana, Arial, Helvetica, sans-serif;
+	color:#777777;
+	background-color:#FFFFFF;
+	}
+
+img{display:block; margin:0; padding:0; border:none;}
+.justify{text-align:justify;}
+.bold{font-weight:bold;}
+.center{text-align:center;}
+.right{text-align:right;}
+.nostart {list-style-type:none; margin:0; padding:0;}
+.clear{clear: both;}
+br.clear{clear:both; margin-top:-15px;}
+
+a{
+	color:#8397A2;
+	background-color:#FFFFFF;
+	outline:none;
+	text-decoration:none;
+	}
+
+.fl_left{float:left; height:120px;}
+/*.bg_white{background: #70848E;} */
+.bg_white{background: #FFF;} 
+.fl_right{float:right;}
+
+.imgl, .imgr{border:1px solid #999999; padding:5px;}
+.imgl{float:left; margin:0 8px 8px 0; clear:left;}
+.imgr{float:right; margin:0 0 8px 8px; clear:right;}
+
+/* ----------------------------------------------Wrapper-------------------------------------*/
+
+div.wrapper{
+	position:relative;
+	float:left;
+	width:100%;
+	margin:0;
+	text-align:left;
+	}
+
+div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, div.wrapper h6{
+	margin:0;
+	padding:0;
+	font-size:20px;
+	font-weight:normal;
+	line-height:normal;
+	font-family:verdana, Arial, Helvetica, sans-serif;
+	}
+
+.col0{color:#FFFFFF; background-color:#000000;}
+.col1{color:#FFFFFF; background-color:#70848E;}
+.col2{color:#666666; background-color:#A2B1B9;}
+.col3{color:#777777; background-color:#FFFFFF;}
+.col4{color:#9D9E9E; background-color:#EFF1F1; border-top:1px dotted #232323;}
+.col4 a{color:#8397A2; background-color:#EFF1F1;}
+.col5, .col5 a{color:#666666; background-color:#DDDEDE;}
+
+/* ----------------------------------------------Generalise-------------------------------------*/
+
+#header, #topbar, #featured_slide, #homecontent, #container, #footer, #copyright{
+	position:relative;
+	margin:0 auto 0;
+	display:block;
+	
+	}
+	
+#breadcrumb {
+	position:relative;
+	margin:0 auto 0;
+	display:block;
+	width:100%;
+}
+
+	
+/* --------------------------------------------Admin Bar------------------------------------*/
+#adminBar{
+	position:relative;
+	margin:0 auto 0;
+	display:block;
+	padding: 2px;
+	background-color: black;
+	}
+	
+#adminBar a{background: black; color:white;}	
+#adminBar p.f_left{float:left; height:22px; padding-left: 4px;}
+#adminBar p.f_right{float:right; padding-right: 4px;}
+
+/* ----------------------------------------------Header-------------------------------------*/
+
+#header{
+	padding:0px 0;
+	background: white;
+	}
+
+#header .fl_left{
+	display:block;
+	float:left;
+	width:300px;
+	overflow:hidden;
+	}
+
+#header .fl_left h1, #header .fl_left p{
+	margin:0;
+	padding:0;
+	line-height:normal;
+	}
+
+#header .fl_left h1{
+	font-size:36px;
+	}
+
+#header h1 a{
+	color:#CED6DA;
+	}
+
+#search{
+	display:block;
+	width:300px;
+	margin:10px 0 0 0;
+	padding:0;
+	}
+
+#search ul{
+	margin:40px 0 10px 0;
+	padding:0;
+	list-style:none;
+	}
+
+#search li{
+	display:inline;
+	}
+
+/* ----------------------------------------------BreadCrumb-------------------------------------*/
+
+#breadcrumb{
+	padding:20px 20px 20px 20px;
+	background-color:#DDD;
+	}
+
+#breadcrumb a{color:#A2B1B9; background-color:#DDD; font-weight: bold;}
+
+#breadcrumb ul{
+	margin:0;
+	padding:0;
+	list-style:none;
+	}
+
+#breadcrumb ul li{display:inline;}
+#breadcrumb ul li.current a{text-decoration:underline;}
+
+/* ----------------------------------------------Content-------------------------------------*/
+
+#container{
+	padding:20px 0;	
+	line-height: 20px;
+	}
+	
+.innercontainer{
+	padding:15px; 
+	border-left: 1px #A2B1B9 dotted;
+	}
+	
+.innercontainer p { 
+	padding-bottom: 5px;
+	}
+
+#container h1, #container h2, #container h3, #container h4, #container h5, #container h6{
+	font-size:22px;
+	margin:0 0 15px 0;
+	padding:0 0 8px 0;
+	color:#B7B7B7;
+	background-color:#FFFFFF;
+	border-bottom:1px solid #E7E6E6;
+	}
+
+#content{
+	/*
+	display:block;
+	
+	float:left;
+	width:600px;
+	*/
+	}
+
+/* ------Comments-----*/
+
+#comments{margin-bottom:40px;}
+
+#comments .commentlist {margin:0; padding:0;}
+
+#comments .commentlist ul{margin:0; padding:0; list-style:none;}
+
+#comments .commentlist li.comment_odd, #comments .commentlist li.comment_even{margin:0 0 10px 0; padding:15px; list-style:none;}
+
+#comments .commentlist li.comment_odd{color:#666666; background-color:#F7F7F7;}
+#comments .commentlist li.comment_odd a{color:#8397A2; background-color:#F7F7F7;}
+
+#comments .commentlist li.comment_even{color:#666666; background-color:#E8E8E8;}
+#comments .commentlist li.comment_even a{color:#8397A2; background-color:#E8E8E8;}
+
+#comments .commentlist .author .name{font-weight:bold;}
+#comments .commentlist .submitdate{font-size:smaller;}
+
+#comments .commentlist p{margin:10px 5px 10px 0; padding:0; font-weight: normal;text-transform: none;}
+
+#comments .commentlist li .avatar{float:right; border:1px solid #EEEEEE; margin:0 0 0 10px;}
+
+/* ----------------------------------------------Column-------------------------------------*/
+
+#column{
+	display:block;
+	float:right;
+	width:300px;
+	}
+
+#column .holder, #column #featured{
+	display:block;
+	width:300px;
+	margin-bottom:20px;
+	}
+
+#column .holder p{
+	line-height:1.6em;
+	}
+
+#column h2{
+	font-size:20px;
+	}
+
+#column .holder h2.title{
+	display:block;
+	width:100%;
+	height:65px;
+	margin:0;
+	padding:15px 0 0 0;
+	font-size:20px;
+	line-height:normal;
+	}
+
+#column .holder h2.title img{
+	float:left;
+	margin:-15px 8px 0 0;
+	padding:5px;
+	border:1px solid #666666;
+	}
+
+#column .holder p.readmore{
+	display:block;
+	width:100%;
+	font-weight:bold;
+	text-align:right;
+	line-height:normal;
+	}
+
+#column div.imgholder{
+	display:block;
+	width:290px;
+	margin:0 0 10px 0;
+	padding:4px;
+	color:#666666;
+	background-color:#F7F7F7;
+	border:1px solid #CCCCCC;
+	}
+
+/* ----------------------------------------------Footer-------------------------------------*/
+
+#footer{
+	padding:30px 0;
+	}
+
+#footer h2{
+	font-size:18px;
+	margin:0 0 15px 0;
+	padding:0 0 8px 0;
+	border-bottom:1px solid #E7E6E6;
+	}
+
+#footer p, #footer ul, #footer a{
+	margin:0;
+	padding:0;
+	font-weight:normal;
+	list-style:none;
+	line-height:normal;
+	}
+
+#footer li{
+	margin-bottom:10px;
+	}
+
+#footer li.last{
+	margin:0;
+	}
+
+#footer address{
+	font-style:normal;
+	line-height:1.5em;
+	margin-bottom:3px;
+	}
+
+#footer .footbox{
+	display:block;
+	float:left;
+	width:300px;
+	margin:0 30px 0 0;
+	padding:0;
+	}
+
+#footer .last{
+	margin-right:0;
+	}
+
+/* ----------------------------------------------Copyright-------------------------------------*/
+
+#copyright{
+	padding:15px 10px;
+	}
+
+#copyright p{
+	margin:0;
+	padding:0;
+	}
+
+#copyright .fl_left{float:left; height:60px;}
+#copyright .fl_right{float:right; height:60px;}

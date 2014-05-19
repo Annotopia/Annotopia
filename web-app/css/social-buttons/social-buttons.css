@@ -1,0 +1,93 @@
+/* -------------------------------------------------------
+
+	Description: CSS3 Circle Social Buttons
+	Version: 1.0
+	Author: Anli Zaimi
+	Author URI: http://azmind.com
+
+------------------------------------------------------- */
+
+
+.socialbuttons {
+	margin-top: 10px;
+}
+
+.socialbuttons a {
+	text-align: center;
+	margin-right: 30px;
+	width: 64px;
+	height: 64px;
+	display: inline-block;
+	position: relative;
+	line-height: 64px;
+	background-color: #eaeaea;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#f6f6f6), to(#eaeaea));
+	background-image: -webkit-linear-gradient(top, #f6f6f6, #eaeaea);
+	background-image: -moz-linear-gradient(top, #f6f6f6, #eaeaea); 
+	background-image: -ms-linear-gradient(top, #f6f6f6, #eaeaea); 
+	background-image: -o-linear-gradient(top, #f6f6f6, #eaeaea);
+	background-image: linear-gradient(top, #f6f6f6, #eaeaea);
+	-moz-border-radius: 32px;
+	-webkit-border-radius: 32px;
+	border-radius: 32px;
+	-moz-box-shadow: 0 1px 1px rgba(0, 0, 0, .25), 0 2px 3px rgba(0, 0, 0, .1);
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .25), 0 2px 3px rgba(0, 0, 0, .1);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, .25), 0 2px 3px rgba(0, 0, 0, .1);
+}
+
+.socialbuttons a:active {
+	top: 1px;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#eaeaea), to(#f6f6f6));
+	background-image: -webkit-linear-gradient(top, #eaeaea, #f6f6f6);
+	background-image: -moz-linear-gradient(top, #eaeaea, #f6f6f6); 
+	background-image: -ms-linear-gradient(top, #eaeaea, #f6f6f6); 
+	background-image: -o-linear-gradient(top, #eaeaea, #f6f6f6);
+	background-image: linear-gradient(top, #eaeaea, #f6f6f6);
+}
+
+.socialbuttons a::before{
+		content: '';
+		position: absolute;
+		z-index: -1;
+		top: -8px;
+		right: -8px;
+		bottom: -8px;
+		left: -8px;
+		background-color: #eaeaea;
+		-moz-border-radius: 140px;
+		-webkit-border-radius: 140px;
+		border-radius: 140px;
+	opacity: 0.5;		
+}
+
+.socialbuttons a:active::before {
+	top: -9px;
+}
+
+.socialbuttons a:hover::before { opacity: 1; }
+
+.socialbuttons a.twitter:hover::before {
+	background-color: #c6f0f8;
+}
+
+.socialbuttons a.facebook:hover::before {
+	background-color: #dae1f0;
+}
+
+.socialbuttons a.dribble:hover::before {
+	background-color: #fadae6;
+}
+
+.socialbuttons a.rss:hover::before {
+	background-color: #f8ebb6;
+}
+
+.twitter img { vertical-align: -7px; }
+.dribble img { vertical-align: -12px; }
+.facebook img { vertical-align: -12px;}
+.rss img { vertical-align: -7px;}
+
+.socialbuttons a img { border: 0; }
+
+
+

@@ -1,0 +1,331 @@
+/* ACTION BUTTONS */
+
+.buttons {
+	background-color: #efefef;
+	overflow: hidden;
+	/*padding: 0.3em;*/
+	padding-bottom: 2px;
+	   -moz-box-shadow: 0 0 3px 1px #aaaaaa;
+	-webkit-box-shadow: 0 0 3px 1px #aaaaaa;
+	        box-shadow: 0 0 3px 1px #aaaaaa;
+	border: none;
+}
+
+.buttons input,
+.buttons a {
+	background-color: transparent;
+	border: 0;
+	color: #666666;
+	cursor: pointer;
+	display: inline-block;
+	margin: 0 0.25em 0;
+	overflow: visible;
+	padding: 0.25em 0.7em;
+	text-decoration: none;
+
+	   -moz-border-radius: 0.3em;
+	-webkit-border-radius: 0.3em;
+	        border-radius: 0.3em;
+}
+
+.buttons input:hover, .buttons input:focus,
+.buttons a:hover, .buttons a:focus {
+	background-color: #999999;
+	color: #ffffff;
+	outline: none;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+	   -moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	        box-shadow: none;
+}
+
+.no-borderradius .buttons input:hover, .no-borderradius .buttons input:focus,
+.no-borderradius .buttons a:hover, .no-borderradius .buttons a:focus {
+	background-color: transparent;
+	color: #444444;
+	text-decoration: underline;
+}
+
+.buttons .delete, .buttons .edit, .buttons .reload, .buttons .save, .buttons .lock, .buttons .unlock, 
+.buttons .password, .buttons .disable, .buttons .enable, .buttons .deleteUser, .buttons .deleteSystem, .buttons .deleteGroup  {
+	background-position: 0.7em center;
+	background-repeat: no-repeat;
+	text-indent: 18px;
+}
+
+.buttons .delete {
+	background-image: url(../../images/dashboard/delete.png);
+}
+
+.buttons .deleteUser {
+	background-image: url(../../images/dashboard/delete_user.png);
+}
+
+.buttons .deleteGroup {
+	background-image: url(../../images/dashboard/delete_group.png);
+}
+
+.buttons .deleteSystem {
+	background-image: url(../../images/dashboard/computer_delete.png);
+}
+
+.buttons .edit {
+	background-image: url(../../images/dashboard/edit.gif);
+}
+
+.buttons .reload {
+	background-image: url(../../images/dashboard/reload.png);
+}
+
+.buttons .save {
+	background-image: url(../../images/skin/database_save.png);
+}
+
+.buttons .lock {
+	background-image: url(../../images/dashboard/lock.png);
+}
+
+.buttons .unlock {
+	background-image: url(../../images/dashboard/unlock.png);
+}
+
+.buttons .password {
+	background-image: url(../../images/dashboard/password.png);
+}
+
+.buttons .enable {
+	background-image: url(../../images/dashboard/enable.png);
+}
+
+.buttons .disable {
+	background-image: url(../../images/dashboard/disable.gif);
+}
+
+.button {
+	display: inline;
+}
+
+a.skip {
+	position: absolute;
+	left: -9999px;
+}
+
+/* PAGINATION */
+
+.pagination {
+	border-top: 0;
+	margin: 0;
+	padding: 0.3em 0.2em;
+	text-align: center;
+	   -moz-box-shadow: 0 0 3px 1px #AAAAAA;
+	-webkit-box-shadow: 0 0 3px 1px #AAAAAA;
+	        box-shadow: 0 0 3px 1px #AAAAAA;
+	background-color: #EFEFEF;
+}
+
+.pagination a,
+.pagination .currentStep {
+	color: #666666;
+	display: inline-block;
+	margin: 0 0.1em;
+	padding: 0.25em 0.7em;
+	text-decoration: none;
+	   -moz-border-radius: 0.3em;
+	-webkit-border-radius: 0.3em;
+	        border-radius: 0.3em;
+}
+
+.pagination a:hover, .pagination a:focus,
+.pagination .currentStep {
+	background-color: #999999;
+	color: #ffffff;
+	outline: none;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+}
+
+.no-borderradius .pagination a:hover, .no-borderradius .pagination a:focus,
+.no-borderradius .pagination .currentStep {
+	background-color: transparent;
+	color: #444444;
+	text-decoration: underline;
+}
+
+/* TABLES */
+
+table {
+	font-size: 13px;
+	/*border-top: 1px solid #DFDFDF;*/
+	border-collapse: collapse;
+	width: 100%;
+	/*margin-bottom: 1em;*/
+}
+
+table.tablelist {
+	/*border-top: 1px solid #DFDFDF;*/
+	margin-bottom: 0px;
+}
+
+tr {
+	border: 0;
+}
+
+tr>td:first-child, tr>th:first-child {
+	padding-left: 1.25em;
+}
+
+tr>td:last-child, tr>th:last-child {
+	padding-right: 1.25em;
+}
+
+td, th {
+	line-height: 1.5em;
+	padding: 0.5em 0.6em;
+	text-align: left;
+	vertical-align: top;
+}
+
+th {
+	background-image: -moz-linear-gradient(top, #ffffff, #eaeaea);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ffffff), color-stop(1, #eaeaea));
+	    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr = '#ffffff', EndColorStr = '#eaeaea');
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#eaeaea')";
+	color: #666666;
+	font-weight: bold;
+	line-height: 1.7em;
+	padding: 0.2em 0.6em;
+}
+
+table.tablelist thead th {
+	white-space: nowrap;
+	color: #666;
+	background-color: inherit;
+}
+
+th a {
+	display: block;
+	text-decoration: none;
+	background: inherit;
+}
+
+th a:link, th a:visited {
+	color: #666666;
+}
+
+th a:hover, th a:focus {
+	color: #333333;
+}
+
+th.sortable {
+	color: #666666;
+}
+
+th.sortable a {
+	background-position: right;
+	background-repeat: no-repeat;
+	padding-right: 1.1em;
+}
+
+th.asc a {
+	background-image: url(../../images/skin/sorted_asc.gif);
+}
+
+th.desc a {
+	background-image: url(../../images/skin/sorted_desc.gif);
+}
+
+td a:link, th a:visited {
+	color: #666666;
+	text-decoration: underline;
+	background-color: inherit;
+}
+
+.odd {
+	background: #f7f7f7;
+}
+
+.even {
+	background: #ffffff;
+}
+
+.title {
+	padding: 15px;
+	padding-left: 15px;
+	font-size: 18px;
+	font-weight: bold;	
+	background-color: #666;
+	color: #fff;
+	vertical-align: middle;
+	/*border-bottom: 3px #036 solid;*/
+}
+
+/* PAGINATION */
+
+.paginateButtons {
+    background: #fff url(../../images/skin/shadow.jpg) bottom repeat-x;
+    border: 1px solid #ccc;
+    border-top: 0;
+    color: #666;
+    font-size: 10px;
+    overflow: hidden;
+    padding: 10px 3px;
+}
+.paginateButtons a {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-color: #ccc #aaa #aaa #ccc;
+    color: #666;
+    margin: 0 3px;
+    padding: 2px 6px;
+}
+.paginateButtons span {
+    padding: 2px 3px;
+}
+
+/* DIALOG */
+
+.dialog table {
+    padding: 5px 0;
+}
+
+.prop {
+    padding: 5px;
+}
+.prop .name {
+    text-align: left;
+    width: 20%;
+    white-space: nowrap;
+}
+.prop .value {
+    text-align: left;
+    width: 40%;
+}
+
+.successMessage {
+	padding: 5px;
+	background-color: green;	
+	color: white;
+}
+.errorMessage {
+	padding: 5px;
+	background-color: red;	
+	color: white;
+}
+
+table.simpleTableNoBorder {
+	border:0;
+}
+
+table.simpleTableNoBorder td {
+	border:0;
+}
+
+table.simpleTable td {
+	border:0;
+}
+
+table.tablelist  tbody td{
+	vertical-align:top;
+	border-collapse:collapse;
+	border-left:1px solid #CCCCCC;
+	border-right:1px solid #CCCCCC;
+}

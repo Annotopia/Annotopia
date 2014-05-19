@@ -1,0 +1,55 @@
+/* Dr. Paolo Ciccarese <paolo.ciccarese@gmail.om> */
+
+body{
+	margin:0;
+	padding:0;
+	line-height: 1.5em;
+}
+
+em{color: red;}
+
+#topsection{
+	background: #aaa;
+	height: 20px; /*Height of top section*/
+}
+
+#topsection h1{
+	margin: 0;
+	padding-top: 5px;
+}
+
+#contentwrapper{
+	float: left;
+	width: 100%;
+}
+
+#contentcolumn{
+	margin-left: 262px; /*Set left margin to LeftColumnWidth*/
+	margin-right: 10px;
+}
+
+#leftcolumn{
+	float: left;
+	width: 262px; /*Width of left column*/
+	background: #fff;
+	margin-left: -100%;
+	border-right: 0px #336699 solid;
+}
+
+#footer{
+	clear: left;
+	width: 100%;
+	background: #336699;
+	color: #FFF;
+	text-align: center;
+	padding: 4px 0;
+	font-size: 12px;
+}
+
+#footer a{
+	color: #FFFF80;
+}
+
+.innertube {
+	padding-left: 5px;	
+}
