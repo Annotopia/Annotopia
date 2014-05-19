@@ -7,13 +7,15 @@
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<g:link controller="secured" action="home" class="navbar-brand">
+			<g:link controller="secure" action="index" class="navbar-brand">
 				${grailsApplication.config.annotopia.general.about.title}
 			</g:link>
 		</div>
 		<div class="navbar-collapse collapse navbar-right">
 			<ul class="nav navbar-nav">
 				<%--<li><g:link controller="public" action="home">Home</g:link></li> --%>
+				<li><g:link controller="secure" action="index">My annotations</g:link></li>
+				<li><g:link controller="secure" action="index">My resources</g:link></li>		
 				<li><g:link controller="secure" action="profile">My profile</g:link></li>					
 			</ul>
 		</div>
