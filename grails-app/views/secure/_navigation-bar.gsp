@@ -1,5 +1,14 @@
 <%@ page import="org.mindinformatics.grails.domeo.dashboard.security.*" %>
-<nav class="navbar navbar-w3r navbar-fixed-top" role="navigation">
+<div style="background: black;">
+	<div class="container">
+		<sec:access expression="hasRole('ROLE_ADMIN')">
+			<div style="height:20px; display: block;  color: white;">
+				<g:render template="/dashboard/shared/administration-general" plugin="cs-security-dashboard"/>
+			</div>
+		</sec:access>
+	</div>
+</div>
+<nav class="navbar navbar-w3r " role="navigation">
 	<div class="container">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse"

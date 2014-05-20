@@ -1,0 +1,12 @@
+/* --------------------------------------------Admin Bar------------------------------------*/
+#adminBar{
+	position:relative;
+	margin:0 auto 0;
+	display:block;
+	padding: 2px;
+	background-color: black;
+	}
+	
+#adminBar a{background: black; color:white;}	
+#adminBar p.f_left{float:left; height:22px; padding-left: 4px;}
+#adminBar p.f_right{float:right; padding-right: 4px;}

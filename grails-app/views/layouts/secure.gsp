@@ -9,6 +9,7 @@
 	<link rel="shortcut icon" href="${resource(dir: 'images/public', file: 'domeo.ico')}" type="image/x-icon">
 	
 	<link rel="stylesheet" href="${resource(dir: 'css/shared', file: 'reset.css', plugin: 'af-shared')}" type="text/css">
+	<link rel="stylesheet" href="${resource(dir: 'css/shared', file: 'administration-bar.css', plugin: 'af-shared')}" type="text/css">
 	<link rel="stylesheet" href="${resource(dir: 'css/navigation', file: 'bootstrap.css')}" type="text/css">
 	<link rel="stylesheet" href="${resource(dir: 'css/navigation', file: 'navigation-custom.css')}" type="text/css">
 
