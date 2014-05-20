@@ -34,11 +34,33 @@ import org.commonsemantics.grails.users.utils.UsersUtils
  */
 class PublicController {
 
+	def springSecurityService
 	def agentsService;
 	def usersService;
 	
+	/*
+	 * Loading by primary key is usually more efficient because it takes
+	 * advantage of Hibernate's first-level and second-level caches
+	 */
+	protected def injectUserProfile() {
+		def principal = springSecurityService.principal
+		if(principal.equals("anonymousUser") || !principal.hasProperty("id")) {
+			return null
+		} else {
+			String userId = principal.id
+			def user = User.findById(userId);
+			if(user==null) {
+				log.error "Error:User not found for id: " + userId
+				render (view:'error', model:[message: "User not found for id: "+userId]);
+			}
+			user
+		}
+	}
+	
 	def index = {
-		render(view: "home", model: [menu: 'index'])
+		def user = injectUserProfile()
+		if(user==null) render(view: "home", model: [menu: 'index'])
+		else redirect(controller:'secure',action:'index')
 	}
 	
 	def signup = {
