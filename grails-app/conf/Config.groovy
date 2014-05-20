@@ -86,7 +86,8 @@ log4j = {
 
     warn    'org.mortbay.log'
 	
-	info 	'grails.app' 									// Necessary for Bootstrap logging
+	info 	'grails.app', 									// Necessary for Bootstrap logging
+	        'org.annotopia.grails.security'
 	
 	debug  	'grails.app.services.org.commonsemantics.grails.agents.services.AgentsService',
 			'grails.app.services.org.commonsemantics.grails.users.services.UsersService',
