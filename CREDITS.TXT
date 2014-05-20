@@ -1,2 +1,3 @@
 pie.png - http://findicons.com/icon/116591/084?id=293714
 danger.png - http://findicons.com/icon/93080/emblem_danger?id=93090
+gnome-edit-delete.png - http://findicons.com/icon/67048/gnome_edit_delete
