@@ -47,7 +47,7 @@
 }
 
 .buttons .delete, .buttons .edit, .buttons .reload, .buttons .save, .buttons .lock, .buttons .unlock, 
-.buttons .password, .buttons .disable, .buttons .enable, .buttons .deleteUser, .buttons .deleteSystem, .buttons .deleteGroup  {
+.buttons .password, .buttons .disable, .buttons .enable, .buttons .deleteUser, .buttons .deleteSystem, .buttons .deleteGroup, .buttons .list  {
 	background-position: 0.7em center;
 	background-repeat: no-repeat;
 	text-indent: 18px;
@@ -78,7 +78,7 @@
 }
 
 .buttons .save {
-	background-image: url(../../images/skin/database_save.png);
+	background-image: url(../../images/dashboard/save.png);
 }
 
 .buttons .lock {
@@ -99,6 +99,10 @@
 
 .buttons .disable {
 	background-image: url(../../images/dashboard/disable.gif);
+}
+
+.buttons .list {
+	background-image: url(../../images/dashboard/list.png);
 }
 
 .button {
