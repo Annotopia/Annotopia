@@ -25,7 +25,7 @@
 	<div class="header" >
 	    <g:render template="/secure/navigation-bar" />
 	</div>
-	<div style="top:60px;position: relative;">
+	<div style="top:60px;">
 		<g:layoutBody/>
 	</div>
 	<br/><br/><br/><br/>

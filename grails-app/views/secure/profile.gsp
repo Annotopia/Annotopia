@@ -8,7 +8,6 @@
 		<div class="container">
 			<div class="csc-main">
 				<h2>My Profile</h2>
-
 					<g:form method="post" >
 						<div class="csc-lens-container">
 							<g:hiddenField name="id" value="${user.id}" /> 

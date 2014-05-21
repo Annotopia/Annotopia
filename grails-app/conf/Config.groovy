@@ -115,6 +115,7 @@ grails.plugin.springsecurity.logout.postOnly = false
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/public/**'		: ['permitAll'],
 	'/secure/**'		: ['ROLE_ADMIN'],
+	'/crunch/**'		: ['ROLE_ADMIN'],
 	'/dashboard/**'		: ['ROLE_ADMIN'],
 	'/**/js/**'			: ['permitAll'],
 	'/**/css/**'        : ['permitAll'],
