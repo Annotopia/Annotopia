@@ -3,6 +3,9 @@ grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 
+//grails.plugin.location.'at-smart-storage' = '../AtSmartStorage'
+grails.plugin.location.'at-data-cruncher' = '../AtDataCruncher'
+
 grails.plugin.location.'cs-commons' = '../commonsemantics/CsCommons'
 grails.plugin.location.'cs-systems' = '../commonsemantics/CsSystems'
 grails.plugin.location.'cs-agents' = '../commonsemantics/CsAgents'
@@ -41,12 +44,30 @@ grails.project.dependency.resolution = {
         mavenCentral()
 		
 		mavenRepo "http://repo.spring.io/milestone/"
+		mavenRepo "https://repository.apache.org/content/repositories/snapshots/"
     }
 
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
 
         // runtime 'mysql:mysql-connector-java:5.1.22'
+		
+		runtime 'virtuoso:virtjdbc:4'
+		runtime 'virtuoso.sesame:virt_jena:2'
+		
+		compile ("org.apache.jena:jena-core:2.11.2-SNAPSHOT") {
+			excludes 'slf4j-api', 'xercesImpl'
+		}
+		compile ("org.apache.jena:jena-arq:2.11.2-SNAPSHOT")
+		
+		compile ("xml-apis:xml-apis:1.4.01") {
+			excludes 'xercesImpl'
+		}
+
+		compile("xerces:xercesImpl:2.9.1") {
+			excludes 'xml-apis'
+		}
+		
     }
 
     plugins {
