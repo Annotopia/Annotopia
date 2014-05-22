@@ -1,4 +1,5 @@
 import grails.util.Metadata
+grails.app.context="/"
 
 // configuration for plugin testing - will not be included in the plugin zip
 
@@ -113,13 +114,17 @@ grails.plugin.springsecurity.password.algorithm = 'bcrypt'
 grails.plugin.springsecurity.logout.postOnly = false
 
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
-	'/public/**'		: ['permitAll'],
-	'/secure/**'		: ['ROLE_ADMIN'],
-	'/crunch/**'		: ['ROLE_ADMIN'],
-	'/dashboard/**'		: ['ROLE_ADMIN'],
-	'/**/js/**'			: ['permitAll'],
-	'/**/css/**'        : ['permitAll'],
-	'/**/images/**'     : ['permitAll'],
-	'/**/favicon.ico'   : ['permitAll']
+	'/public/**'				: ['permitAll'],
+	'/openAnnotation/**'		: ['permitAll'],
+	'/annotationIntegrated/**'	: ['permitAll'],
+	'/secure/**'				: ['ROLE_ADMIN'],
+	'/crunch/**'				: ['ROLE_ADMIN'],
+	'/dashboard/**'				: ['ROLE_ADMIN'],
+	'/**/js/**'					: ['permitAll'],
+	'/**/css/**'        		: ['permitAll'],
+	'/**/images/**'     		: ['permitAll'],
+	'/**/favicon.ico'   		: ['permitAll']
 ]
 
+cors.url.pattern = ['/s/annotation/*','/s/annotationset/*']
+cors.headers = ['Access-Control-Allow-Origin':'*']

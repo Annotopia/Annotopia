@@ -3,7 +3,7 @@ grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 
-//grails.plugin.location.'at-smart-storage' = '../AtSmartStorage'
+grails.plugin.location.'at-smart-storage' = '../AtSmartStorage'
 grails.plugin.location.'at-data-cruncher' = '../AtDataCruncher'
 
 grails.plugin.location.'cs-commons' = '../commonsemantics/CsCommons'
@@ -87,5 +87,7 @@ grails.project.dependency.resolution = {
         compile ':cache:1.0.1'
 		
 		compile ":spring-security-core:2.0-RC2"
+		
+		runtime ":cors:1.1.4"
     }
 }
