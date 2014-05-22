@@ -43,11 +43,12 @@ class ApiKeyAuthenticationService extends org.annotopia.grails.services.storage.
 	 */
 	def isApiKeyValid(def ip, def apiKey) {
 		log.info("New-> Validating API key [" + apiKey + "] on request from IP: " + ip);
-		// TODO Validate against real API Keys.
+		// Validation mockup for testing mode
 		boolean allowed = (
 			grailsApplication.config.annotopia.storage.testing.enabled=='true' &&
 			apiKey==grailsApplication.config.annotopia.storage.testing.apiKey
 		);
+		// Validation against real apiKeys
 		if(!allowed) {
 			allowed = systemsService.isApiKeyValid(apiKey);	
 		}
