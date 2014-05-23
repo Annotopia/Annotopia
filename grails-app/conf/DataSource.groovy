@@ -48,7 +48,7 @@ dataSource {
 	pooled = true
 	driverClassName = "com.mysql.jdbc.Driver"
 	username = "root"
-	password = "CfwAM69M"
+	password = ""
 	dialect = org.hibernate.dialect.MySQL4InnoDBDialect
 	logSql = false
 	properties {
