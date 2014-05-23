@@ -153,9 +153,14 @@ class BootStrap {
 				enabled: true, email:'paolo.ciccarese@gmail.com').save(failOnError: true)
 			log.warn  "CHANGE PASSWORD for: " + adminUsername + "!!!"
 		}
-		UserRole.create admin, Role.findByAuthority(DefaultUsersRoles.USER.value())
-		UserRole.create admin, Role.findByAuthority(DefaultUsersRoles.MANAGER.value())
-		UserRole.create admin, Role.findByAuthority(DefaultUsersRoles.ADMIN.value())
+		if (!admin.authorities.contains(Role.findByAuthority(DefaultUsersRoles.USER.value()))) 
+			UserRole.create admin, Role.findByAuthority(DefaultUsersRoles.USER.value())
+			
+		if (!admin.authorities.contains(Role.findByAuthority(DefaultUsersRoles.MANAGER.value()))) 
+			UserRole.create admin, Role.findByAuthority(DefaultUsersRoles.MANAGER.value())
+			
+		if (!admin.authorities.contains(Role.findByAuthority(DefaultUsersRoles.ADMIN.value())))
+			UserRole.create admin, Role.findByAuthority(DefaultUsersRoles.ADMIN.value())
 	
 		separator();
 		def name = 'Software Test';
