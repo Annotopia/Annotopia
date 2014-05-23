@@ -118,6 +118,7 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/openAnnotation/**'		: ['permitAll'],
 	'/annotationIntegrated/**'	: ['permitAll'],
 	'/secure/**'				: ['ROLE_ADMIN'],
+	'/secret/**'				: ['ROLE_ADMIN'],
 	'/crunch/**'				: ['ROLE_ADMIN'],
 	'/dashboard/**'				: ['ROLE_ADMIN'],
 	'/**/js/**'					: ['permitAll'],

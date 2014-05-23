@@ -152,6 +152,8 @@ class BootStrap {
 				password: encodePassword(password), person: person,
 				enabled: true, email:'paolo.ciccarese@gmail.com').save(failOnError: true)
 			log.warn  "CHANGE PASSWORD for: " + adminUsername + "!!!"
+		} else {
+			log.info "Found: " + adminUsername;
 		}
 		if (!admin.authorities.contains(Role.findByAuthority(DefaultUsersRoles.USER.value()))) 
 			UserRole.create admin, Role.findByAuthority(DefaultUsersRoles.USER.value())
@@ -174,6 +176,8 @@ class BootStrap {
 				displayName: 'Software Test display',
 				description: 'Software Test description'
 			).save(failOnError: true);
+		} else {
+			log.info "Found: " + name;
 		}
 		
 		//////////GROUPS TESTS
