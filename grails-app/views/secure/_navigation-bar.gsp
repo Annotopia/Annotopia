@@ -1,13 +1,7 @@
 <%@ page import="org.mindinformatics.grails.domeo.dashboard.security.*" %>
-<div style="background: black;">
-	<div class="container">
-		<sec:access expression="hasRole('ROLE_ADMIN')">
-			<div style="height:20px; display: block;  color: white;">
-				<g:render template="/dashboard/shared/administration-general" plugin="cs-security-dashboard"/>
-			</div>
-		</sec:access>
-	</div>
-</div>
+
+<g:render template="/dashboard/shared/administration-general-topbar" plugin="cs-security-dashboard"/>
+
 <nav class="navbar navbar-w3r " role="navigation">
 	<div class="container">
 		<div class="navbar-header">

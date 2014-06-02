@@ -6,16 +6,18 @@ Author URI: http://www.os-templates.com/
 Licence: <a href="http://www.os-templates.com/template-terms">Website Template Licence</a>
 */
 
+/*
 @import url(navi.css);
 @import url(forms.css);
 @import url(tables.css);
 @import url(featured_slide.css);
+*/
 
 body{
 	margin:0;
 	padding:0;
 	font-size:12px;
-	font-family:verdana, Arial, Helvetica, sans-serif;
+	font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
 	color:#777777;
 	background-color:#FFFFFF;
 	}
@@ -88,19 +90,6 @@ div.wrapper h1, div.wrapper h2, div.wrapper h3, div.wrapper h4, div.wrapper h5, 
 	width:100%;
 }
 
-	
-/* --------------------------------------------Admin Bar------------------------------------*/
-#adminBar{
-	position:relative;
-	margin:0 auto 0;
-	display:block;
-	padding: 2px;
-	background-color: black;
-	}
-	
-#adminBar a{background: black; color:white;}	
-#adminBar p.f_left{float:left; height:22px; padding-left: 4px;}
-#adminBar p.f_right{float:right; padding-right: 4px;}
 
 /* ----------------------------------------------Header-------------------------------------*/
 
