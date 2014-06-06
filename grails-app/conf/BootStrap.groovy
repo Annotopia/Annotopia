@@ -163,6 +163,25 @@ class BootStrap {
 			
 		if (!admin.authorities.contains(Role.findByAuthority(DefaultUsersRoles.ADMIN.value())))
 			UserRole.create admin, Role.findByAuthority(DefaultUsersRoles.ADMIN.value())
+			
+
+			def managerUsername = 'manager'
+			log.info  "Initializing: " + adminUsername
+			def manager = User.findByUsername(managerUsername);
+			if(manager==null) {
+				manager = new User(username: managerUsername,
+					password: encodePassword(password), person: person,
+					enabled: true, email:'paolo.ciccarese@gmail.com').save(failOnError: true)
+				log.warn  "CHANGE PASSWORD for: " + managerUsername + "!!!"
+			} else {
+				log.info "Found: " + managerUsername;
+			}
+			if (!manager.authorities.contains(Role.findByAuthority(DefaultUsersRoles.USER.value())))
+				UserRole.create manager, Role.findByAuthority(DefaultUsersRoles.USER.value())
+				
+			if (!manager.authorities.contains(Role.findByAuthority(DefaultUsersRoles.MANAGER.value())))
+				UserRole.create manager, Role.findByAuthority(DefaultUsersRoles.MANAGER.value())
+
 	
 		separator();
 		def name = 'Software Test';
@@ -200,6 +219,14 @@ class BootStrap {
 			status: UserStatusInGroup.findByValue(DefaultUserStatusInGroup.ACTIVE.value())
 		).save(failOnError: true, flash: true)
 		testUserGroup1.addToRoles GroupRole.findByAuthority(DefaultGroupRoles.ADMIN.value())
+		
+		def testUserGroup2 = UserGroup.findByUserAndGroup(manager, testGroup0)?: new UserGroup(
+			user: manager,
+			group: testGroup0,
+			status: UserStatusInGroup.findByValue(DefaultUserStatusInGroup.ACTIVE.value())
+		).save(failOnError: true, flash: true)
+		testUserGroup2.addToRoles GroupRole.findByAuthority(DefaultGroupRoles.ADMIN.value())
+		
 		
 		demarcation();
 
