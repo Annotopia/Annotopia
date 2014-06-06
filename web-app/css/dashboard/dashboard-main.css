@@ -46,7 +46,7 @@
 	text-decoration: underline;
 }
 
-.buttons .delete, .buttons .edit, .buttons .reload, .buttons .save, .buttons .lock, .buttons .unlock, 
+.buttons .delete, .buttons .edit, .buttons .add, .buttons .reload, .buttons .save, .buttons .lock, .buttons .unlock, 
 .buttons .password, .buttons .disable, .buttons .enable, .buttons .deleteUser, .buttons .deleteSystem, .buttons .deleteGroup, .buttons .list  {
 	background-position: 0.7em center;
 	background-repeat: no-repeat;
@@ -103,6 +103,10 @@
 
 .buttons .list {
 	background-image: url(../../images/dashboard/list.png);
+}
+
+.buttons .add {
+	background-image: url(../../images/dashboard/add_group.png);
 }
 
 .button {
