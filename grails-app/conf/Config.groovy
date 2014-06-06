@@ -67,36 +67,77 @@ environments {
     }
 }
 
-log4j = {
-    appenders {
-		console name:'stdout', threshold: org.apache.log4j.Level.TRACE, 
-			layout:pattern(conversionPattern: '%d{mm:ss,SSS} %5p %c{1} %m%n')
+
+environments {
+	development {
+		log4j = {
+		    appenders {
+				console name:'stdout', threshold: org.apache.log4j.Level.ALL, 
+					layout:pattern(conversionPattern: '%d{mm:ss,SSS} %5p %c{1} %m%n')
+			}
+		
+		    error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
+		           'org.codehaus.groovy.grails.web.pages', //  GSP
+		           'org.codehaus.groovy.grails.web.sitemesh', //  layouts
+		           'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
+		           'org.codehaus.groovy.grails.web.mapping', // URL mapping
+		           'org.codehaus.groovy.grails.commons', // core / classloading
+		           'org.codehaus.groovy.grails.plugins', // plugins
+		           'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
+		           'org.springframework',
+		           'org.hibernate',
+		           'net.sf.ehcache.hibernate'
+		
+		    warn    'org.mortbay.log'
+			
+			info 	'grails.app', 									// Necessary for Bootstrap logging
+			        'org.annotopia.grails.security'
+			
+			trace  	'grails.app.services.org.commonsemantics.grails.agents.services.AgentsService',
+					'grails.app.services.org.commonsemantics.grails.users.services.UsersService',
+					'grails.app.services.org.commonsemantics.grails.groups.services.GroupsService',
+					'grails.app.services.org.commonsemantics.grails.systems.services.SystemsService',
+					'grails.app.services.org.annotopia.grails.services.storage.jena.virtuoso.JenaVirtuosoStoreService',
+					'grails.app.services.org.annotopia.grails.services.storage.jena.openannotation.OpenAnnotationWithPermissionsStorageService',
+					'org.commonsemantics.grails.agents.utils',
+					'org.commonsemantics.grails.users.utils',
+					'org.commonsemantics.grails.groups.utils'
+		}
 	}
-
-    error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
-           'org.codehaus.groovy.grails.web.pages', //  GSP
-           'org.codehaus.groovy.grails.web.sitemesh', //  layouts
-           'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
-           'org.codehaus.groovy.grails.web.mapping', // URL mapping
-           'org.codehaus.groovy.grails.commons', // core / classloading
-           'org.codehaus.groovy.grails.plugins', // plugins
-           'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
-           'org.springframework',
-           'org.hibernate',
-           'net.sf.ehcache.hibernate'
-
-    warn    'org.mortbay.log'
 	
-	info 	'grails.app', 									// Necessary for Bootstrap logging
-	        'org.annotopia.grails.security'
-	
-	debug  	'grails.app.services.org.commonsemantics.grails.agents.services.AgentsService',
-			'grails.app.services.org.commonsemantics.grails.users.services.UsersService',
-			'grails.app.services.org.commonsemantics.grails.groups.services.GroupsService',
-			'grails.app.services.org.commonsemantics.grails.systems.services.SystemsService',
-			'org.commonsemantics.grails.agents.utils',
-			'org.commonsemantics.grails.users.utils',
-			'org.commonsemantics.grails.groups.utils'
+	production {
+		log4j = {
+			appenders {
+				console name:'stdout', threshold: org.apache.log4j.Level.INFO,
+					layout:pattern(conversionPattern: '%d{mm:ss,SSS} %5p %c{1} %m%n')
+			}
+		
+			error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
+				   'org.codehaus.groovy.grails.web.pages', //  GSP
+				   'org.codehaus.groovy.grails.web.sitemesh', //  layouts
+				   'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
+				   'org.codehaus.groovy.grails.web.mapping', // URL mapping
+				   'org.codehaus.groovy.grails.commons', // core / classloading
+				   'org.codehaus.groovy.grails.plugins', // plugins
+				   'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
+				   'org.springframework',
+				   'org.hibernate',
+				   'net.sf.ehcache.hibernate'
+		
+			warn    'org.mortbay.log'
+			
+			info 	'grails.app', 									// Necessary for Bootstrap logging
+					'org.annotopia.grails.security'
+			
+			debug  	'grails.app.services.org.commonsemantics.grails.agents.services.AgentsService',
+					'grails.app.services.org.commonsemantics.grails.users.services.UsersService',
+					'grails.app.services.org.commonsemantics.grails.groups.services.GroupsService',
+					'grails.app.services.org.commonsemantics.grails.systems.services.SystemsService',
+					'org.commonsemantics.grails.agents.utils',
+					'org.commonsemantics.grails.users.utils',
+					'org.commonsemantics.grails.groups.utils'
+		}
+	}
 }
 
 // Spring Security Configuration
@@ -114,13 +155,15 @@ grails.plugin.springsecurity.password.algorithm = 'bcrypt'
 grails.plugin.springsecurity.logout.postOnly = false
 
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
-	'/public/**'				: ['permitAll'],
-	'/openAnnotation/**'		: ['permitAll'],
-	'/annotationIntegrated/**'	: ['permitAll'],
+	'/public/**'							: ['permitAll'],
+	'/openAnnotation/**'					: ['permitAll'],
+	'/openAnnotationWithPermissions/**'		: ['permitAll'],
+	'/annotationIntegrated/**'				: ['permitAll'],
 	'/secure/**'				: ['ROLE_ADMIN'],
 	'/secret/**'				: ['ROLE_ADMIN'],
 	'/crunch/**'				: ['ROLE_ADMIN'],
 	'/dashboard/**'				: ['ROLE_ADMIN'],
+	'/dashboardAjax/**'				: ['ROLE_ADMIN'],
 	'/**/js/**'					: ['permitAll'],
 	'/**/css/**'        		: ['permitAll'],
 	'/**/images/**'     		: ['permitAll'],
