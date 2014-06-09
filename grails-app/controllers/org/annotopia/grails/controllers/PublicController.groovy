@@ -103,7 +103,7 @@ class PublicController {
 					}
 					render (view:'signup', model:[user:c]);
 				} else {
-					def user = new User(username: params.username, password: params.password, person:person)
+					def user = new User(username: params.username, password: params.password, person:person, profilePrivacy: UsersUtils.getProfilePrivacy(params.userProfilePrivacy))
 					if(!user.save(flush: true)) {
 						log.error("[TEST] While Saving User " + cmd.errors)
 						user.errors.each {
@@ -124,6 +124,8 @@ class PublicController {
 						personStatus.setRollbackOnly();
 
 						c.username = params.username;
+						
+						
 							
 						if(c.isPasswordValid()) {
 							c.password = params.password;
@@ -143,7 +145,6 @@ class PublicController {
 						log.debug("[TEST] save-user roles and status");
 						UsersUtils.updateUserRole(user, Role.findByAuthority(DefaultUsersRoles.USER.value()), 'on')
 						UsersUtils.updateUserStatus(user, UserStatus.CREATED_USER.value())
-						UsersUtils.updateUserProfilePrivacy(user, params.userProfilePrivacy)
 						render (view:'registered', model:[user:user]);
 						return;
 					}

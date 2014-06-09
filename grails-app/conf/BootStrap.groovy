@@ -150,7 +150,7 @@ class BootStrap {
 		if(admin==null) {
 			admin = new User(username: adminUsername,
 				password: encodePassword(password), person: person,
-				enabled: true, email:'paolo.ciccarese@gmail.com').save(failOnError: true)
+				enabled: true, profilePrivacy:  ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.PRIVATE.value()),  email:'paolo.ciccarese@gmail.com').save(failOnError: true)
 			log.warn  "CHANGE PASSWORD for: " + adminUsername + "!!!"
 		} else {
 			log.info "Found: " + adminUsername;
@@ -165,22 +165,22 @@ class BootStrap {
 			UserRole.create admin, Role.findByAuthority(DefaultUsersRoles.ADMIN.value())
 			
 
-			def managerUsername = 'manager'
-			log.info  "Initializing: " + adminUsername
-			def manager = User.findByUsername(managerUsername);
-			if(manager==null) {
-				manager = new User(username: managerUsername,
-					password: encodePassword(password), person: person,
-					enabled: true, email:'paolo.ciccarese@gmail.com').save(failOnError: true)
-				log.warn  "CHANGE PASSWORD for: " + managerUsername + "!!!"
-			} else {
-				log.info "Found: " + managerUsername;
-			}
-			if (!manager.authorities.contains(Role.findByAuthority(DefaultUsersRoles.USER.value())))
-				UserRole.create manager, Role.findByAuthority(DefaultUsersRoles.USER.value())
-				
-			if (!manager.authorities.contains(Role.findByAuthority(DefaultUsersRoles.MANAGER.value())))
-				UserRole.create manager, Role.findByAuthority(DefaultUsersRoles.MANAGER.value())
+		def managerUsername = 'manager'
+		log.info  "Initializing: " + adminUsername
+		def manager = User.findByUsername(managerUsername);
+		if(manager==null) {
+			manager = new User(username: managerUsername,
+				password: encodePassword(password), person: person,
+				enabled: true, profilePrivacy:  ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.PRIVATE.value()), email:'paolo.ciccarese@gmail.com').save(failOnError: true)
+			log.warn  "CHANGE PASSWORD for: " + managerUsername + "!!!"
+		} else {
+			log.info "Found: " + managerUsername;
+		}
+		if (!manager.authorities.contains(Role.findByAuthority(DefaultUsersRoles.USER.value())))
+			UserRole.create manager, Role.findByAuthority(DefaultUsersRoles.USER.value())
+			
+		if (!manager.authorities.contains(Role.findByAuthority(DefaultUsersRoles.MANAGER.value())))
+			UserRole.create manager, Role.findByAuthority(DefaultUsersRoles.MANAGER.value())
 
 	
 		separator();
