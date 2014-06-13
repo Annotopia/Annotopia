@@ -20,6 +20,7 @@
  */
 package org.annotopia.grails.services
 
+
 /**
  * This service manages access through API keys that are assigned to 
  * applications or users that want to make use of the Annotopia server.
@@ -31,6 +32,7 @@ package org.annotopia.grails.services
  */
 class ApiKeyAuthenticationService extends org.annotopia.grails.services.storage.authentication.ApiKeyAuthenticationService {
 
+	def springSecurityService
 	def grailsApplication
 	def systemsService;
 	
@@ -53,5 +55,19 @@ class ApiKeyAuthenticationService extends org.annotopia.grails.services.storage.
 			allowed = systemsService.isApiKeyValid(apiKey);	
 		}
 	 	return allowed;
+	}
+	
+	def getUserId(def ip, def id) {
+		log.info("Authenticating User [" + id + "] on request from IP: " + ip);
+		// Validation mockup for testing mode
+		if(grailsApplication.config.annotopia.storage.testing.enabled=='true' &&
+				grailsApplication.config.annotopia.storage.testing.userid!=null)
+			return grailsApplication.config.annotopia.storage.testing.userid;
+			
+		def principal = springSecurityService.principal;
+		if(!principal.equals("anonymousUser")) {
+			String userId = principal.id
+			return userId
+		}
 	}
 }
