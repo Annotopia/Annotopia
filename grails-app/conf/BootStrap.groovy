@@ -1,3 +1,4 @@
+import org.commonsemantics.grails.agents.model.AgentUri
 import org.commonsemantics.grails.agents.model.Person
 import org.commonsemantics.grails.agents.model.Software
 import org.commonsemantics.grails.groups.model.Group
@@ -140,8 +141,12 @@ class BootStrap {
 				displayName: 'Dr. White',
 				email:'paolo.ciccarese@gmail.com'
 			).save(flush: true, failOnError: true);
+		
+			person.uris.add 'http://orcid.org/0000-0002-5156-2703';
 		}
 		
+		if (!AgentUri.findByAgentAndUri(person, 'http://orcid.org/0000-0002-5156-2703'))
+			AgentUri.create person, 'orcid', 'http://orcid.org/0000-0002-5156-2703'
 		
 		def password = 'password'
 		def adminUsername = 'admin'
@@ -164,6 +169,7 @@ class BootStrap {
 		if (!admin.authorities.contains(Role.findByAuthority(DefaultUsersRoles.ADMIN.value())))
 			UserRole.create admin, Role.findByAuthority(DefaultUsersRoles.ADMIN.value())
 			
+		log.error admin.person.uris
 
 		def managerUsername = 'manager'
 		log.info  "Initializing: " + adminUsername
