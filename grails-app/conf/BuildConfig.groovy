@@ -11,6 +11,7 @@ grails.plugin.location.'cs-systems' = '../commonsemantics/CsSystems'
 grails.plugin.location.'cs-agents' = '../commonsemantics/CsAgents'
 grails.plugin.location.'cs-groups' = '../commonsemantics/CsGroups'
 grails.plugin.location.'cs-users' = '../commonsemantics/CsUsers'
+grails.plugin.location.'cs-oauth' = '../commonsemantics/CsOauth'
 grails.plugin.location.'cs-security-dashboard' = '../commonsemantics/CsSecurityDashboard'
 
 
@@ -45,6 +46,9 @@ grails.project.dependency.resolution = {
 		
 		mavenRepo "http://repo.spring.io/milestone/"
 		mavenRepo "https://repository.apache.org/content/repositories/snapshots/"
+		mavenRepo "http://repository.codehaus.org"
+		mavenRepo "http://repo.spring.io/milestone/"
+		mavenRepo "http://maven.springframework.org/release/"
     }
 
     dependencies {
@@ -55,10 +59,10 @@ grails.project.dependency.resolution = {
 		runtime 'virtuoso:virtjdbc:4'
 		runtime 'virtuoso.sesame:virt_jena:2'
 		
-		compile ("org.apache.jena:jena-core:2.11.2-SNAPSHOT") {
+		compile ("org.apache.jena:jena-core:2.12.0-SNAPSHOT") {
 			excludes 'slf4j-api', 'xercesImpl'
 		}
-		compile ("org.apache.jena:jena-arq:2.11.2-SNAPSHOT")
+		compile ("org.apache.jena:jena-arq:2.12.0-SNAPSHOT")
 		
 		compile ("xml-apis:xml-apis:1.4.01") {
 			excludes 'xercesImpl'
@@ -84,9 +88,10 @@ grails.project.dependency.resolution = {
 
         runtime ":database-migration:1.3.2"
 
-        compile ':cache:1.0.1'
+        compile ':cache:1.1.1'
 		
 		compile ":spring-security-core:2.0-RC2"
+		compile ":spring-security-oauth2-provider:1.0.5.2"
 		
 		runtime ":cors:1.1.4"
     }

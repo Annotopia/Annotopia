@@ -91,7 +91,8 @@ environments {
 		    warn    'org.mortbay.log'
 			
 			info 	'grails.app', 									// Necessary for Bootstrap logging
-			        'org.annotopia.grails.security'
+			        'org.annotopia.grails.security',
+					'org.springframework.security'
 			
 			trace  	'grails.app.services.org.commonsemantics.grails.agents.services.AgentsService',
 					'grails.app.services.org.commonsemantics.grails.users.services.UsersService',
@@ -154,16 +155,21 @@ grails.plugin.springsecurity.rememberMe.persistent 						= true
 grails.plugin.springsecurity.password.algorithm = 'bcrypt'
 grails.plugin.springsecurity.logout.postOnly = false
 
+
+
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+	'/**'               		: ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_USER'],
+	'/oauth/authorize.dispatch' : ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_USER'],
+	'/oauth/token.dispatch'     : ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_USER'],
 	'/public/**'							: ['permitAll'],
 	'/openAnnotation/**'					: ['permitAll'],
-	'/openAnnotationWithPermissions/**'		: ['permitAll'],
 	'/annotationIntegrated/**'				: ['permitAll'],
+	'/openAnnotationWithPermissions/**'		: ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_USER'],	
 	'/secure/**'				: ['ROLE_ADMIN'],
 	'/secret/**'				: ['ROLE_ADMIN'],
 	'/crunch/**'				: ['ROLE_ADMIN'],
 	'/dashboard/**'				: ['ROLE_ADMIN'],
-	'/dashboardAjax/**'				: ['ROLE_ADMIN'],
+	'/dashboardAjax/**'			: ['ROLE_ADMIN'],
 	'/**/js/**'					: ['permitAll'],
 	'/**/css/**'        		: ['permitAll'],
 	'/**/images/**'     		: ['permitAll'],
@@ -172,3 +178,6 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 
 cors.url.pattern = ['/s/annotation/*','/s/annotationset/*']
 cors.headers = ['Access-Control-Allow-Origin':'*']
+
+// For OAuth add to the existing Auth Providers
+grails.plugin.springsecurity.providerNames = ["daoAuthenticationProvider", "clientCredentialsAuthenticationProvider"]
