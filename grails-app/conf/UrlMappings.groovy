@@ -3,7 +3,7 @@ class UrlMappings {
 	static mappings = {
 		"/s/annotationset/$id?"{
 			controller = "annotationIntegrated"
-			action = [GET:"show", POST:"save", PUT:"update"]
+			action = [GET:"show", POST:"saveAnnotationSet", PUT:"updateAnnotationSet"]
 		}
 		"/s/annotation/$id?"{
 			controller = "openAnnotation"       /* Plain single Open Annotation */
