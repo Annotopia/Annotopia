@@ -20,14 +20,35 @@
  */
 package org.annotopia.grails.controllers
 
+import org.apache.jena.riot.RDFDataMgr
+import org.apache.jena.riot.RDFLanguages
 import org.commonsemantics.grails.users.model.User
+
+import com.github.jsonldjava.core.JsonLdOptions
+import com.github.jsonldjava.core.JsonLdProcessor
+import com.github.jsonldjava.utils.JsonUtils
+import com.hp.hpl.jena.query.Dataset
+import com.hp.hpl.jena.rdf.model.Model
 
 /**
  * @author Paolo Ciccarese <paolo.ciccarese@gmail.com>
  */
 class SecureController {
 	
+	private final RESPONSE_CONTENT_TYPE = "application/json;charset=UTF-8";
+	
+	// outCmd (output command) constants
+	private final OUTCMD_NONE = "none";
+	private final OUTCMD_FRAME = "frame";
+	private final OUTCMD_CONTEXT = "context";
+	
+	// incGph (Include graph) constants
+	private final INCGPH_YES = "true";
+	private final INCGPH_NO = "false";
+	
 	def springSecurityService
+	def openAnnotationVirtuosoService
+	def openAnnotationStorageService
 	
 	/*
 	 * Loading by primary key is usually more efficient because it takes
@@ -52,6 +73,148 @@ class SecureController {
 		render(view: "index", model: [menu: 'index'])
 	}
 	
+	def myannotations = {
+		def loggedUser = injectUserProfile();
+		render(view: "myannotations", model: [menu: 'myannotations', appBaseUrl: request.getContextPath(), loggedUser: loggedUser])
+	}
+	
+	def getAnnotation = {
+		long startTime = System.currentTimeMillis();
+		def loggedUser = injectUserProfile();
+		
+		// Response format parametrization and constraints
+		def outCmd = (request.JSON.outCmd!=null)?request.JSON.outCmd:OUTCMD_NONE;
+		if(params.outCmd!=null) outCmd = params.outCmd;
+		def incGph = (request.JSON.incGph!=null)?request.JSON.incGph:INCGPH_NO;
+		if(params.incGph!=null) incGph = params.incGph;
+		if(outCmd==OUTCMD_FRAME && incGph==INCGPH_YES) {
+			log.warn("[" + "user:"+loggedUser.id + "] Invalid options, framing does not currently support Named Graphs");
+			def message = 'Invalid options, framing does not currently support Named Graphs';
+			render(status: 401, text: returnMessage(apiKey, "rejected", message, startTime),
+				contentType: "text/json", encoding: "UTF-8");
+			return;
+		}
+		
+		// Pagination
+		def max = (request.JSON.max!=null)?request.JSON.max:"10";
+		if(params.max!=null) max = params.max;
+		def offset = (request.JSON.offset!=null)?request.JSON.offset:"0";
+		if(params.offset!=null) offset = params.offset;
+		
+		// Target filters
+		def tgtUrl = request.JSON.tgtUrl
+		if(params.tgtUrl!=null) tgtUrl = params.tgtUrl;
+		def tgtFgt = (request.JSON.tgtFgt!=null)?request.JSON.tgtFgt:"true";
+		if(params.tgtFgt!=null) tgtFgt = params.tgtFgt;
+		
+		// Currently unusued, planned
+		def tgtExt = request.JSON.tgtExt
+		def tgtIds = request.JSON.tgtIds
+		def flavor = request.JSON.flavor
+		
+		/*
+		def documentUrl = params.documentUrl;
+		def permissionPublic = params.permissionPublic;
+		def permissionPrivate = params.permissionPrivate;
+		int paginationOffset = (params.paginationOffset?Integer.parseInt(params.paginationOffset):0);
+		int paginationRange = (params.paginationRange?Integer.parseInt(params.paginationRange):10);
+		boolean publicData = (params.publicData?Boolean.parseBoolean(params.publicData):true);
+		boolean groupsData = (params.groupsData?Boolean.parseBoolean(params.groupsData):true);
+		boolean privateData = (params.privateData?Boolean.parseBoolean(params.privateData):true);
+		def groupsIds = params.groupsIds;
+		
+		println '-0-- ' + documentUrl;
+		println '-1-- ' + permissionPublic;
+		println '-2-- ' + permissionPrivate;
+		println '-3-- ' + paginationOffset;
+		println '-4-- ' + paginationRange;
+		println '-5-- ' + publicData;
+		println '-6-- ' + groupsData;
+		println '-7-- ' + privateData;
+		println '-8-- ' + groupsIds;
+		*/
+		
+		try {
+			int annotationsTotal = openAnnotationVirtuosoService.countAnnotationGraphs("user:"+loggedUser.id, tgtUrl, tgtFgt);
+			int annotationsPages = (annotationsTotal/Integer.parseInt(max));
+			if(annotationsTotal>0 && Integer.parseInt(offset)>0 && Integer.parseInt(offset)>=annotationsPages) {
+				def message = 'The requested page ' + offset +
+					' does not exist, the page index limit is ' + (annotationsPages==0?"0":(annotationsPages-1));
+				render(status: 401, text: returnMessage("user:"+loggedUser.id, "rejected", message, startTime),
+					contentType: "text/json", encoding: "UTF-8");
+				return;
+			}
+			
+			Set<Dataset> annotationGraphs = openAnnotationStorageService.listAnnotation("user:"+loggedUser.id, max, offset, tgtUrl, tgtFgt, tgtExt, tgtIds, incGph);
+			def summaryPrefix = '"total":"' + annotationsTotal + '", ' +
+					'"pages":"' + annotationsPages + '", ' +
+					'"duration": "' + (System.currentTimeMillis()-startTime) + 'ms", ' +
+					'"offset": "' + offset + '", ' +
+					'"max": "' + max + '", ' +
+					'"items":[';
+					
+			Object contextJson = null;
+			response.contentType = RESPONSE_CONTENT_TYPE	
+			if(annotationGraphs!=null) {
+				response.outputStream << '{"status":"results", "result": {' + summaryPrefix	
+				boolean firstStreamed = false // To add the commas between items
+				annotationGraphs.each { annotationGraph ->
+					if(firstStreamed) response.outputStream << ','
+					if(outCmd==OUTCMD_NONE) {
+						if(incGph==INCGPH_NO) {
+							if(annotationGraph.listNames().hasNext()) {
+								Model m = annotationGraph.getNamedModel(annotationGraph.listNames().next());
+								RDFDataMgr.write(response.outputStream, m.getGraph(), RDFLanguages.JSONLD);
+							}
+						} else {
+							RDFDataMgr.write(response.outputStream, annotationGraph, RDFLanguages.JSONLD);
+						}
+					} else {
+						// This serializes with and according to the context
+						if(contextJson==null) {
+							if(outCmd==OUTCMD_CONTEXT) {
+								contextJson = JsonUtils.fromInputStream(callExternalUrl(apiKey, grailsApplication.config.annotopia.jsonld.openannotation.context));
+							} else if(outCmd==OUTCMD_FRAME) {
+								contextJson = JsonUtils.fromInputStream(callExternalUrl(apiKey, grailsApplication.config.annotopia.jsonld.openannotation.framing));						
+							}
+						}
+
+						ByteArrayOutputStream baos = new ByteArrayOutputStream();
+						if(incGph==INCGPH_NO) {
+							if(annotationGraph.listNames().hasNext()) {
+								Model m = annotationGraph.getNamedModel(annotationGraph.listNames().next());
+								RDFDataMgr.write(baos, m.getGraph(), RDFLanguages.JSONLD);
+							}
+						} else {
+							RDFDataMgr.write(baos, annotationGraph, RDFLanguages.JSONLD);
+						}
+						
+						if(outCmd==OUTCMD_CONTEXT) {
+							Object compact = JsonLdProcessor.compact(JsonUtils.fromString(baos.toString()), contextJson,  new JsonLdOptions());
+							response.outputStream << JsonUtils.toPrettyString(compact)
+						}  else if(outCmd==OUTCMD_FRAME) {
+							Object framed =  JsonLdProcessor.frame(JsonUtils.fromString(baos.toString()), contextJson, new JsonLdOptions());
+							response.outputStream << JsonUtils.toPrettyString(framed)
+						}
+					}
+					firstStreamed = true;
+				}
+			} else {
+				// No Annotation Sets found with the specified criteria
+				log.info("[" + apiKey + "] No Annotation found with the specified criteria");			
+				response.outputStream << '{"status":"nocontent","message":"No results with the chosen criteria" , "result": {' + summaryPrefix
+			}
+			response.outputStream <<  ']}}';
+			response.outputStream.flush()
+		} catch(Exception e) {
+			trackException(loggedUser.id, "", "FAILURE: Retrieval of the list of existing annotation sets failed " + e.getMessage());
+		}	
+	}
+	
+	def search = {
+		render(view: "search", model: [menu: 'search'])
+	}
+	
 	def profile = {
 		def user = injectUserProfile()
 		render(view: "profile", model: [menu: 'index', user: user])
@@ -65,5 +228,32 @@ class SecureController {
 	def users = {
 		log.debug("List-users max:" + params.max + " offset:" + params.offset)
 		render (view:'listUsers', model:[users:User.list(params), usersTotal: User.count(), max: params.max, offset: params.offset]);
+	}
+	
+	private void trackException(def userId, String textContent, String msg) {
+		logException(userId, msg);
+		//def ticket = saveAnnotationExitStrategy(userId, textContent, msg);
+		response.status = 500
+		//render (packageJsonErrorMessage(userId, msg, ticket) as JSON);
+		return;
+	}
+	
+	// --------------------------------------------
+	//  Logging utils
+	// --------------------------------------------
+	private def logInfo(def userId, message) {
+		log.info(":" + userId + ": " + message);
+	}
+	
+	private def logDebug(def userId, message) {
+		log.debug(":" + userId + ": " + message);
+	}
+	
+	private def logWarning(def userId, message) {
+		log.warn(":" + userId + ": " + message);
+	}
+	
+	private def logException(def userId, message) {
+		log.error(":" + userId + ": " + message);
 	}
 }
