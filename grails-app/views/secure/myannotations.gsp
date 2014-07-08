@@ -3,6 +3,17 @@
 	<head>
 		<meta name="layout" content="secure"/>
 		<title>My Annotations</title>
+		
+		<style>
+			.counter {
+				font-size:18px; 
+				padding-right: 5px;
+			}
+			
+			.titleBar {
+				font-weight: bold;
+			}
+		</style>
 	</head>
 	<body>
 		<div class="container">
@@ -70,6 +81,7 @@
 					var dataToSend = { 
 						id: '${loggedUser.id}', 
 						documentUrl: url,
+						outCmd: 'frame',
 						paginationOffset:paginationOffset, 
 						paginationRange:paginationRange, 
 						publicData: $("#publicFilter").attr('checked')!==undefined, 
@@ -87,18 +99,40 @@
 								$("#resultsSummary").html("");
 								$("#resultsList").html("No results to display");	
 							} else {
-								$("#resultsSummary").html("Displaying " + data.result.items.length + " out of " + data.result.total + (data.result.items.length==1?" annotation":" annotations") + " in " + data.result.duration);
-
+								$("#resultsSummary").html("<span class='counter'>" + data.result.items.length + "</span> of <span class='counter'>" + data.result.total + (data.result.items.length==1?"</span> annotation":"</span> annotations") + " in " + data.result.duration);
+								
 								$.each(data.result.items, function(i,item){
+
 									var annotationGraph = item['@graph'][0];
+
+									var titleBuffer = ""
+									var motivations = annotationGraph['motivatedBy'];
+									if(motivations instanceof Array) {
+										alert('motivatedBy is an Array');
+									} else {
+										if(motivations=='http://www.w3.org/ns/oa#commenting') {
+											titleBuffer += "Comment";
+										}
+									}
+									$("#resultsList").append('<div class="titleBar">' + titleBuffer + '</div>');
+									
 									$("#resultsList").append(annotationGraph['@type']);
 									$("#resultsList").append(' of ');
-									$("#resultsList").append(annotationGraph['hasTarget']);
+
+									if(annotationGraph['hasTarget']['@id']) 
+										$("#resultsList").append(annotationGraph['hasTarget']['@id']);
+									else 
+										$("#resultsList").append(annotationGraph['hasTarget']);
+									
 									$("#resultsList").append(' on ');
 									$("#resultsList").append(annotationGraph['annotatedAt']);
 									$("#resultsList").append('<br/>');
 									$("#resultsList").append(' by ');
-									$("#resultsList").append(annotationGraph['annotatedBy']);
+
+									if(annotationGraph['annotatedBy']['@id']) 
+										$("#resultsList").append(annotationGraph['annotatedBy']['@id']);
+									else 
+										$("#resultsList").append(annotationGraph['annotatedBy']);
 									$("#resultsList").append(' createdWith ');
 									$("#resultsList").append(annotationGraph['serializedBy']);
 									$("#resultsList").append('<br/>');

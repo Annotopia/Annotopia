@@ -20,6 +20,8 @@
  */
 package org.annotopia.grails.controllers
 
+import java.io.InputStream;
+
 import org.apache.jena.riot.RDFDataMgr
 import org.apache.jena.riot.RDFLanguages
 import org.commonsemantics.grails.users.model.User
@@ -80,6 +82,7 @@ class SecureController {
 	
 	def getAnnotation = {
 		long startTime = System.currentTimeMillis();
+		def apiKey = request.JSON.apiKey;
 		def loggedUser = injectUserProfile();
 		
 		// Response format parametrization and constraints
@@ -236,6 +239,30 @@ class SecureController {
 		response.status = 500
 		//render (packageJsonErrorMessage(userId, msg, ticket) as JSON);
 		return;
+	}
+	
+	private InputStream callExternalUrl(def apiKey, String URL) {
+		Proxy httpProxy = null;
+		if(grailsApplication.config.annotopia.server.proxy.host && grailsApplication.config.annotopia.server.proxy.port) {
+			String proxyHost = grailsApplication.config.annotopia.server.proxy.host; //replace with your proxy server name or IP
+			int proxyPort = grailsApplication.config.annotopia.server.proxy.port.toInteger(); //your proxy server port
+			SocketAddress addr = new InetSocketAddress(proxyHost, proxyPort);
+			httpProxy = new Proxy(Proxy.Type.HTTP, addr);
+		}
+		
+		if(httpProxy!=null) {
+			long startTime = System.currentTimeMillis();
+			log.info ("[" + apiKey + "] " + "Proxy request: " + URL);
+			URL url = new URL(URL);
+			//Pass the Proxy instance defined above, to the openConnection() method
+			URLConnection urlConn = url.openConnection(httpProxy);
+			urlConn.connect();
+			log.info ("[" + apiKey + "] " + "Proxy resolved in (" + (System.currentTimeMillis()-startTime) + "ms)");
+			return urlConn.getInputStream();
+		} else {
+			log.info ("[" + apiKey + "] " + "No proxy request: " + URL);
+			return new URL(URL).openStream();
+		}
 	}
 	
 	// --------------------------------------------
