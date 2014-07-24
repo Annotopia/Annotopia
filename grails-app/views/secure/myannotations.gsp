@@ -99,52 +99,64 @@
 								$("#resultsSummary").html("");
 								$("#resultsList").html("No results to display");	
 							} else {
-								$("#resultsSummary").html("<span class='counter'>" + data.result.items.length + "</span> of <span class='counter'>" + data.result.total + (data.result.items.length==1?"</span> annotation":"</span> annotations") + " in " + data.result.duration);
-								
-								$.each(data.result.items, function(i,item){
-
+								$("#resultsSummary").html("<span class='counter'>" + data.result.items.length + "</span> of <span class='counter'>" + data.result.total + (data.result.items.length==1?"</span> annotation":"</span> annotations") + " in " + data.result.duration);							
+								$.each(data.result.items, function(i,item){						
 									var annotationGraph = item['@graph'][0];
-
-									var titleBuffer = ""
-									var motivations = annotationGraph['motivatedBy'];
-									if(motivations instanceof Array) {
-										alert('motivatedBy is an Array');
-									} else {
-										if(motivations=='http://www.w3.org/ns/oa#commenting') {
-											titleBuffer += "Comment";
-										}
-									}
-									$("#resultsList").append('<div class="titleBar">' + titleBuffer + '</div>');
-									
-									$("#resultsList").append(annotationGraph['@type']);
-									$("#resultsList").append(' of ');
-
-									if(annotationGraph['hasTarget']['@id']) 
-										$("#resultsList").append(annotationGraph['hasTarget']['@id']);
-									else 
-										$("#resultsList").append(annotationGraph['hasTarget']);
-									
-									$("#resultsList").append(' on ');
-									$("#resultsList").append(annotationGraph['annotatedAt']);
-									$("#resultsList").append('<br/>');
-									$("#resultsList").append(' by ');
-
-									if(annotationGraph['annotatedBy']['@id']) 
-										$("#resultsList").append(annotationGraph['annotatedBy']['@id']);
-									else 
-										$("#resultsList").append(annotationGraph['annotatedBy']);
-									$("#resultsList").append(' createdWith ');
-									$("#resultsList").append(annotationGraph['serializedBy']);
-									$("#resultsList").append('<br/>');
-									$("#resultsList").append('<br/>');
+									$("#resultsList").append(getComment(annotationGraph));
 								});
-					  		}
-					  		
+					  		}					  		
 				  	  	}
 					});	
 				} catch(e) {
 					alert(e);
 				}
+			}
+
+			function getComment(annotation) {
+				var annotationType = ""
+				var motivations = annotation['motivatedBy'];
+				if(motivations) {
+					if(motivations instanceof Array) {
+						alert('motivatedBy is an Array');
+					} else {
+						if(motivations=='http://www.w3.org/ns/oa#commenting' || motivations=='oa:commenting') {
+							annotationType += "Comment";
+						} else if(motivations=='http://www.w3.org/ns/oa#highlighting' || motivations=='oa:highlighting') {
+							annotationType += "Highlight";
+						} else {
+							annotationType += "Annotation";
+						}
+					}
+				} else {
+					annotationType += "Annotation";
+				}
+				
+				var col1 = '';
+				if(annotation['hasTarget']['format']=="text/html") 
+					col1 = '<img src="${resource(dir:'images/secure',file:'file_html.png')}" style="width:40px;"/>'
+				else if(annotation['hasTarget']['format']=="application/pdf") 
+					col1 = '<img src="${resource(dir:'images/secure',file:'file_pdf.png')}" style="width:40px;"/>'
+
+				var annotator = '';
+				if(annotation['annotatedBy']['name']) 
+					annotator = '<a href="' +  annotation['annotatedBy']['@id']  + '">' + annotation['annotatedBy']['name'] + '</a>';
+				else 
+					annotator + annotation['annotatedBy'];
+
+				var tool = '';
+				if(annotation['serializedBy']=="urn:application:domeo") 
+					tool = '<img src="${resource(dir:'images/secure',file:'file_html.png')}" style="width:40px;"/>'
+				else if(annotation['serializedBy']=="urn:application:utopia") 
+					tool = '<img src="${resource(dir:'images/secure',file:'file_pdf.png')}" style="width:40px;"/>'
+				
+				var col2 = '<span class="titleBar">' + annotationType + '</span>' + ' on <a href="' + annotation['hasTarget']['@id'] + '">' + annotation['hasTarget']['@id'] + '</a>' + 
+					' createdWith '  + annotation['serializedBy'] + 
+					'<br/> by ' + annotator + ' on ' + annotation['annotatedAt'];
+				//alert(annotator['serializedBy']);
+				
+				var col3 = '';
+				var layout = "<table><tr><td>"+col1+"</td><td style='vertical-align: top;'>"+col2+"</td><td>"+col3+"</td></tr></table>";
+				return layout;
 			}
 		</script>
 	</body>
