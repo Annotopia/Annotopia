@@ -21,6 +21,7 @@
 package org.annotopia.grails.controllers
 
 import java.io.InputStream;
+import java.util.List;
 
 import org.apache.jena.riot.RDFDataMgr
 import org.apache.jena.riot.RDFLanguages
@@ -78,6 +79,11 @@ class SecureController {
 	def myannotations = {
 		def loggedUser = injectUserProfile();
 		render(view: "myannotations", model: [menu: 'myannotations', appBaseUrl: request.getContextPath(), loggedUser: loggedUser])
+	}
+	
+	def annotations = {
+		def loggedUser = injectUserProfile();
+		render(view: "annotations", model: [menu: 'myannotations', appBaseUrl: request.getContextPath(), loggedUser: loggedUser])
 	}
 	
 	def getAnnotation = {
@@ -148,7 +154,15 @@ class SecureController {
 				return;
 			}
 			
-			Set<Dataset> annotationGraphs = openAnnotationStorageService.listAnnotation("user:"+loggedUser.id, max, offset, tgtUrl, tgtFgt, tgtExt, tgtIds, incGph);
+			List<String> tgtUrls;
+			if(tgtUrl!=null) {
+				tgtUrls = new ArrayList<String>();
+				tgtUrls.add(tgtUrl);
+			}
+			
+			// TODO Add bibliogrpahic identity management
+			
+			Set<Dataset> annotationGraphs = openAnnotationStorageService.listAnnotation("user:"+loggedUser.id, max, offset, tgtUrls, tgtFgt, tgtExt, tgtIds, incGph);
 			def summaryPrefix = '"total":"' + annotationsTotal + '", ' +
 					'"pages":"' + annotationsPages + '", ' +
 					'"duration": "' + (System.currentTimeMillis()-startTime) + 'ms", ' +
@@ -196,7 +210,7 @@ class SecureController {
 							Object compact = JsonLdProcessor.compact(JsonUtils.fromString(baos.toString()), contextJson,  new JsonLdOptions());
 							response.outputStream << JsonUtils.toPrettyString(compact)
 						}  else if(outCmd==OUTCMD_FRAME) {
-							Object framed =  JsonLdProcessor.frame(JsonUtils.fromString(baos.toString()), contextJson, new JsonLdOptions());
+							Object framed =  JsonLdProcessor.frame(JsonUtils.fromString(baos.toString().replace('"@id" : "urn:x-arq:DefaultGraphNode",','')), contextJson, new JsonLdOptions());
 							response.outputStream << JsonUtils.toPrettyString(framed)
 						}
 					}
