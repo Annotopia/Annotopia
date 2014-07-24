@@ -4,3 +4,22 @@ gnome-edit-delete.png - http://findicons.com/icon/67048/gnome_edit_delete
 toolbar-home.png - http://findicons.com/icon/67135/gnome_go_home?id=67791#
 left-grey.png - http://findicons.com/icon/84738/left_grey?id=365004#
 add.png - http://findicons.com/icon/66990/gnome_list_add
+
+Oliver Twardowski - http://www.addictedtocoffee.de/
+file_pdf.png - http://findicons.com/icon/251588/file_pdf?id=354518
+file_html.png - http://findicons.com/icon/98969/file_html?id=99198
+file_txt.png - http://findicons.com/icon/251527/file_txt
+file_doc.png - http://findicons.com/icon/251538/file_doc
+file_ppt.png - http://findicons.com/icon/251293/file_ppt
+file_xml.png - http://findicons.com/icon/251580/file_xml
+file_bmp.png - http://findicons.com/icon/251356/file_bmp
+file_jpg.png - http://findicons.com/icon/251372/file_jpg
+file_tif.png - http://findicons.com/icon/251648/file_tif
+file_mpg.png - http://findicons.com/icon/251657/file_mpg
+file_mov.png - http://findicons.com/icon/251458/file_mov
+file_wav.png - http://findicons.com/icon/251480/file_wav
+file_avi.png - http://findicons.com/icon/251227/file_avi
+file_wma.png - http://findicons.com/icon/251236/file_wma
+
+
+
