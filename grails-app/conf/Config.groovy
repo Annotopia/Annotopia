@@ -99,6 +99,7 @@ environments {
 					'grails.app.services.org.commonsemantics.grails.groups.services.GroupsService',
 					'grails.app.services.org.commonsemantics.grails.systems.services.SystemsService',
 					'grails.app.services.org.annotopia.grails.services.storage.jena.virtuoso.JenaVirtuosoStoreService',
+					'grails.app.services.org.annotopia.grails.services.storage.utils.jena.GraphIdentifiersMetadataService',
 					'grails.app.services.org.annotopia.grails.services.storage.jena.openannotation.OpenAnnotationWithPermissionsStorageService',
 					'org.commonsemantics.grails.agents.utils',
 					'org.commonsemantics.grails.users.utils',
