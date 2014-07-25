@@ -11,7 +11,6 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 	//  BROWSING
 	// ---------------------------	
 	$scope.browse = function(page) {
-		alert(page);
 		$('#progressIcon').show();
 		$scope.paginationMax = $scope.paginationSizeSelection.name;
 		$scope.paginationOffset = (page ? page*$scope.paginationMax:0);
