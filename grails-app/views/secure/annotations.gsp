@@ -17,6 +17,14 @@
 			.titleBar {
 				font-weight: bold;
 			}
+			
+			.odd {
+				background: none repeat scroll 0 0 #F3F3F3;
+			}
+			
+			.even {
+				background: none repeat scroll 0 0 #FFFFFF;
+			}
 		</style>
 	</head>
 	<body>
@@ -57,31 +65,35 @@
 					</div>
 				</form>
 				<div style="padding:0px; padding-top: 10px; min-height: 60px;">
-					<table class="tablelist">
+					<table class="tablelist" style="width: 700px;">
 						<thead>
 							<tr>
-								<th><input id="selectAll" type="checkbox" ng-click="selectAll($event)"></th>
+								<th style="padding: 2px;"><input id="selectAll" type="checkbox" ng-click="selectAll($event)"></th>
 								<th></th>	
 								<th>Annotation</th>				
 								<th></th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="annotation in annotationResults" ng-class="$index % 2 == 0 && 'even' || 'odd'">
-								<td>
+							<tr ng-repeat="annotation in annotationResults" ng-class="$index % 2 == 0 && 'odd' || 'even'">
+								<td style="vertical-align: middle; padding: 4px;">
 									<input id="annotation" type="checkbox">
 								</td>
-								<td>
+								<td style="vertical-align: top; padding: 5px; text-align: center;">
 									<span ng-if="annotation[0]['hasTarget']['format']=='text/html'"><img src="${resource(dir:'images/secure',file:'file_html.png')}" style="width:40px;"/></span>
 									<span ng-if="annotation[0]['hasTarget']['format']=='application/pdf'"><img src="${resource(dir:'images/secure',file:'file_pdf.png')}" style="width:40px;"/></span>
 								</td>
 								<td style="vertical-align: top;">
 									Annotation on <a href="{{annotation[0]['hasTarget']['@id']}}">{{annotation[0]['hasTarget']['@id']}}</a> 
-									<span ng-if="annotation[0]['serializedBy']!=null">createdWith {{annotation[0]['serializedBy']}}</span><br/>
+									<%-- <span ng-if="annotation[0]['serializedBy']!=null">createdWith {{annotation[0]['serializedBy']}}</span> --%>
+									<br/>
 									<span ng-if="annotation[0]['annotatedBy']!=null && annotation[0]['annotatedBy']['name']!=null">by {{annotation[0]['annotatedBy']['name']}}</span>
 									<span ng-if="annotation[0]['annotatedAt']!=null"> on {{annotation[0]['annotatedAt']}}</span>	
 								</td>
-								<td></td>
+								<td style="vertical-align: top; padding: 5px; padding-left: 10px; text-align: center;">
+									<span ng-if="annotation[0]['serializedBy']=='urn:application:domeo'"><img src="${resource(dir:'images/secure',file:'domeo_logo.png')}" title="Domeo Annotation Tool" style="width:24px;"/><br/><span style="font-size:11px;">Domeo</span></span>
+									<span ng-if="annotation[0]['serializedBy']=='urn:application:utopia'"><img src="${resource(dir:'images/secure',file:'utopia_logo.png')}" title="Domeo Annotation Tool" style="width:24px;"/><br/><span style="font-size:11px;">Utopia</span></span>
+								</td>
 							</tr>
 						</tbody>
 					</table>
