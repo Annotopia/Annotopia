@@ -11,23 +11,23 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 	//  BROWSING
 	// ---------------------------	
 	$scope.browse = function(page) {
+		alert(page);
 		$('#progressIcon').show();
 		$scope.paginationMax = $scope.paginationSizeSelection.name;
+		$scope.paginationOffset = (page ? page*$scope.paginationMax:0);
 		var results;
 	    $http({method: 'GET', url: '/secure/getAnnotation?max=' + $scope.paginationMax + '&offset=' + $scope.paginationOffset + '&outCmd=frame'}).
 		    success(function(data, status, headers, config) {
 		    	results = data.result.items;
 		    	$scope.totalResults = data.result.total;
 		    	$scope.duration = data.result.duration;
-
-		    	$scope.paginationOffset = (page ? page*$scope.paginationMax:0);
+		    	
 				$scope.paginationTotal = data.result.total;
-
 				$scope.annotationResults = [];
-				for ( var i = $scope.paginationOffset; i < (Math.min($scope.paginationOffset+$scope.paginationMax,$scope.paginationTotal)); i++) {
+				for ( var i = 0; i < results.length; i++) {
 					$scope.annotationResults.push(results[i]['@graph']);
-				}		
-				$scope.refreshPagination();
+				}
+				$scope.refreshPagination(page);
 				$('#progressIcon').hide();
 		    }).
 		    error(function(data, status, headers, config) {
@@ -57,8 +57,9 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 	$scope.paginationOffset = 0;
 	$scope.paginationMax = 0;
 	$scope.paginationTop = '';
+	$scope.currentPage = 0;
 	
-	$scope.refreshPagination  = function() {
+	$scope.refreshPagination  = function(page) {
 		console.log('refreshingPagination max: ' + $scope.paginationMax + ' offset: ' + $scope.paginationOffset + ' total: ' + $scope.paginationTotal);
 		//console.log($scope.paginationTotal /  $scope.paginationMax);
 		//console.log(Math.floor($scope.paginationTotal /  $scope.paginationMax));
@@ -66,8 +67,7 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 		
 		var linksNumber = Math.floor($scope.paginationTotal /  $scope.paginationMax) + (($scope.paginationTotal %  $scope.paginationMax>0)?1:0);
 		console.log("# links "+ linksNumber);
-		var currentPage = 0
-		if($scope.paginationOffset>0) currentPage = Math.floor($scope.paginationTotal /  $scope.paginationOffset);
+		$scope.currentPage = page
 			
 		$scope.pages = [];
 		for(var i=0;i<linksNumber;i++) {

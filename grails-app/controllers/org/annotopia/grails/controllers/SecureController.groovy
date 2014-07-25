@@ -20,9 +20,7 @@
  */
 package org.annotopia.grails.controllers
 
-import java.io.InputStream;
-import java.util.List;
-
+import org.annotopia.groovy.service.store.BaseController
 import org.apache.jena.riot.RDFDataMgr
 import org.apache.jena.riot.RDFLanguages
 import org.commonsemantics.grails.users.model.User
@@ -36,7 +34,7 @@ import com.hp.hpl.jena.rdf.model.Model
 /**
  * @author Paolo Ciccarese <paolo.ciccarese@gmail.com>
  */
-class SecureController {
+class SecureController extends BaseController {
 	
 	private final RESPONSE_CONTENT_TYPE = "application/json;charset=UTF-8";
 	
@@ -146,7 +144,7 @@ class SecureController {
 		try {
 			int annotationsTotal = openAnnotationVirtuosoService.countAnnotationGraphs("user:"+loggedUser.id, tgtUrl, tgtFgt);
 			int annotationsPages = (annotationsTotal/Integer.parseInt(max));
-			if(annotationsTotal>0 && Integer.parseInt(offset)>0 && Integer.parseInt(offset)>=annotationsPages) {
+			if(annotationsTotal>0 && Integer.parseInt(offset)>0 && Integer.parseInt(offset)>=annotationsTotal) {
 				def message = 'The requested page ' + offset +
 					' does not exist, the page index limit is ' + (annotationsPages==0?"0":(annotationsPages-1));
 				render(status: 401, text: returnMessage("user:"+loggedUser.id, "rejected", message, startTime),
@@ -224,7 +222,7 @@ class SecureController {
 			response.outputStream <<  ']}}';
 			response.outputStream.flush()
 		} catch(Exception e) {
-			trackException(loggedUser.id, "", "FAILURE: Retrieval of the list of existing annotation sets failed " + e.getMessage());
+			trackException(loggedUser.id, "", "FAILURE: Retrieval of the list of existing annotations failed " + e.getMessage());
 		}	
 	}
 	
