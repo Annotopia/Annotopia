@@ -213,8 +213,8 @@
 									<hr style="height: 5px; padding:0px; margin-top: 4px; margin-bottom: 0px; border-top: 1px dotted #aaa;"/>
 									
 									<span ng-switch="annotation[0]['motivatedBy']">
-										<div  ng-switch-when="oa:commenting" class="ann-body-content">{{annotation[0].hasBody.chars}}</div>
-										<div  ng-switch-when="oa:highlighting" class="ann-body-content" style="background: yellow">{{annotation[0]['hasTarget']['hasSelector'].exact}}</div>
+										<div  ng-switch-when="oa:commenting" class="ann-body-content"  style="background: #428bca; color: white; border-radius: 5px; padding: 5px;">{{annotation[0].hasBody.chars}}</div>
+										<div  ng-switch-when="oa:highlighting" class="ann-body-content" style="background: yellow; border-radius: 5px;  padding: 5px;">{{annotation[0]['hasTarget']['hasSelector'].exact}}</div>
 									</span>
 									
 									<%-- Display of textual fragment if any --%>
