@@ -4,15 +4,21 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 		// Whatever initialization
 	});
 	
+	$scope.totalResults = 0;
+	$scope.duration = '';
+	
 	// ---------------------------
 	//  BROWSING
 	// ---------------------------	
 	$scope.browse = function(page) {
+		$('#progressIcon').show();
 		$scope.paginationMax = $scope.paginationSizeSelection.name;
 		var results;
 	    $http({method: 'GET', url: '/secure/getAnnotation?max=' + $scope.paginationMax + '&offset=' + $scope.paginationOffset + '&outCmd=frame'}).
 		    success(function(data, status, headers, config) {
 		    	results = data.result.items;
+		    	$scope.totalResults = data.result.total;
+		    	$scope.duration = data.result.duration;
 
 		    	$scope.paginationOffset = (page ? page*$scope.paginationMax:0);
 				$scope.paginationTotal = data.result.total;
@@ -22,9 +28,11 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 					$scope.annotationResults.push(results[i]['@graph']);
 				}		
 				$scope.refreshPagination();
+				$('#progressIcon').hide();
 		    }).
 		    error(function(data, status, headers, config) {
 		    	results = mockupResults;
+		    	$('#progressIcon').hide();
 		    });
 		
 		console.log("browse [page:" + (page?page:0) + ", max:" + $scope.paginationMax + "]")
@@ -63,7 +71,6 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 			
 		$scope.pages = [];
 		for(var i=0;i<linksNumber;i++) {
-			console.log(i);
 			$scope.pages.push(i);
 		}
 	}

@@ -33,7 +33,7 @@
 							<div align="center"><input class="btn btn-primary" type="submit" value="Refresh"> </div>
 						</div>
 				  	</div>
-					<div style="background: #fff; padding: 5px;">				
+					<div style="background: #fff; padding: 5px; height: 20px;">				
 						<%-- 
 						<input type="text" ng-model="searchText" size="30" placeholder="search bibliography"> 
 						<input class="btn btn-primary" type="submit" value="Search"> 
@@ -44,9 +44,19 @@
 							<select	data-ng-options="o.name for o in paginationSize"
 								data-ng-model="paginationSizeSelection"></select>
 						</span>
+						<div id="progressIcon" align="center" style="padding: 5px; padding-left: 10px; display: none;">
+					    	<img id="groupsSpinner" src="${resource(dir:'images/secure',file:'ajax-loader-4CAE4C.gif')}" /> Loading...
+					    </div>
+					    <span style="float: left; padding-left: 10px">
+					    	<span class='counter'>{{annotationResults.length}}</span> of 
+					    	<span class='counter'>{{totalResults}}</span> 
+					    	<span ng-if="totalResults==1">annotation</span>
+					    	<span ng-if="totalResults!=1">annotations</span>
+					    	in {{duration}}</span> 
+					    </span>
 					</div>
 				</form>
-				<div style="padding:0px; padding-top: 10px; min-height: 260px;">
+				<div style="padding:0px; padding-top: 10px; min-height: 60px;">
 					<table class="tablelist">
 						<thead>
 							<tr>
