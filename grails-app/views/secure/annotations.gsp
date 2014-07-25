@@ -26,37 +26,7 @@
 				background: none repeat scroll 0 0 #FFFFFF;
 			}
 			
-			.contextTitle {
-				text-align: left;
-				padding-left: 5px;
-				border-top: 4px #fff solid;
-			}
 			
-			blockquote.contextQuote {
-			  font: 14px/20px;
-			  padding-left: 40px;
-			  padding-right: 10px;
-			  min-height: 40px;
-			  margin: 5px;
-			  background-image: url(../../images/secure/quotes.gif);
-			  background-position: middle left;
-			  background-repeat: no-repeat;
-			  text-indent: 5px;
-			} 
-					
-			.contextPrefix {
-				color: #aaa;
-				font-style: italic;
-			}
-			
-			.contextMatch {
-				font-weight: bold;
-			}
-			
-			.contextSuffix {
-				color: #aaa;
-				font-style: italic;
-			}
 			
 			.ann-body-content {
 				padding: 5px;
@@ -132,30 +102,38 @@
 			    background: -moz-linear-gradient(0% 0% 270deg,#565b5f, #3e4347);
 			}
 			
-		</style>
-		
-		<script>
-			function getAnnotationContext(annotation) {
-				if(annotation.match) 
-				return '<div class="contextTitle">Annotating: </div>' +
-					'<blockquote class="contextQuote">' +
-						'...' +
-			       		'<span class="contextPrefix">' + annotation.prefix + '</span>' +
-			       		'<span class="contextMatch">' + annotation.match + '</span>' +
-			       		'<span class="contextSuffix">' + annotation.suffix + '</span>' +
-			       		'...' +
-			       	'</blockquote>';
-			    else if(annotation.display)  return '<div class="contextTitle">Annotating: </div>' + 
-			    	'<blockquote class="quote">' +
-			       		'<img src="' + annotation.display+ '" style="max-width:500px">' +
-			       	'</blockquote>';
-			    else return '';
-			}
+			
+			blockquote.contextQuote {
+			  font: 14px/20px;
+			  padding-left: 40px;
+			  padding-right: 10px;
+			  min-height: 40px;
+			  margin: 5px;
+			  background-image: url(../../images/secure/quotes.gif);
+			  background-position: middle left;
+			  background-repeat: no-repeat;
+			  text-indent: 5px;
+			} 
 
-			function getAnnotationContent(annotation) {
-				return annotation[0].hasBody.chars
+			.contextPrefix {
+				color: #aaa;
+				font-style: italic;
 			}
-		</script>
+			
+			.contextMatch {
+				font-weight: bold;
+			}
+			
+			.contextSuffix {
+				color: #aaa;
+				font-style: italic;
+			}
+			
+			.contextTitle {
+				text-align: left;
+				padding-left: 5px;
+			}
+		</style>
 	</head>
 	<body>
 		<div class="container">
@@ -214,7 +192,7 @@
 						</thead>
 						<tbody>
 							<tr ng-repeat="annotation in annotationResults" ng-class="$index % 2 == 0 && 'odd' || 'even'">
-								<td style="vertical-align: middle; padding: 4px;">
+								<td style="vertical-align: top; padding-top: 10px;">
 									<input id="annotation" type="checkbox">
 								</td>
 								<td style="vertical-align: top; padding: 5px; text-align: center;">
@@ -233,7 +211,24 @@
 									<span ng-if="annotation[0]['annotatedAt']!=null" style="font-size: 12px;"> on {{annotation[0]['annotatedAt']}}</span>	
 									<br/><span style="font-size: 12px;">On <a href="{{annotation[0]['hasTarget']['@id']}}">{{annotation[0]['hasTarget']['@id']}}</a> </span>
 									<hr style="height: 5px; padding:0px; margin-top: 4px; margin-bottom: 0px; border-top: 1px dotted #aaa;"/>
-									<div class="ann-body-content">{{annotation[0].hasBody.chars}}</div>
+									
+									<span ng-switch="annotation[0]['motivatedBy']">
+										<div  ng-switch-when="oa:commenting" class="ann-body-content">{{annotation[0].hasBody.chars}}</div>
+										<div  ng-switch-when="oa:highlighting" class="ann-body-content" style="background: yellow">{{annotation[0]['hasTarget']['hasSelector'].exact}}</div>
+									</span>
+									
+									<%-- Display of textual fragment if any --%>
+									<span ng-if="annotation[0]['hasTarget']['hasSelector']['@type']=='oa:TextQuoteSelector'">
+										<hr style="height: 5px; padding:0px; margin-top: 4px; margin-bottom: 0px; border-top: 1px dotted #aaa;"/>
+										<div class="contextTitle">Annotating: </div>
+										<blockquote class="contextQuote">
+											...
+								       		<span class="contextPrefix">{{annotation[0]['hasTarget']['hasSelector'].prefix}}</span>
+								       		<span class="contextMatch">{{annotation[0]['hasTarget']['hasSelector'].exact}}</span>
+								       		<span class="contextSuffix">{{annotation[0]['hasTarget']['hasSelector'].suffix}}</span>
+								       		...
+								       	</blockquote>
+									</span>
 								</td>
 								<td style="vertical-align: top; padding: 5px; padding-left: 10px; text-align: center;">
 									<span ng-if="annotation[0]['serializedBy']=='urn:application:domeo'"><img src="${resource(dir:'images/secure',file:'domeo_logo.png')}" title="Domeo Annotation Tool" style="width:24px;"/><br/><span style="font-size:11px;">Domeo</span></span>
