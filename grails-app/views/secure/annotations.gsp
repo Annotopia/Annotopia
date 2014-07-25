@@ -51,26 +51,37 @@
 						<thead>
 							<tr>
 								<th><input id="selectAll" type="checkbox" ng-click="selectAll($event)"></th>
-								<th></th>				
+								<th></th>	
+								<th>Annotation</th>				
 								<th></th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr ng-repeat="annotation in annotationResults" ng-class="$index % 2 == 0 && 'even' || 'odd'">
-								<td></td>
-								<td><a href="{{annotation['hasTarget']['@id']}}">{{annotation['hasTarget']['@id']}}</a> createdWith {{annotation['serializedBy']}}</td>
+								<td>
+									<input id="annotation" type="checkbox">
+								</td>
+								<td>
+									<span ng-if="annotation[0]['hasTarget']['format']=='text/html'"><img src="${resource(dir:'images/secure',file:'file_html.png')}" style="width:40px;"/></span>
+									<span ng-if="annotation[0]['hasTarget']['format']=='application/pdf'"><img src="${resource(dir:'images/secure',file:'file_pdf.png')}" style="width:40px;"/></span>
+								</td>
+								<td style="vertical-align: top;">
+									Annotation on <a href="{{annotation[0]['hasTarget']['@id']}}">{{annotation[0]['hasTarget']['@id']}}</a> 
+									<span ng-if="annotation[0]['serializedBy']!=null">createdWith {{annotation[0]['serializedBy']}}</span><br/>
+									<span ng-if="annotation[0]['annotatedBy']!=null && annotation[0]['annotatedBy']['name']!=null">by {{annotation[0]['annotatedBy']['name']}}</span>
+									<span ng-if="annotation[0]['annotatedAt']!=null"> on {{annotation[0]['annotatedAt']}}</span>	
+								</td>
 								<td></td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
 				<div style="padding:0px; padding-top: 10px; min-height: 260px;">
-					<div ng-if="pages.length>1">
-						<div class="pagination" style="padding-left:10px;"> 
-							<span ng-repeat="page in pages">
-								<a href="" ng-click="search(page)">{{page}}</a>
-							</span>
-						</div>
+					<div class="pagination" style="padding-left:10px;"> 
+						Pages
+						<span ng-repeat="page in pages">
+							<a href="" ng-click="browse(page)">{{page}}</a>
+						</span>
 					</div>
 				</div>
 			</div>
