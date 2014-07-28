@@ -145,6 +145,7 @@
 			<div ng-app="" ng-controller="AnnotationBrowsingCtrl">
 				<form ng-submit="browse()">
 					<div id="sidebar" class="viewerSidebar well" >
+						<%-- 
 						<div class="facet">
 					    	<div id='contributorsTitle'>Filtering by permissions</div>
 							<div id="contributors" style="border-top: 3px solid #ddd; padding-bottom: 2px;"></div>
@@ -159,6 +160,7 @@
 					    		</div>
 							</div>
 						</div>
+						--%>
 						<div class="facet">
 					    	<div id='contributorsTitle'>Filtering by type</div>
 							<div id="contributors" style="border-top: 3px solid #ddd; padding-bottom: 2px;"></div>

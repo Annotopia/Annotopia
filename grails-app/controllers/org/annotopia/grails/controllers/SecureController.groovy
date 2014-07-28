@@ -114,6 +114,16 @@ class SecureController extends BaseController {
 		def tgtFgt = (request.JSON.tgtFgt!=null)?request.JSON.tgtFgt:"true";
 		if(params.tgtFgt!=null) tgtFgt = params.tgtFgt;
 		
+		// Facets
+		def permissions = request.JSON.permissions
+		if(params.permissions!=null) permissions = params.permissions;
+		def permissionsFacet = []
+		if(permissions) permissionsFacet = permissions.split(",");
+		def motivations = request.JSON.motivations
+		if(params.motivations!=null) motivations = params.motivations;
+		def motivationsFacet = []
+		if(motivations) motivationsFacet = motivations.split(",");
+
 		// Currently unusued, planned
 		def tgtExt = request.JSON.tgtExt
 		def tgtIds = request.JSON.tgtIds
@@ -142,7 +152,7 @@ class SecureController extends BaseController {
 		*/
 		
 		try {
-			int annotationsTotal = openAnnotationVirtuosoService.countAnnotationGraphs("user:"+loggedUser.id, tgtUrl, tgtFgt);
+			int annotationsTotal = openAnnotationVirtuosoService.countAnnotationGraphs("user:"+loggedUser.id, tgtUrl, tgtFgt, motivationsFacet);
 			int annotationsPages = (annotationsTotal/Integer.parseInt(max));
 			if(annotationsTotal>0 && Integer.parseInt(offset)>0 && Integer.parseInt(offset)>=annotationsTotal) {
 				def message = 'The requested page ' + offset +
@@ -159,15 +169,14 @@ class SecureController extends BaseController {
 			}
 			
 			// TODO Add bibliogrpahic identity management
-			
-			Set<Dataset> annotationGraphs = openAnnotationStorageService.listAnnotation("user:"+loggedUser.id, max, offset, tgtUrls, tgtFgt, tgtExt, tgtIds, incGph);
+			Set<Dataset> annotationGraphs = openAnnotationStorageService.listAnnotation("user:"+loggedUser.id, max, offset, tgtUrls, tgtFgt, tgtExt, tgtIds, incGph, motivationsFacet);
 			def summaryPrefix = '"total":"' + annotationsTotal + '", ' +
 					'"pages":"' + annotationsPages + '", ' +
 					'"duration": "' + (System.currentTimeMillis()-startTime) + 'ms", ' +
 					'"offset": "' + offset + '", ' +
 					'"max": "' + max + '", ' +
 					'"items":[';
-					
+
 			Object contextJson = null;
 			response.contentType = RESPONSE_CONTENT_TYPE	
 			if(annotationGraphs!=null) {

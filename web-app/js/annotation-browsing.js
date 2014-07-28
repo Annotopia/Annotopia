@@ -6,17 +6,54 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 	
 	$scope.totalResults = 0;
 	$scope.duration = '';
+
+	// ---------------------------
+	//  FACETS
+	// ---------------------------	
 	
+/*
 	$scope.permissions = [
 	    {name:'public', selected:true},
         {name:'private', selected:true}
 	];
+	
+	// selected fruits
+	$scope.selectionPermissions = [];
+
+	// helper method to get selected fruits
+	$scope.selectedPermissions = function selectedPermissions() {
+	    return filterFilter($scope.permissions, { selected: true });
+	};
+
+	// watch fruits for changes
+	$scope.$watch('permissions|filter:{selected:true}', function (nv) {
+	    $scope.selectionPermissions = nv.map(function (permission) {
+	        return permission.name;
+	    });
+	}, true);
+*/
+
 	$scope.motivations = [
         {name:'commenting', selected:true},
         {name:'highlighting', selected:true},
-        {name:'tagging', selected:true}
+        {name:'tagging', selected:true},
+        {name:'unmotivated', selected:true}
     ];
-	                      
+	                  
+	// selected fruits
+	$scope.selectionMotivations = [];
+
+	// helper method to get selected fruits
+	$scope.selectionMotivations = function selectedMotivations() {
+	    return filterFilter($scope.motivations, { selected: true });
+	};
+
+	// watch fruits for changes
+	$scope.$watch('motivations|filter:{selected:true}', function (nv) {
+	    $scope.selectionMotivations = nv.map(function (motivation) {
+	        return motivation.name;
+	    });
+	}, true);
 	                      
 	
 	// ---------------------------
@@ -27,7 +64,11 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 		$scope.paginationMax = $scope.paginationSizeSelection.name;
 		$scope.paginationOffset = (page ? page*$scope.paginationMax:0);
 		var results;
-	    $http({method: 'GET', url: '/secure/getAnnotation?max=' + $scope.paginationMax + '&offset=' + $scope.paginationOffset + '&outCmd=frame'}).
+		
+		var motivations = ($scope.selectionMotivations!=undefined)?'&motivations=' +$scope.selectionMotivations:''
+		var permissions = ($scope.selectionPermissions!=undefined)?'&permissions=' + $scope.selectionPermissions:''
+		
+	    $http({method: 'GET', url: '/secure/getAnnotation?max=' + $scope.paginationMax + '&offset=' + $scope.paginationOffset  + permissions + motivations + '&outCmd=frame'}).
 		    success(function(data, status, headers, config) {
 		    	results = data.result.items;
 		    	$scope.totalResults = data.result.total;
@@ -42,7 +83,7 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 				$('#progressIcon').hide();
 		    }).
 		    error(function(data, status, headers, config) {
-		    	results = mockupResults;
+		    	results = data;
 		    	$('#progressIcon').hide();
 		    });
 		
