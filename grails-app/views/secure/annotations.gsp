@@ -133,6 +133,11 @@
 				text-align: left;
 				padding-left: 5px;
 			}
+			
+			.facet {
+				float: left;
+				padding-left: 15px;
+			}
 		</style>
 	</head>
 	<body>
@@ -140,14 +145,36 @@
 			<div ng-app="" ng-controller="AnnotationBrowsingCtrl">
 				<form ng-submit="browse()">
 					<div id="sidebar" class="viewerSidebar well" >
-				    	<div id='contributorsTitle'>Filtering by permissions</div>
-						<div id="contributors" style="border-top: 3px solid #ddd; padding-bottom: 2px;"></div>
-				    	<div style="padding: 5px; padding-top: 10px; ">
-						    <input id="publicFilter" type="checkbox" name="vehicle" checked="checked"> Public<br>
-						    <input id="privateFilter" type="checkbox" name="private"> Private<br/>
-							<br/>										
-							<div align="center"><input class="btn btn-primary" type="submit" value="Refresh"> </div>
+						<div class="facet">
+					    	<div id='contributorsTitle'>Filtering by permissions</div>
+							<div id="contributors" style="border-top: 3px solid #ddd; padding-bottom: 2px;"></div>
+					    	<div style="padding: 5px; padding-top: 10px; ">
+					    		<div ng-repeat="permission in permissions">
+					    			<input
+									    type="checkbox"
+									    name="selectedPermissions[]"
+									    value="{{permission.name}}"
+									    ng-model="permission.selected"
+									  > {{permission.name}} 
+					    		</div>
+							</div>
 						</div>
+						<div class="facet">
+					    	<div id='contributorsTitle'>Filtering by type</div>
+							<div id="contributors" style="border-top: 3px solid #ddd; padding-bottom: 2px;"></div>
+					    	<div style="padding: 5px; padding-top: 10px; ">
+							    <div ng-repeat="motivation in motivations">
+					    			<input
+									    type="checkbox"
+									    name="selectedMotivations[]"
+									    value="{{motivation.name}}"
+									    ng-model="motivation.selected"
+									  > {{motivation.name}} 
+					    		</div>
+							</div>
+						</div>
+						<br/>										
+						<div align="center" style="clear: left;"><input class="btn btn-primary" type="submit" value="Refresh"> </div>
 				  	</div>
 					<div style="background: #fff; padding: 5px; height: 30px; padding-bottom: 10px;">				
 						<%-- 

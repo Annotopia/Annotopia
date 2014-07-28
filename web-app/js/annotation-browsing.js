@@ -7,6 +7,18 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 	$scope.totalResults = 0;
 	$scope.duration = '';
 	
+	$scope.permissions = [
+	    {name:'public', selected:true},
+        {name:'private', selected:true}
+	];
+	$scope.motivations = [
+        {name:'commenting', selected:true},
+        {name:'highlighting', selected:true},
+        {name:'tagging', selected:true}
+    ];
+	                      
+	                      
+	
 	// ---------------------------
 	//  BROWSING
 	// ---------------------------	
