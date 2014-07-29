@@ -109,7 +109,7 @@
 			  padding-right: 10px;
 			  min-height: 40px;
 			  margin: 5px;
-			  background-image: url(../../images/secure/quotes.gif);
+			  /*background-image: url(../../images/secure/quotes.png);*/
 			  background-position: middle left;
 			  background-repeat: no-repeat;
 			  text-indent: 5px;
@@ -232,6 +232,7 @@
 									<span ng-switch="annotation[0]['motivatedBy']" style="font-size: 11px; font-weight: bold; text-transform:uppercase; letter-spacing:1px">
 										<span ng-switch-when="oa:commenting">Comment</span>
 										<span ng-switch-when="oa:highlighting">Highlight</span>
+										<span ng-switch-when="oa:tagging">Tagging</span>
 										<span ng-switch-default>Annotation</span>
 									</span>
 									
@@ -244,6 +245,9 @@
 									<span ng-switch="annotation[0]['motivatedBy']">
 										<div  ng-switch-when="oa:commenting" class="ann-body-content"  style="background: #428bca; color: white; border-radius: 5px; padding: 5px;">{{annotation[0].hasBody.chars}}</div>
 										<div  ng-switch-when="oa:highlighting" class="ann-body-content" style="background: yellow; border-radius: 5px;  padding: 5px;">{{annotation[0]['hasTarget']['hasSelector'].exact}}</div>
+										<div  ng-switch-when="oa:tagging" class="ann-body-content" >
+											<a style="background: #CC6600; color: white; border-radius: 5px;  padding: 5px;" ng-href="{{annotation[0].hasBody['@id']}}">{{annotation[0].hasBody.label}}</a>
+										</div>
 									</span>
 									
 									<%-- Display of textual fragment if any --%>
