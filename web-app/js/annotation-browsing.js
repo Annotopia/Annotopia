@@ -35,9 +35,10 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 	
 	$scope.sources = [
           {name:'domeo', selected:true},
-          {name:'utopia', selected:true},
-          {name:'others', selected:true}
-      ];
+          {name:'utopia', selected:true},/*,
+          {name:'others', selected:true},*/
+          {name:'unspecified', selected:true}
+    ];
   	                  
   	// selected fruits
   	$scope.selectionSources = [];

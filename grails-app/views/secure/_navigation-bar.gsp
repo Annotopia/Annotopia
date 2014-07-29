@@ -18,7 +18,7 @@
 			<ul class="nav navbar-nav">
 				<%--<li><g:link controller="public" action="home">Home</g:link></li> --%>
 				<li><g:link controller="secure" action="search">Search</g:link></li>	
-				<li><g:link controller="secure" action="myannotations">My annotations</g:link></li>		
+				<li><g:link controller="secure" action="annotations">Annotations</g:link></li>		
 				<li><g:link controller="secure" action="profile">My profile</g:link></li>	
 				<li><g:link controller="logout" action="index"><img id="groupsSpinner" src="${resource(dir:'images/dashboard',file:'exit.png')}" title="Logout" /></g:link></li>				
 			</ul>
