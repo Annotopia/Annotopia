@@ -273,7 +273,7 @@
 				</div>
 				<div style="padding:0px; padding-top: 10px; min-height: 260px;">
 					<div class="pagination" style="padding-left:10px;"> 
-						Pages {{currentPage}}&nbsp; 
+						Pages &nbsp; 
 						<span ng-repeat="page in pages">
 							<span ng-if="page==currentPage">
 								<a href="" class="page active" ng-click="browse(page)">{{page}}</a>
