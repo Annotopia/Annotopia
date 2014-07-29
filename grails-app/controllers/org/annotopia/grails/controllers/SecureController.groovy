@@ -115,6 +115,10 @@ class SecureController extends BaseController {
 		if(params.tgtFgt!=null) tgtFgt = params.tgtFgt;
 		
 		// Facets
+		def sources = request.JSON.sources
+		if(params.sources!=null) sources = params.sources;
+		def sourcesFacet = []
+		if(sources) sourcesFacet = sources.split(",");
 		def permissions = request.JSON.permissions
 		if(params.permissions!=null) permissions = params.permissions;
 		def permissionsFacet = []
@@ -152,7 +156,7 @@ class SecureController extends BaseController {
 		*/
 		
 		try {
-			int annotationsTotal = openAnnotationVirtuosoService.countAnnotationGraphs("user:"+loggedUser.id, tgtUrl, tgtFgt, motivationsFacet);
+			int annotationsTotal = openAnnotationVirtuosoService.countAnnotationGraphs("user:"+loggedUser.id, tgtUrl, tgtFgt, sourcesFacet, motivationsFacet);
 			int annotationsPages = (annotationsTotal/Integer.parseInt(max));
 			if(annotationsTotal>0 && Integer.parseInt(offset)>0 && Integer.parseInt(offset)>=annotationsTotal) {
 				def message = 'The requested page ' + offset +
@@ -169,7 +173,7 @@ class SecureController extends BaseController {
 			}
 			
 			// TODO Add bibliogrpahic identity management
-			Set<Dataset> annotationGraphs = openAnnotationStorageService.listAnnotation("user:"+loggedUser.id, max, offset, tgtUrls, tgtFgt, tgtExt, tgtIds, incGph, motivationsFacet);
+			Set<Dataset> annotationGraphs = openAnnotationStorageService.listAnnotation("user:"+loggedUser.id, max, offset, tgtUrls, tgtFgt, tgtExt, tgtIds, incGph, sourcesFacet, motivationsFacet);
 			def summaryPrefix = '"total":"' + annotationsTotal + '", ' +
 					'"pages":"' + annotationsPages + '", ' +
 					'"duration": "' + (System.currentTimeMillis()-startTime) + 'ms", ' +

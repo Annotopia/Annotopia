@@ -32,6 +32,27 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 	    });
 	}, true);
 */
+	
+	$scope.sources = [
+          {name:'domeo', selected:true},
+          {name:'utopia', selected:true},
+          {name:'others', selected:true}
+      ];
+  	                  
+  	// selected fruits
+  	$scope.selectionSources = [];
+
+  	// helper method to get selected fruits
+  	$scope.selectionSources = function selectedSources() {
+  	    return filterFilter($scope.sources, { selected: true });
+  	};
+
+  	// watch fruits for changes
+  	$scope.$watch('sources|filter:{selected:true}', function (nv) {
+  	    $scope.selectionSources = nv.map(function (source) {
+  	        return source.name;
+  	    });
+  	}, true);
 
 	$scope.motivations = [
         {name:'commenting', selected:true},
@@ -65,10 +86,11 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 		$scope.paginationOffset = (page ? page*$scope.paginationMax:0);
 		var results;
 		
+		var sources = ($scope.selectionSources!=undefined)?'&sources=' +$scope.selectionSources:''
 		var motivations = ($scope.selectionMotivations!=undefined)?'&motivations=' +$scope.selectionMotivations:''
 		var permissions = ($scope.selectionPermissions!=undefined)?'&permissions=' + $scope.selectionPermissions:''
 		
-	    $http({method: 'GET', url: '/secure/getAnnotation?max=' + $scope.paginationMax + '&offset=' + $scope.paginationOffset  + permissions + motivations + '&outCmd=frame'}).
+	    $http({method: 'GET', url: '/secure/getAnnotation?max=' + $scope.paginationMax + '&offset=' + $scope.paginationOffset  + sources + permissions + motivations + '&outCmd=frame'}).
 		    success(function(data, status, headers, config) {
 		    	results = data.result.items;
 		    	$scope.totalResults = data.result.total;
