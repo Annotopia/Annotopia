@@ -153,4 +153,19 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 	$scope.$watch('paginationSizeSelection', function(){
 		$scope.browse(0);
 	});
+
+	// ---------------------------
+	//  Lenses
+	// ---------------------------
+	$scope.exploreUser = function(user) {
+		$('#sidebar').html('user: ' + user);
+	}
+	
+	$scope.exploreResource = function(resource) {
+		$('#sidebar').html('resource: ' + resource);
+	}
+	
+	$scope.exploreSemanticTag = function(semantictag) {
+		$('#sidebar').html('semantictag: ' + semantictag);
+	}
 }
