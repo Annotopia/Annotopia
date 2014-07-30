@@ -252,9 +252,10 @@
 										</span>
 										
 										<%-- <span ng-if="annotation[0]['serializedBy']!=null">createdWith {{annotation[0]['serializedBy']}}</span> --%>
-										<span ng-if="annotation[0]['annotatedBy']!=null && annotation[0]['annotatedBy']['name']!=null" style="font-size: 12px;">by {{annotation[0]['annotatedBy']['name']}}</span>
+										<span ng-if="annotation[0]['annotatedBy']!=null && annotation[0]['annotatedBy']['name']!=null" style="font-size: 12px;">
+											<a ng-href="{{annotation[0]['annotatedBy']['@id']}}">by {{annotation[0]['annotatedBy']['name']}}</a>
+										</span>
 										<span ng-if="annotation[0]['annotatedAt']!=null" style="font-size: 12px;"> on {{annotation[0]['annotatedAt']}}</span>	
-										<br/><span style="font-size: 12px;">On <a href="{{annotation[0]['hasTarget']['@id']}}">{{annotation[0]['hasTarget']['@id']}}</a> </span>
 										<hr style="height: 5px; padding:0px; margin-top: 4px; margin-bottom: 0px; border-top: 1px dotted #aaa;"/>
 										
 										<span ng-switch="annotation[0]['motivatedBy']">
@@ -268,7 +269,9 @@
 										<%-- Display of textual fragment if any --%>
 										<span ng-if="annotation[0]['hasTarget']['hasSelector']['@type']=='oa:TextQuoteSelector'">
 											<hr style="height: 5px; padding:0px; margin-top: 4px; margin-bottom: 0px; border-top: 1px dotted #aaa;"/>
-											<div class="contextTitle">Annotating: </div>
+											<div class="contextTitle">Annotating 
+												<span style="font-size: 12px;"> <a href="{{annotation[0]['hasTarget']['hasSource']['@id']}}">{{annotation[0]['hasTarget']['hasSource']['@id']}}</a></span> 
+											</div>
 											<blockquote class="contextQuote">
 												...
 									       		<span class="contextPrefix">{{annotation[0]['hasTarget']['hasSelector'].prefix}}</span>
