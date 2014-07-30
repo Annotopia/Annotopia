@@ -256,7 +256,7 @@
 											<a ng-href="{{annotation[0]['annotatedBy']['@id']}}">by {{annotation[0]['annotatedBy']['name']}}</a>
 										</span>
 										<span ng-if="annotation[0]['annotatedAt']!=null" style="font-size: 12px;"> on {{annotation[0]['annotatedAt']}}</span>	
-										<hr style="height: 5px; padding:0px; margin-top: 4px; margin-bottom: 0px; border-top: 1px dotted #aaa;"/>
+										<%-- <hr style="height: 5px; padding:0px; margin-top: 4px; margin-bottom: 0px; border-top: 1px dotted #aaa;"/> --%>
 										
 										<span ng-switch="annotation[0]['motivatedBy']">
 											<div  ng-switch-when="oa:commenting" class="ann-body-content"  style="background: #428bca; color: white; border-radius: 5px; padding: 5px;">{{annotation[0].hasBody.chars}}</div>
@@ -268,7 +268,7 @@
 										
 										<%-- Display of textual fragment if any --%>
 										<span ng-if="annotation[0]['hasTarget']['hasSelector']['@type']=='oa:TextQuoteSelector'">
-											<hr style="height: 5px; padding:0px; margin-top: 4px; margin-bottom: 0px; border-top: 1px dotted #aaa;"/>
+											<hr style="height: 5px; padding:0px; margin-top: 4px; margin-bottom: 0px; border-bottom: 1px dotted #aaa;"/>
 											<div class="contextTitle">Annotating 
 												<span style="font-size: 12px;"> <a href="{{annotation[0]['hasTarget']['hasSource']['@id']}}">{{annotation[0]['hasTarget']['hasSource']['@id']}}</a></span> 
 											</div>
