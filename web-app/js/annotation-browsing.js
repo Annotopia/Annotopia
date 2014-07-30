@@ -158,14 +158,35 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 	//  Lenses
 	// ---------------------------
 	$scope.exploreUser = function(user) {
-		$('#sidebar').html('user: ' + user);
+		$('#sidebar').html(user['@type'] + '<br/>' +
+			'user: ' + user['@id'] + '<br/>' +
+			'name: ' + user['name']);
 	}
 	
 	$scope.exploreResource = function(resource) {
-		$('#sidebar').html('resource: ' + resource);
+		var ids = ''
+		if(resource['http://purl.org/vocab/frbr/core#embodimentOf']) {
+			if(resource['http://purl.org/vocab/frbr/core#embodimentOf']['http://prismstandard.org/namespaces/basic/2.0/doi'])
+				ids += 'doi: ' + resource['http://purl.org/vocab/frbr/core#embodimentOf']['http://prismstandard.org/namespaces/basic/2.0/doi'] + '<br/>'
+			if(resource['http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPubMedCentralId'])
+				ids += 'pmcid: ' + resource['http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPubMedCentralId'] + '<br/>'
+			if(resource['http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPubMedId'] )
+				ids += 'pmid: ' + resource['http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPubMedId'] + '<br/>'
+			if(resource['http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPII'])
+				ids += 'pii: ' + resource['http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPII'] + '<br/>'
+		}
+			
+		$('#sidebar').html(
+			resource['@type'] + '<br/>' +
+			'resource: ' + resource['@id'] + '<br/>' + 
+			'format: ' + resource['format'] + '<br/>' +
+			ids
+			);
 	}
 	
 	$scope.exploreSemanticTag = function(semantictag) {
-		$('#sidebar').html('semantictag: ' + semantictag);
+		$('#sidebar').html('semantictag: ' + semantictag['@id'] + '<br/>' +
+				'label: ' + semantictag['label']
+				);
 	}
 }
