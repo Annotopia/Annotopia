@@ -11,7 +11,10 @@ import org.commonsemantics.grails.groups.utils.DefaultGroupPrivacy
 import org.commonsemantics.grails.groups.utils.DefaultGroupRoles
 import org.commonsemantics.grails.groups.utils.DefaultGroupStatus
 import org.commonsemantics.grails.groups.utils.DefaultUserStatusInGroup
+import org.commonsemantics.grails.security.oauth.OAuthStoredAccessToken
+import org.commonsemantics.grails.systems.model.SystemApi
 import org.commonsemantics.grails.systems.model.SystemStatus
+import org.commonsemantics.grails.systems.model.UserSystemApi
 import org.commonsemantics.grails.systems.utils.DefaultSystemStatus
 import org.commonsemantics.grails.users.model.ProfilePrivacy
 import org.commonsemantics.grails.users.model.Role
@@ -172,7 +175,7 @@ class BootStrap {
 		log.error admin.person.uris
 
 		def managerUsername = 'manager'
-		log.info  "Initializing: " + adminUsername
+		log.info  "Initializing: " + managerUsername
 		def manager = User.findByUsername(managerUsername);
 		if(manager==null) {
 			manager = new User(username: managerUsername,
@@ -187,7 +190,49 @@ class BootStrap {
 			
 		if (!manager.authorities.contains(Role.findByAuthority(DefaultUsersRoles.MANAGER.value())))
 			UserRole.create manager, Role.findByAuthority(DefaultUsersRoles.MANAGER.value())
-
+		
+		// create test user
+		def userUsername = 'user'
+		log.info  "Initializing: " + userUsername
+		def user = User.findByUsername(userUsername);
+		if(user==null) {
+			user = new User(username: userUsername,
+				password: encodePassword(password), person: person,
+				enabled: true, profilePrivacy:  ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.PRIVATE.value()),  email:'paolo.ciccarese@gmail.com').save(failOnError: true)
+			log.warn  "CHANGE PASSWORD for: " + userUsername + "!!!"
+		} else {
+			log.info "Found: " + userUsername;
+		}
+		if (!user.authorities.contains(Role.findByAuthority(DefaultUsersRoles.USER.value())))
+			UserRole.create user, Role.findByAuthority(DefaultUsersRoles.USER.value())
+			
+		// create test system
+		def systemName = "TestSystem";
+		def system = SystemApi.findByName(systemName);
+		if(system == null) {
+			system = new SystemApi(name: systemName, shortName: systemName, description: systemName,
+				createdBy: admin, apikey: "164bb0e0-248f-11e4-8c21-0800200c9a66", 
+				secretkey: "4fd23632-205a-478d-b1eb-a0933caacd79", enabled: true)
+			.save(failOnError: true)
+			def userSystem = new UserSystemApi(user: admin, system: system).save(failOnError: true)
+		} else {
+			log.info "Found: " + systemName;
+		}
+		
+		// create test token
+		def token = "caeb2990-248f-11e4-8c21-0800200c9a66";
+		def accessToken = OAuthStoredAccessToken.findByToken(token);
+		if(accessToken == null) {
+			// read the authentication file
+			def file = servletContext.getResourceAsStream("/WEB-INF/data/UserAuthToken");
+			List<Byte> authentication = new ArrayList<Byte>( );
+			int b;
+			while((b = file.read( )) != -1) {
+				authentication.add((byte)b);
+			} 
+			accessToken = new OAuthStoredAccessToken(user: user, system: system, token: token, 
+				authentication: (byte[ ])authentication.toArray( )).save(failOnError: true)
+		}
 	
 		separator();
 		def name = 'Software Test';
