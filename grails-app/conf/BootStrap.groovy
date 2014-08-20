@@ -24,6 +24,10 @@ class BootStrap {
 
 	def grailsApplication
    	def springSecurityService;
+	   
+	def usersInitializationService
+	def groupsInitializationService
+	def systemsInitializationService
    
     def init = { servletContext ->
 		
@@ -48,85 +52,36 @@ class BootStrap {
 		log.info  '>> DEFAULTS INITIALIZATION'
 		separator();
 		log.info  '** Users Roles'
-		
-		DefaultUsersRoles.values().each {
-			if(!Role.findByAuthority(it.value())) {
-				new Role(authority: it.value(), ranking: it.ranking(), label: it.label(), description: it.description()).save(failOnError: true)
-				log.info "Initialized: " + it.value()
-			} else {
-				log.info "Found: " + it.value()
-			}
-		}
-		
-		DefaultUsersProfilePrivacy.values().each {
-			if(!ProfilePrivacy.findByValue(it.value())) {
-				new ProfilePrivacy(value: it.value(), label: it.label(), description: it.description()).save(failOnError: true)
-				log.info "Initialized: " + it.value()
-			} else {
-				log.info "Found: " + it.value()
-			}
-		}
+		usersInitializationService.initializeRoles();
+		separator();
+		log.info  '** Users Profile Privacy'
+		usersInitializationService.initializeProfilePrivacy();
 
 		// GROUPS
 		// ------
 		//////////ROLES
 		separator();
 		log.info  '** Groups Roles'
-		DefaultGroupRoles.values().each {
-			if(!GroupRole.findByAuthority(it.value())) {
-				new GroupRole(authority: it.value(), ranking: it.ranking(), label: it.label(), description: it.description()).save(failOnError: true)
-				log.info "Initialized: " + it.value()
-			} else {
-				log.info "Found: " + it.value()
-			}
-		}		
+		groupsInitializationService.initializeRoles();
 		//////////STATUS
 		separator();
 		log.info  '** Groups Status'
-		DefaultGroupStatus.values().each {
-			if(!GroupStatus.findByValue(it.value())) {
-				new GroupStatus(value: it.value(), uuid: it.uuid(), label: it.label(), description: it.description()).save(failOnError: true)
-				log.info "Initialized: " + it.value()
-			} else {
-				log.info "Found: " + it.value()
-			}
-		}
+		groupsInitializationService.initializeStatus();
 		//////////PRIVACY
 		separator();
 		log.info  '** Groups Privacy'
-		DefaultGroupPrivacy.values().each {
-			if(!GroupPrivacy.findByValue(it.value())) {
-				new GroupPrivacy(value: it.value(), uuid: it.uuid(), label: it.label(), description: it.description()).save(failOnError: true)
-				log.info "Initialized: " + it.value()
-			} else {
-				log.info "Found: " + it.value()
-			}
-		}
+		groupsInitializationService.initializePrivacy();
 		//////////USER STATUS IN GROUP
 		separator();
 		log.info  '** User Status in Group'
-		DefaultUserStatusInGroup.values().each {
-			if(!UserStatusInGroup.findByValue(it.value())) {
-				new UserStatusInGroup(value: it.value(), label: it.label(), description: it.description()).save(failOnError: true)
-				log.info "Initialized: " + it.value()
-			} else {
-				log.info "Found: " + it.value()
-			}
-		}
+		groupsInitializationService.initializeUserStatusInGroup();
 		
 		// SYSTEMS
 		// -------
 		//////////STATUS
 		separator();
 		log.info  '** Systems Status'
-		DefaultSystemStatus.values().each {
-			if(!SystemStatus.findByValue(it.value())) {
-				new SystemStatus(value: it.value(), uuid: it.uuid(), label: it.label(), description: it.description()).save(failOnError: true)
-				log.info "Initialized: " + it.value()
-			} else {
-				log.info "Found: " + it.value()
-			}
-		}
+		systemsInitializationService.initializeStatus();
 		
 		separator();
 		log.info  '>> AGENTS INITIALIZATION'
@@ -147,6 +102,24 @@ class BootStrap {
 		
 		if (!AgentUri.findByAgentAndUri(person, 'http://orcid.org/0000-0002-5156-2703'))
 			AgentUri.create person, 'orcid', 'http://orcid.org/0000-0002-5156-2703'
+		
+//		def testperson;
+//		if(grailsApplication.config.annotopia.storage.testing.enabled=='true') {
+//			testperson = Person.findByEmail('testuser@annotopia.com');
+//			if(testperson==null) {
+//				testperson = new Person(
+//					firstName: 'Testname',
+//					lastName: 'Testlastname',
+//					displayName: 'Dr. Test',
+//					email:'testuser@annotopia.com'
+//				).save(flush: true, failOnError: true);
+//			
+//				testperson.uris.add 'http://example.org/testuser/000';
+//			}
+//			
+//			if (!AgentUri.findByAgentAndUri(testperson, 'http://example.org/testuser/000'))
+//				AgentUri.create testperson, 'orcid', 'http://example.org/testuser/000'
+//		}
 		
 		def password = 'password'
 		def adminUsername = 'admin'
@@ -172,7 +145,7 @@ class BootStrap {
 		log.error admin.person.uris
 
 		def managerUsername = 'manager'
-		log.info  "Initializing: " + adminUsername
+		log.info  "Initializing: " + managerUsername
 		def manager = User.findByUsername(managerUsername);
 		if(manager==null) {
 			manager = new User(username: managerUsername,
@@ -187,8 +160,29 @@ class BootStrap {
 			
 		if (!manager.authorities.contains(Role.findByAuthority(DefaultUsersRoles.MANAGER.value())))
 			UserRole.create manager, Role.findByAuthority(DefaultUsersRoles.MANAGER.value())
-
 	
+//		separator();
+//		if(grailsApplication.config.annotopia.storage.testing.enabled=='true') {
+//			def testUsername = grailsApplication.config.annotopia.storage.testing.username;
+//			log.info  "Initializing: " + testUsername
+//			def testuser = User.findByUsername(testUsername);
+//			if(testuser==null) {
+//				testuser = new User(username: testUsername,
+//					password: encodePassword(password), person: testperson,
+//					enabled: true, profilePrivacy:  ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.PRIVATE.value()), 
+//					email:'testuser@annotopia.com').save(failOnError: true)
+//			} else {
+//				log.info "Found: " + testUsername;
+//			}
+//			if (!testuser.authorities.contains(Role.findByAuthority(DefaultUsersRoles.USER.value())))
+//				UserRole.create testuser, Role.findByAuthority(DefaultUsersRoles.USER.value())
+//				
+//			if (!testuser.authorities.contains(Role.findByAuthority(DefaultUsersRoles.MANAGER.value())))
+//				UserRole.create testuser, Role.findByAuthority(DefaultUsersRoles.MANAGER.value())
+//		} else {
+//			// Do nothing
+//		}
+			
 		separator();
 		def name = 'Software Test';
 		log.info  '** Software' 
