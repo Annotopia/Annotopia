@@ -31,62 +31,50 @@ class BootStrap {
    
     def init = { servletContext ->
 		
-		demarcation();
-		log.info  ' MIND INFORMATICS: ANNOTOPIA (v.' +
+		// ABOUT
+		// ------
+		demarcation(
+			' MIND INFORMATICS: ANNOTOPIA (v.' +
 			grailsApplication.metadata['app.version'] + ", b." +
-			grailsApplication.metadata['app.build'] + ")";
-			
+			grailsApplication.metadata['app.build'] + ")");		
 		separator();
 		log.info  ' By Paolo Ciccarese (http://paolociccarese.info/)'
 		log.info  ' Copyright 2014 Mass General Hospital'
-		
 		separator();
 		log.info  ' Released under the Apache License, Version 2.0'
 		log.info  ' url:http://www.apache.org/licenses/LICENSE-2.0'
-
-		demarcation();
-		log.info  'Bootstrapping....'
+		demarcation('>> Bootstrapping....');
+		demarcation('>> INITIALIZING DEFAULTS ENUMERATIONS');
 		
-		separator();
-		
-		log.info  '>> DEFAULTS INITIALIZATION'
-		separator();
-		log.info  '** Users Roles'
+		// USERS
+		// ------
+		separator('** Users Roles');
 		usersInitializationService.initializeRoles();
-		separator();
-		log.info  '** Users Profile Privacy'
+		separator('** Users Profile Privacy');
 		usersInitializationService.initializeProfilePrivacy();
 
 		// GROUPS
 		// ------
-		//////////ROLES
-		separator();
-		log.info  '** Groups Roles'
+		separator('** Groups Roles');
 		groupsInitializationService.initializeRoles();
-		//////////STATUS
-		separator();
-		log.info  '** Groups Status'
+		separator('** Groups Status');
 		groupsInitializationService.initializeStatus();
-		//////////PRIVACY
-		separator();
-		log.info  '** Groups Privacy'
+		separator('** Groups Privacy');
 		groupsInitializationService.initializePrivacy();
-		//////////USER STATUS IN GROUP
-		separator();
-		log.info  '** User Status in Group'
+		separator('** User Status in Group');
 		groupsInitializationService.initializeUserStatusInGroup();
 		
 		// SYSTEMS
 		// -------
 		//////////STATUS
-		separator();
-		log.info  '** Systems Status'
+		separator('** Systems Status');
 		systemsInitializationService.initializeStatus();
 		
-		separator();
-		log.info  '>> AGENTS INITIALIZATION'
-		separator();
-		log.info  '** Users'
+		// ENTITIES
+		// --------
+		demarcation('>> INITIALIZING DEFAULTS ENTITIES');
+		demarcation('>> AGENTS INITIALIZATION');
+		separator('** Users');
 		
 		def person = Person.findByEmail('paolo.ciccarese@gmail.com');
 		if(person==null) {
@@ -234,12 +222,22 @@ class BootStrap {
 	def encodePassword(def password) {
 		return springSecurityService.encodePassword(password)
 	}
-	def separator = {
-		log.info  '------------------------------------------------------------------------';
-	}
-	def demarcation = {
+	
+	private demarcation() {
 		log.info  '========================================================================';
 	}
+	private demarcation(message) {
+		demarcation();
+		log.info  message
+	}
+	private separator() {
+		log.info  '------------------------------------------------------------------------';
+	}
+	private separator(message) {
+		separator();
+		log.info  message
+	}
+	
     def destroy = {
     }
 }
