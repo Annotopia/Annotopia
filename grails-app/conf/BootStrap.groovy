@@ -69,9 +69,10 @@ class BootStrap {
 		
 		// SYSTEMS
 		// -------
-		//////////STATUS
 		separator('** Systems Status');
 		systemsInitializationService.initializeStatus();
+		separator('** Systems Types');
+		systemsInitializationService.initializeTypes();
 		
 		// ENTITIES
 		// --------
@@ -235,7 +236,9 @@ class BootStrap {
 		
 		//////////GROUPS TESTS
 		separator();
+		log.info  '** Groups'
 		def group0 = "Test Group 0"
+		log.info  "Initializing: " + group0
 		def testGroup0 = Group.findByName(group0) ?: new Group(
 			name: group0,
 			shortName: 'TG0',
@@ -261,9 +264,8 @@ class BootStrap {
 		).save(failOnError: true, flash: true)
 		testUserGroup2.addToRoles GroupRole.findByAuthority(DefaultGroupRoles.ADMIN.value())
 		
-		
-		demarcation();
-
+		demarcation(">> Bootstrapping completed!")
+		separator()
     }
 	def encodePassword(def password) {
 		return springSecurityService.encodePassword(password)
