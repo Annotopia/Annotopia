@@ -59,10 +59,10 @@ grails.project.dependency.resolution = {
 		runtime 'virtuoso:virtjdbc:4'
 		runtime 'virtuoso.sesame:virt_jena:2'
 		
-		compile ("org.apache.jena:jena-core:2.12.0-SNAPSHOT") {
+		compile ("org.apache.jena:jena-core:2.12.0") {
 			excludes 'slf4j-api', 'xercesImpl'
 		}
-		compile ("org.apache.jena:jena-arq:2.12.0-SNAPSHOT")
+		compile ("org.apache.jena:jena-arq:2.12.0")
 		
 		compile ("xml-apis:xml-apis:1.4.01") {
 			excludes 'xercesImpl'
