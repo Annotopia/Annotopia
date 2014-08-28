@@ -229,5 +229,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.grails.ide.eclipse.core.CLASSPATH_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/AtConnectors"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CnBioPortalConnector"/>
 	<classpathentry kind="output" path="target/eclipseclasses"/>
 </classpath>

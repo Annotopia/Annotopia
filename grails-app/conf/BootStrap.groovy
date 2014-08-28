@@ -1,3 +1,7 @@
+import grails.util.Holders
+
+import org.codehaus.groovy.grails.commons.GrailsClassUtils
+import org.codehaus.groovy.grails.plugins.PluginManagerHolder
 import org.commonsemantics.grails.agents.model.AgentUri
 import org.commonsemantics.grails.agents.model.Person
 import org.commonsemantics.grails.agents.model.Software
@@ -13,15 +17,14 @@ import org.commonsemantics.grails.groups.utils.DefaultGroupStatus
 import org.commonsemantics.grails.groups.utils.DefaultUserStatusInGroup
 import org.commonsemantics.grails.security.oauth.OAuthStoredAccessToken
 import org.commonsemantics.grails.systems.model.SystemApi
-import org.commonsemantics.grails.systems.model.SystemStatus
 import org.commonsemantics.grails.systems.model.UserSystemApi
-import org.commonsemantics.grails.systems.utils.DefaultSystemStatus
 import org.commonsemantics.grails.users.model.ProfilePrivacy
 import org.commonsemantics.grails.users.model.Role
 import org.commonsemantics.grails.users.model.User
 import org.commonsemantics.grails.users.model.UserRole
 import org.commonsemantics.grails.users.utils.DefaultUsersProfilePrivacy
 import org.commonsemantics.grails.users.utils.DefaultUsersRoles
+import org.springframework.context.ApplicationContext
 
 class BootStrap {
 
@@ -31,6 +34,8 @@ class BootStrap {
 	def usersInitializationService
 	def groupsInitializationService
 	def systemsInitializationService
+	
+	def bioPortalService
    
     def init = { servletContext ->
 		
@@ -263,6 +268,34 @@ class BootStrap {
 			status: UserStatusInGroup.findByValue(DefaultUserStatusInGroup.ACTIVE.value())
 		).save(failOnError: true, flash: true)
 		testUserGroup2.addToRoles GroupRole.findByAuthority(DefaultGroupRoles.ADMIN.value())
+		
+//		//---------------------------------------
+//		// CONNECTORS
+//		//---------------------------------------
+//		println bioPortalService;
+//		
+//		demarcation(">> CONNECTORS");
+//		def pluginManager = PluginManagerHolder.getPluginManager();
+//		pluginManager.getAllPlugins().each {
+//			if(it.name.startsWith("cn") && it.name.endsWith("Connector")) {
+//				separator("** Detected: " + it.name);
+//				log.info("Service: " +it.getProperties().get('service'));
+//				//println Class.forName(it.getProperties().get('service'));
+//								
+//				ApplicationContext ctx = Holders.grailsApplication.mainContext
+//				Object service = ctx.getBean("bioPortalService");
+//				
+//				println service.getClass()
+//				println (service.getClass() instanceof Class)
+//				
+//				GrailsClassUtils.getAllInterfaces(service).each{ println it}
+//				
+//				println service.metaClass.methods*.name.sort().unique()
+//				
+//				println service.metaClass.intefaces*.name.sort().unique()
+//				println service.getClass().getIntefaces().name.sort().unique()			
+//			}
+//		}
 		
 		demarcation(">> Bootstrapping completed!")
 		separator()
