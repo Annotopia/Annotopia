@@ -6,6 +6,9 @@ grails.project.test.reports.dir = "target/test-reports"
 grails.plugin.location.'at-smart-storage' = '../AtSmartStorage'
 grails.plugin.location.'at-data-cruncher' = '../AtDataCruncher'
 
+grails.plugin.location.'at-connectors' = '../AtConnectors'
+grails.plugin.location.'cn-bioportal-connector' = '../CnBioPortalConnector'
+
 grails.plugin.location.'cs-commons' = '../commonsemantics/CsCommons'
 grails.plugin.location.'cs-systems' = '../commonsemantics/CsSystems'
 grails.plugin.location.'cs-agents' = '../commonsemantics/CsAgents'
@@ -89,6 +92,7 @@ grails.project.dependency.resolution = {
         runtime ":database-migration:1.3.2"
 
         compile ':cache:1.1.1'
+		compile ":rest:0.8"
 		
 		compile ":spring-security-core:2.0-RC2"
 		compile ":spring-security-oauth2-provider:1.0.5.2"

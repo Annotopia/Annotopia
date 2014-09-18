@@ -1,6 +1,7 @@
 class UrlMappings {
 
 	static mappings = {
+		// Storage
 		"/s/annotationset/$id?"{
 			controller = "annotationIntegrated"
 			action = [GET:"showAnnotationSet", POST:"saveAnnotationSet", PUT:"updateAnnotationSet"]
@@ -12,6 +13,23 @@ class UrlMappings {
 			action = [GET:"show", POST:"save", PUT:"update", DELETE:"delete"]
 		}
 		
+		// BioPortal Connector
+		"/cn/bioportal/search"{
+			controller = "bioPortal"
+			action = [GET:"search"]
+		}
+		
+		"/cn/bioportal/textmine"{
+			controller = "bioPortal"
+			action = [POST:"textmine"]
+		}
+		
+		"/cn/bioportal/vocabularies"{
+			controller = "bioPortal"
+			action = [GET:"vocabularies"]
+		}
+		
+		// Validation
 		"/oa/validate"{
 			controller = "openAnnotation"
 			action = "validate"

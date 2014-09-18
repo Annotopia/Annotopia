@@ -170,6 +170,7 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/openAnnotation/**'					: ['permitAll'],
 	'/annotationIntegrated/**'				: ['permitAll'],
 	'/openAnnotationWithPermissions/**'		: ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_USER'],	
+	'/bioPortal/**'					: ['permitAll'],
 	'/secure/**'				: ['ROLE_ADMIN','ROLE_MANAGER'],
 	'/secret/**'				: ['ROLE_ADMIN'],
 	'/crunch/**'				: ['ROLE_ADMIN'],

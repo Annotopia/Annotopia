@@ -288,7 +288,7 @@ class BootStrap {
 //				println service.getClass()
 //				println (service.getClass() instanceof Class)
 //				
-//				GrailsClassUtils.getAllInterfaces(service).each{ println it}
+//				GrailsClassUtils.getAllInterfacesForClass(service.getClass()).each{ println it}
 //				
 //				println service.metaClass.methods*.name.sort().unique()
 //				
