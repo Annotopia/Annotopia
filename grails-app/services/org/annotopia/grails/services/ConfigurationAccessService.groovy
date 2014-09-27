@@ -30,6 +30,10 @@ class ConfigurationAccessService {
 	public static final String DEFAULT_EMAIL_ADDRESS = "paolo.ciccarese@gmail.com"
 	public static final String DEFAULT_EMAIL_LABEL = "-please define instance administrator email-"
 	
+	public String getConfigAdminMissingMessage() {
+		return '--->>> Please define the administratin properties'
+	}
+	
 	public String getAdministratorName() {
 		try {
 			return (grailsApplication.config.annotopia.admin.name);
