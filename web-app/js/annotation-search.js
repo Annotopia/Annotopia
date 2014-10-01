@@ -33,6 +33,25 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 	}, true);
 */
 	
+	$scope.inclusionCriterias = [
+          {name:'document title', selected:true}
+    ];
+	
+	// selected inclusion criteria
+  	$scope.selectionInclusionCriterias = [];
+  	
+    // helper method to get selected fruits
+  	$scope.selectionInclusionCriterias = function selectedInclusionCriterias() {
+  	    return filterFilter($scope.inclusionCriterias, { selected: true });
+  	};
+
+  	// watch fruits for changes
+  	$scope.$watch('inclusionCriterias|filter:{selected:true}', function (nv) {
+  	    $scope.selectionInclusionCriterias = nv.map(function (criteria) {
+  	        return criteria.name;
+  	    });
+  	}, true);
+	
 	$scope.sources = [
           {name:'domeo', selected:true},
           {name:'utopia', selected:true},/*,
@@ -40,7 +59,7 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
           {name:'unspecified', selected:true}
     ];
   	                  
-  	// selected fruits
+  	// selected sources
   	$scope.selectionSources = [];
 
   	// helper method to get selected fruits
@@ -95,8 +114,9 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 		var sources = ($scope.selectionSources!=undefined)?'&sources=' +$scope.selectionSources:''
 		var motivations = ($scope.selectionMotivations!=undefined)?'&motivations=' +$scope.selectionMotivations:''
 		var permissions = ($scope.selectionPermissions!=undefined)?'&permissions=' + $scope.selectionPermissions:''
+		var inclusions = ($scope.selectionInclusionCriterias!=undefined)?'&inclusions=' + $scope.selectionInclusionCriterias:''
 			
-	    $http({method: 'GET', url: '/secure/searchAnnotation?max=' + $scope.paginationMax + '&offset=' + $scope.paginationOffset  + text + sources + permissions + motivations + '&outCmd=frame'}).
+	    $http({method: 'GET', url: '/secure/searchAnnotation?max=' + $scope.paginationMax + '&offset=' + $scope.paginationOffset  + text + sources + permissions + inclusions + motivations + '&outCmd=frame'}).
 		    success(function(data, status, headers, config) {
 		    	results = data.result.items;
 		    	$scope.totalResults = data.result.total;

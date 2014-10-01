@@ -172,6 +172,20 @@
 						</div>
 						--%>
 						<div class="facet">
+					    	<div id='contributorsTitle'>Include</div>
+							<div id="contributors" style="border-top: 3px solid #ddd; padding-bottom: 2px;"></div>
+					    	<div style="padding: 5px; padding-top: 10px; ">
+							    <div ng-repeat="inclusionCriteria in inclusionCriterias">
+					    			<input
+									    type="checkbox"
+									    name="selectedInclusionCriteria[]"
+									    value="{{inclusionCriteria.name}}"
+									    ng-model="inclusionCriteria.selected"
+									  > {{inclusionCriteria.name}} 
+					    		</div>
+							</div>
+						</div>
+						<div class="facet">
 					    	<div id='contributorsTitle'>Filtering by source</div>
 							<div id="contributors" style="border-top: 3px solid #ddd; padding-bottom: 2px;"></div>
 					    	<div style="padding: 5px; padding-top: 10px; ">
