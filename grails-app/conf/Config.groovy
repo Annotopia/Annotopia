@@ -101,6 +101,7 @@ environments {
 					'grails.app.services.org.annotopia.grails.services.storage.jena.virtuoso.JenaVirtuosoStoreService',
 					'grails.app.services.org.annotopia.grails.services.storage.utils.jena.GraphIdentifiersMetadataService',
 					'grails.app.services.org.annotopia.grails.services.storage.jena.openannotation.OpenAnnotationWithPermissionsStorageService',
+					'grails.app.services.org.annotopia.grails.services.storage.jena.openannotation.OpenAnnotationWithPermissionsVirtuosoService',
 					'org.commonsemantics.grails.agents.utils',
 					'org.commonsemantics.grails.users.utils',
 					'org.commonsemantics.grails.groups.utils',
@@ -159,8 +160,6 @@ grails.plugin.springsecurity.rememberMe.persistent 						= true
 // Default since spring-security-core:2.0-RC2
 grails.plugin.springsecurity.password.algorithm = 'bcrypt'
 grails.plugin.springsecurity.logout.postOnly = false
-
-
 
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/**'               		: ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_USER'],
