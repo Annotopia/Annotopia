@@ -20,6 +20,8 @@
  */
 package org.annotopia.grails.services
 
+import org.commonsemantics.grails.security.oauth.OAuthToken
+
 
 /**
  * This service manages access through API keys that are assigned to 
@@ -69,5 +71,12 @@ class ApiKeyAuthenticationService extends org.annotopia.grails.services.storage.
 			String userId = principal.id
 			return userId
 		}
+	}
+	
+	def gatUserIdentifiedByToken(def userTokenParameter) {
+		if(userTokenParameter.length()<30) return null;
+		def oauthToken = OAuthToken.findByToken(userTokenParameter.substring(7))
+		def user = oauthToken.user;
+		return user;
 	}
 }
