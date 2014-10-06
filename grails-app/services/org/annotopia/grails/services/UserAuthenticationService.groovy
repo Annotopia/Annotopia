@@ -11,7 +11,7 @@ class UserAuthenticationService {
 		if(grailsApplication.config.annotopia.storage.testing.enabled=='true' &&
 				grailsApplication.config.annotopia.storage.testing.user.id!=null)
 			return grailsApplication.config.annotopia.storage.testing.user.id;
-		
+
 		def principal = springSecurityService.principal;
 		if(!principal.equals("anonymousUser")) {
 			String userId = principal.id
