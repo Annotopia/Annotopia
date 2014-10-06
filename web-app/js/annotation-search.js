@@ -11,9 +11,10 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 	//  FACETS
 	// ---------------------------	
 	
-/*
+	/*
 	$scope.permissions = [
 	    {name:'public', selected:true},
+        {name:'groups', selected:true},
         {name:'private', selected:true}
 	];
 	
@@ -31,7 +32,8 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 	        return permission.name;
 	    });
 	}, true);
-*/
+	*/
+
 	
 	$scope.inclusionCriterias = [
           {name:'document title', selected:true}

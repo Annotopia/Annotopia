@@ -234,7 +234,7 @@
 								</td>
 								<td>
 									<div id="progressIcon" align="center" style="padding-left: 10px; display: none;">
-								    	<img id="groupsSpinner" src="${resource(dir:'images/secure',file:'ajax-loader-4CAE4C.gif')}" /> Loading...
+								    	<img id="groupsSpinner" src="${resource(dir:'images/secure',file:'ajax-loader-4CAE4C.gif')}" /> Searching...
 								    </div>
 								</td>
 								<td style="text-align: right;">
