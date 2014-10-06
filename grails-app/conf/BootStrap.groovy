@@ -100,24 +100,6 @@ class BootStrap {
 		if (!AgentUri.findByAgentAndUri(person, 'http://orcid.org/0000-0002-5156-2703'))
 			AgentUri.create person, 'orcid', 'http://orcid.org/0000-0002-5156-2703'
 		
-//		def testperson;
-//		if(grailsApplication.config.annotopia.storage.testing.enabled=='true') {
-//			testperson = Person.findByEmail('testuser@annotopia.com');
-//			if(testperson==null) {
-//				testperson = new Person(
-//					firstName: 'Testname',
-//					lastName: 'Testlastname',
-//					displayName: 'Dr. Test',
-//					email:'testuser@annotopia.com'
-//				).save(flush: true, failOnError: true);
-//			
-//				testperson.uris.add 'http://example.org/testuser/000';
-//			}
-//			
-//			if (!AgentUri.findByAgentAndUri(testperson, 'http://example.org/testuser/000'))
-//				AgentUri.create testperson, 'orcid', 'http://example.org/testuser/000'
-//		}
-		
 		def password = 'password'
 		def adminUsername = 'admin'
 		log.info  "Initializing: " + adminUsername
@@ -158,70 +140,51 @@ class BootStrap {
 		if (!manager.authorities.contains(Role.findByAuthority(DefaultUsersRoles.MANAGER.value())))
 			UserRole.create manager, Role.findByAuthority(DefaultUsersRoles.MANAGER.value())
 		
-		// create test user
-		def userUsername = 'user'
-		log.info  "Initializing: " + userUsername
-		def user = User.findByUsername(userUsername);
-		if(user==null) {
-			user = new User(username: userUsername,
-				password: encodePassword(password), person: person,
-				enabled: true, profilePrivacy:  ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.PRIVATE.value()),  email:'paolo.ciccarese@gmail.com').save(failOnError: true)
-			log.warn  "CHANGE PASSWORD for: " + userUsername + "!!!"
-		} else {
-			log.info "Found: " + userUsername;
-		}
-		if (!user.authorities.contains(Role.findByAuthority(DefaultUsersRoles.USER.value())))
-			UserRole.create user, Role.findByAuthority(DefaultUsersRoles.USER.value())
+		// Test user, system and authentication
+		if(grailsApplication.config.annotopia.storage.testing.enabled=='true') {
+			// create test user
+			def userUsername = 'user'
+			log.info  "Initializing: " + userUsername
+			def user = User.findByUsername(userUsername);
+			if(user==null) {
+				user = new User(username: userUsername,
+					password: encodePassword(password), person: person,
+					enabled: true, profilePrivacy:  ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.PRIVATE.value()),  email:'paolo.ciccarese@gmail.com').save(failOnError: true)
+				log.warn  "CHANGE PASSWORD for: " + userUsername + "!!!"
+			} else {
+				log.info "Found: " + userUsername;
+			}
+			if (!user.authorities.contains(Role.findByAuthority(DefaultUsersRoles.USER.value())))
+				UserRole.create user, Role.findByAuthority(DefaultUsersRoles.USER.value())
+				
+			// create test system
+			def systemName = "TestSystem";
+			def system = SystemApi.findByName(systemName);
+			if(system == null) {
+				system = new SystemApi(name: systemName, shortName: systemName, description: systemName,
+					createdBy: admin, apikey: "164bb0e0-248f-11e4-8c21-0800200c9a66", 
+					secretkey: "4fd23632-205a-478d-b1eb-a0933caacd79", enabled: true)
+				.save(failOnError: true)
+				def userSystem = new UserSystemApi(user: admin, system: system).save(failOnError: true)
+			} else {
+				log.info "Found: " + systemName;
+			}
 			
-		// create test system
-		def systemName = "TestSystem";
-		def system = SystemApi.findByName(systemName);
-		if(system == null) {
-			system = new SystemApi(name: systemName, shortName: systemName, description: systemName,
-				createdBy: admin, apikey: "164bb0e0-248f-11e4-8c21-0800200c9a66", 
-				secretkey: "4fd23632-205a-478d-b1eb-a0933caacd79", enabled: true)
-			.save(failOnError: true)
-			def userSystem = new UserSystemApi(user: admin, system: system).save(failOnError: true)
-		} else {
-			log.info "Found: " + systemName;
+			// create test token
+			def token = "caeb2990-248f-11e4-8c21-0800200c9a66";
+			def accessToken = OAuthStoredAccessToken.findByToken(token);
+			if(accessToken == null) {
+				// read the authentication file
+				def file = servletContext.getResourceAsStream("/WEB-INF/data/UserAuthToken");
+				List<Byte> authentication = new ArrayList<Byte>( );
+				int b;
+				while((b = file.read( )) != -1) {
+					authentication.add((byte)b);
+				} 
+				accessToken = new OAuthStoredAccessToken(user: user, system: system, token: token, 
+					authentication: (byte[ ])authentication.toArray( )).save(failOnError: true)
+			}
 		}
-		
-		// create test token
-		def token = "caeb2990-248f-11e4-8c21-0800200c9a66";
-		def accessToken = OAuthStoredAccessToken.findByToken(token);
-		if(accessToken == null) {
-			// read the authentication file
-			def file = servletContext.getResourceAsStream("/WEB-INF/data/UserAuthToken");
-			List<Byte> authentication = new ArrayList<Byte>( );
-			int b;
-			while((b = file.read( )) != -1) {
-				authentication.add((byte)b);
-			} 
-			accessToken = new OAuthStoredAccessToken(user: user, system: system, token: token, 
-				authentication: (byte[ ])authentication.toArray( )).save(failOnError: true)
-		}
-	
-//		separator();
-//		if(grailsApplication.config.annotopia.storage.testing.enabled=='true') {
-//			def testUsername = grailsApplication.config.annotopia.storage.testing.username;
-//			log.info  "Initializing: " + testUsername
-//			def testuser = User.findByUsername(testUsername);
-//			if(testuser==null) {
-//				testuser = new User(username: testUsername,
-//					password: encodePassword(password), person: testperson,
-//					enabled: true, profilePrivacy:  ProfilePrivacy.findByValue(DefaultUsersProfilePrivacy.PRIVATE.value()), 
-//					email:'testuser@annotopia.com').save(failOnError: true)
-//			} else {
-//				log.info "Found: " + testUsername;
-//			}
-//			if (!testuser.authorities.contains(Role.findByAuthority(DefaultUsersRoles.USER.value())))
-//				UserRole.create testuser, Role.findByAuthority(DefaultUsersRoles.USER.value())
-//				
-//			if (!testuser.authorities.contains(Role.findByAuthority(DefaultUsersRoles.MANAGER.value())))
-//				UserRole.create testuser, Role.findByAuthority(DefaultUsersRoles.MANAGER.value())
-//		} else {
-//			// Do nothing
-//		}
 			
 		separator();
 		def name = 'Software Test';
@@ -288,12 +251,18 @@ class BootStrap {
 //				println service.getClass()
 //				println (service.getClass() instanceof Class)
 //				
-//				GrailsClassUtils.getAllInterfacesForClass(service.getClass()).each{ println it}
+//				println service.getMetaClass();
+//				println service.getMetaClass().getMetaMethods();
 //				
-//				println service.metaClass.methods*.name.sort().unique()
+//				Class[] interfaces=service.getClass().getInterfaces()
+//				println interfaces.each{ println it}
 //				
-//				println service.metaClass.intefaces*.name.sort().unique()
-//				println service.getClass().getIntefaces().name.sort().unique()			
+//				Class[] ints = GrailsClassUtils.getAllInterfacesForClass(service.getClass());
+//				
+//				//println service.metaClass.methods*.name.sort().unique()
+//				
+//				//println service.metaClass.intefaces*.name.sort().unique()
+//				//println service.getClass().getIntefaces().name.sort().unique()			
 //			}
 //		}
 		
