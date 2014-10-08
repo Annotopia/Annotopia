@@ -327,6 +327,7 @@ class ProtectedController extends BaseController {
 		*/
 
 		try {
+			long countingStart = System.currentTimeMillis();
 			int annotationsTotal = openAnnotationWithPermissionsVirtuosoService.countAnnotationGraphs("user:"+loggedUser.id, loggedUser, tgtUrl, tgtFgt, text, permissionsFacet, sourcesFacet, motivationsFacet, inclusionsFacet);
 			int annotationsPages = (annotationsTotal/Integer.parseInt(max));
 			if(annotationsTotal>0 && Integer.parseInt(offset)>0 && Integer.parseInt(offset)>=annotationsTotal) {
@@ -342,7 +343,9 @@ class ProtectedController extends BaseController {
 				tgtUrls = new ArrayList<String>();
 				tgtUrls.add(tgtUrl);
 			}
+			log.trace "TIME: " + (System.currentTimeMillis()-countingStart);
 			
+			long retrievalStart = System.currentTimeMillis();
 			// TODO Add bibliogrpahic identity management
 			Set<Dataset> annotationGraphs = openAnnotationWithPermissionsStorageService.listAnnotation("user:"+loggedUser.id, loggedUser, max, offset, tgtUrls, tgtFgt, tgtExt, tgtIds, incGph, text, permissionsFacet, sourcesFacet, motivationsFacet, inclusionsFacet);
 			def summaryPrefix = '"total":"' + annotationsTotal + '", ' +
@@ -351,6 +354,7 @@ class ProtectedController extends BaseController {
 					'"offset": "' + offset + '", ' +
 					'"max": "' + max + '", ' +
 					'"items":[';
+			log.trace "TIME: " + (System.currentTimeMillis()-retrievalStart);
 
 			Object contextJson = null;
 			response.contentType = RESPONSE_CONTENT_TYPE
