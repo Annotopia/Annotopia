@@ -136,30 +136,8 @@ class ProtectedController extends BaseController {
 		def tgtIds = request.JSON.tgtIds
 		def flavor = request.JSON.flavor
 		
-		/*
-		def documentUrl = params.documentUrl;
-		def permissionPublic = params.permissionPublic;
-		def permissionPrivate = params.permissionPrivate;
-		int paginationOffset = (params.paginationOffset?Integer.parseInt(params.paginationOffset):0);
-		int paginationRange = (params.paginationRange?Integer.parseInt(params.paginationRange):10);
-		boolean publicData = (params.publicData?Boolean.parseBoolean(params.publicData):true);
-		boolean groupsData = (params.groupsData?Boolean.parseBoolean(params.groupsData):true);
-		boolean privateData = (params.privateData?Boolean.parseBoolean(params.privateData):true);
-		def groupsIds = params.groupsIds;
-		
-		println '-0-- ' + documentUrl;
-		println '-1-- ' + permissionPublic;
-		println '-2-- ' + permissionPrivate;
-		println '-3-- ' + paginationOffset;
-		println '-4-- ' + paginationRange;
-		println '-5-- ' + publicData;
-		println '-6-- ' + groupsData;
-		println '-7-- ' + privateData;
-		println '-8-- ' + groupsIds;
-		*/
-		
 		try {
-			int annotationsTotal = openAnnotationVirtuosoService.countAnnotationGraphs("user:"+loggedUser.id, tgtUrl, tgtFgt, sourcesFacet, motivationsFacet);
+			int annotationsTotal = openAnnotationWithPermissionsVirtuosoService.countAnnotationGraphs("user:"+loggedUser.id, loggedUser, tgtUrl, tgtFgt, permissionsFacet, motivationsFacet);
 			int annotationsPages = (annotationsTotal/Integer.parseInt(max));
 			if(annotationsTotal>0 && Integer.parseInt(offset)>0 && Integer.parseInt(offset)>=annotationsTotal) {
 				def message = 'The requested page ' + offset +
@@ -175,8 +153,8 @@ class ProtectedController extends BaseController {
 				tgtUrls.add(tgtUrl);
 			}
 			
-			// TODO Add bibliogrpahic identity management
-			Set<Dataset> annotationGraphs = openAnnotationStorageService.listAnnotation("user:"+loggedUser.id, max, offset, tgtUrls, tgtFgt, tgtExt, tgtIds, incGph, sourcesFacet, motivationsFacet);
+			// TODO Add bibliogrpahic identity management   
+			Set<Dataset> annotationGraphs = openAnnotationWithPermissionsStorageService.listAnnotation("user:"+loggedUser.id, loggedUser, max, offset, tgtUrls, tgtFgt, tgtExt, tgtIds, incGph, permissionsFacet, motivationsFacet);
 			def summaryPrefix = '"total":"' + annotationsTotal + '", ' +
 					'"pages":"' + annotationsPages + '", ' +
 					'"duration": "' + (System.currentTimeMillis()-startTime) + 'ms", ' +
@@ -303,28 +281,6 @@ class ProtectedController extends BaseController {
 		def tgtExt = request.JSON.tgtExt
 		def tgtIds = request.JSON.tgtIds
 		def flavor = request.JSON.flavor
-		
-		/*
-		def documentUrl = params.documentUrl;
-		def permissionPublic = params.permissionPublic;
-		def permissionPrivate = params.permissionPrivate;
-		int paginationOffset = (params.paginationOffset?Integer.parseInt(params.paginationOffset):0);
-		int paginationRange = (params.paginationRange?Integer.parseInt(params.paginationRange):10);
-		boolean publicData = (params.publicData?Boolean.parseBoolean(params.publicData):true);
-		boolean groupsData = (params.groupsData?Boolean.parseBoolean(params.groupsData):true);
-		boolean privateData = (params.privateData?Boolean.parseBoolean(params.privateData):true);
-		def groupsIds = params.groupsIds;
-		
-		println '-0-- ' + documentUrl;
-		println '-1-- ' + permissionPublic;
-		println '-2-- ' + permissionPrivate;
-		println '-3-- ' + paginationOffset;
-		println '-4-- ' + paginationRange;
-		println '-5-- ' + publicData;
-		println '-6-- ' + groupsData;
-		println '-7-- ' + privateData;
-		println '-8-- ' + groupsIds;
-		*/
 
 		try {
 			long countingStart = System.currentTimeMillis();
