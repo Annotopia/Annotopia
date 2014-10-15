@@ -94,7 +94,8 @@ environments {
 			        'org.annotopia.grails.security',
 					'org.springframework.security'
 			
-			trace  	'grails.app.services.org.commonsemantics.grails.agents.services.AgentsService',
+			trace  	'grails.app.controllers.org.annotopia.grails.controllers.ProtectedController',
+					'grails.app.services.org.commonsemantics.grails.agents.services.AgentsService',
 					'grails.app.services.org.commonsemantics.grails.users.services.UsersService',
 					'grails.app.services.org.commonsemantics.grails.groups.services.GroupsService',
 					'grails.app.services.org.commonsemantics.grails.systems.services.SystemsService',
