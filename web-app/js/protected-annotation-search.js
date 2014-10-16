@@ -215,4 +215,8 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 				'label: ' + semantictag['label']
 				);
 	}
+	
+	$scope.isArray = function(input) {
+		return angular.isArray(input); 
+	};
 }

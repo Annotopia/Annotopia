@@ -187,12 +187,9 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 		$('#sidebar').html('semantictag: ' + semantictag['@id'] + '<br/>' +
 				'label: ' + semantictag['label']
 				);
-	}
-	
+	}	
 	
 	$scope.isArray = function(input) {
-
-		    return angular.isArray(input);
-		  
-		};
+		return angular.isArray(input); 
+	};
 }
