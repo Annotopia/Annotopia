@@ -77,20 +77,26 @@ class ProtectedController extends BaseController {
 		render(view: "index", model: [menu: 'index'])
 	}
 	
-	def myannotations = {
-		def loggedUser = injectUserProfile();
-		render(view: "myannotations", model: [menu: 'myannotations', appBaseUrl: request.getContextPath(), loggedUser: loggedUser])
-	}
-	
+	/**
+	 * Returns the view that allows to browse and filter existing annotations.
+	 * The annotations are loaded through Ajax.
+	 */
 	def annotations = {
 		def loggedUser = injectUserProfile();
 		render(view: "annotations", model: [menu: 'myannotations', appBaseUrl: request.getContextPath(), loggedUser: loggedUser])
 	}
 	
+	/**
+	 * Returns all the annotations that meet the filtering criteria.
+	 * This method should be protected and therefore assumes we 
+	 * know the credentials of the user requesting the annotation.
+	 */
 	def getAnnotation = {
 		long startTime = System.currentTimeMillis();
-		def apiKey = request.JSON.apiKey;
+		
+		// Authentication data
 		def loggedUser = injectUserProfile();
+		def agentKey = "user:" + loggedUser.id;
 		
 		// Response format parametrization and constraints
 		def outCmd = (request.JSON.outCmd!=null)?request.JSON.outCmd:OUTCMD_NONE;
@@ -98,9 +104,9 @@ class ProtectedController extends BaseController {
 		def incGph = (request.JSON.incGph!=null)?request.JSON.incGph:INCGPH_NO;
 		if(params.incGph!=null) incGph = params.incGph;
 		if(outCmd==OUTCMD_FRAME && incGph==INCGPH_YES) {
-			log.warn("[" + "user:"+loggedUser.id + "] Invalid options, framing does not currently support Named Graphs");
+			log.warn("[" + agentKey + "] Invalid options, framing does not currently support Named Graphs");
 			def message = 'Invalid options, framing does not currently support Named Graphs';
-			render(status: 401, text: returnMessage(apiKey, "rejected", message, startTime),
+			render(status: 401, text: returnMessage(agentKey, "rejected", message, startTime),
 				contentType: "text/json", encoding: "UTF-8");
 			return;
 		}
@@ -130,14 +136,12 @@ class ProtectedController extends BaseController {
 		if(params.motivations!=null) motivations = params.motivations;
 		def motivationsFacet = []
 		if(motivations) motivationsFacet = motivations.split(",");
-
-		// Currently unusued, planned
-		def tgtExt = request.JSON.tgtExt
-		def tgtIds = request.JSON.tgtIds
-		def flavor = request.JSON.flavor
 		
 		try {
-			int annotationsTotal = openAnnotationWithPermissionsVirtuosoService.countAnnotationGraphs("user:"+loggedUser.id, loggedUser, tgtUrl, tgtFgt, permissionsFacet, motivationsFacet);
+			int annotationsTotal = openAnnotationWithPermissionsVirtuosoService
+				.countAnnotationGraphs(agentKey, loggedUser, tgtUrl, tgtFgt, permissionsFacet, motivationsFacet);
+			
+			// Check for results offset validity
 			int annotationsPages = (annotationsTotal/Integer.parseInt(max));
 			if(annotationsTotal>0 && Integer.parseInt(offset)>0 && Integer.parseInt(offset)>=annotationsTotal) {
 				def message = 'The requested page ' + offset +
@@ -147,6 +151,7 @@ class ProtectedController extends BaseController {
 				return;
 			}
 			
+			// Target URLs management
 			List<String> tgtUrls;
 			if(tgtUrl!=null) {
 				tgtUrls = new ArrayList<String>();
@@ -154,7 +159,9 @@ class ProtectedController extends BaseController {
 			}
 			
 			// TODO Add bibliogrpahic identity management   
-			Set<Dataset> annotationGraphs = openAnnotationWithPermissionsStorageService.listAnnotation("user:"+loggedUser.id, loggedUser, max, offset, tgtUrls, tgtFgt, tgtExt, tgtIds, incGph, permissionsFacet, motivationsFacet);
+			Set<Dataset> annotationGraphs = openAnnotationWithPermissionsStorageService
+				.listAnnotation(agentKey, loggedUser, max, offset, tgtUrls, tgtFgt, null, null, incGph, permissionsFacet, motivationsFacet);
+			
 			def summaryPrefix = '"total":"' + annotationsTotal + '", ' +
 					'"pages":"' + annotationsPages + '", ' +
 					'"duration": "' + (System.currentTimeMillis()-startTime) + 'ms", ' +
@@ -182,9 +189,9 @@ class ProtectedController extends BaseController {
 						// This serializes with and according to the context
 						if(contextJson==null) {
 							if(outCmd==OUTCMD_CONTEXT) {
-								contextJson = JsonUtils.fromInputStream(callExternalUrl(apiKey, grailsApplication.config.annotopia.jsonld.openannotation.context));
+								contextJson = JsonUtils.fromInputStream(callExternalUrl(agentKey, grailsApplication.config.annotopia.jsonld.openannotation.context));
 							} else if(outCmd==OUTCMD_FRAME) {
-								contextJson = JsonUtils.fromInputStream(callExternalUrl(apiKey, grailsApplication.config.annotopia.jsonld.openannotation.framing));						
+								contextJson = JsonUtils.fromInputStream(callExternalUrl(agentKey, grailsApplication.config.annotopia.jsonld.openannotation.framing));						
 							}
 						}
 
@@ -210,25 +217,35 @@ class ProtectedController extends BaseController {
 				}
 			} else {
 				// No Annotation Sets found with the specified criteria
-				log.info("[" + apiKey + "] No Annotation found with the specified criteria");			
+				log.info("[" + agentKey + "] No Annotation found with the specified criteria");			
 				response.outputStream << '{"status":"nocontent","message":"No results with the chosen criteria" , "result": {' + summaryPrefix
 			}
 			response.outputStream <<  ']}}';
 			response.outputStream.flush()
 		} catch(Exception e) {
-			trackException(loggedUser.id, "", "FAILURE: Retrieval of the list of existing annotations failed " + e.getMessage());
+			trackException(agentKey, "", "FAILURE: Retrieval of the list of existing annotations failed " + e.getMessage());
 		}	
 	}
 	
+	/**
+	 * Returns the view that allows to search and filter existing annotations.
+	 * The annotations are loaded through Ajax.
+	 */
 	def search = {
 		def loggedUser = injectUserProfile();
 		render(view: "search", model: [menu: 'search', appBaseUrl: request.getContextPath(), loggedUser: loggedUser])
 	}
 	
+	/**
+	 * Returns all the annotations that meet the search criteria.
+	 * This method should be protected and therefore assumes we
+	 * know the credentials of the user requesting the annotation.
+	 */
 	def searchAnnotation = {
 		long startTime = System.currentTimeMillis();
-		def apiKey = request.JSON.apiKey;
+		
 		def loggedUser = injectUserProfile();
+		def agentKey = "user:" + loggedUser.id;
 		
 		// Response format parametrization and constraints
 		def outCmd = (request.JSON.outCmd!=null)?request.JSON.outCmd:OUTCMD_NONE;
@@ -238,7 +255,7 @@ class ProtectedController extends BaseController {
 		if(outCmd==OUTCMD_FRAME && incGph==INCGPH_YES) {
 			log.warn("[" + "user:"+loggedUser.id + "] Invalid options, framing does not currently support Named Graphs");
 			def message = 'Invalid options, framing does not currently support Named Graphs';
-			render(status: 401, text: returnMessage(apiKey, "rejected", message, startTime),
+			render(status: 401, text: returnMessage(agentKey, "rejected", message, startTime),
 				contentType: "text/json", encoding: "UTF-8");
 			return;
 		}
@@ -270,13 +287,13 @@ class ProtectedController extends BaseController {
 		if(params.motivations!=null) motivations = params.motivations;
 		def motivationsFacet = []
 		if(motivations) motivationsFacet = motivations.split(",");
-		
+
+		// Inclusions		
 		def inclusions = request.JSON.inclusions
 		if(params.inclusions!=null) inclusions = params.inclusions;
 		def inclusionsFacet = []
 		if(inclusions) inclusionsFacet = inclusions.split(",");
 		
-
 		// Currently unusued, planned
 		def tgtExt = request.JSON.tgtExt
 		def tgtIds = request.JSON.tgtIds
@@ -284,33 +301,38 @@ class ProtectedController extends BaseController {
 
 		try {
 			long countingStart = System.currentTimeMillis();
-			int annotationsTotal = openAnnotationWithPermissionsVirtuosoService.countAnnotationGraphs("user:"+loggedUser.id, loggedUser, tgtUrl, tgtFgt, text, permissionsFacet, sourcesFacet, motivationsFacet, inclusionsFacet);
+			int annotationsTotal = openAnnotationWithPermissionsVirtuosoService
+				.countAnnotationGraphs(agentKey, loggedUser, tgtUrl, tgtFgt, text, permissionsFacet, sourcesFacet, motivationsFacet, inclusionsFacet);
+				
+			// Check for results offset validity
 			int annotationsPages = (annotationsTotal/Integer.parseInt(max));
 			if(annotationsTotal>0 && Integer.parseInt(offset)>0 && Integer.parseInt(offset)>=annotationsTotal) {
 				def message = 'The requested page ' + offset +
 					' does not exist, the page index limit is ' + (annotationsPages==0?"0":(annotationsPages-1));
-				render(status: 401, text: returnMessage("user:"+loggedUser.id, "rejected", message, startTime),
+				render(status: 401, text: returnMessage(agentKey, "rejected", message, startTime),
 					contentType: "text/json", encoding: "UTF-8");
 				return;
 			}
 			
+			// Target URLs management
 			List<String> tgtUrls;
 			if(tgtUrl!=null) {
 				tgtUrls = new ArrayList<String>();
 				tgtUrls.add(tgtUrl);
 			}
-			log.trace "TIME: " + (System.currentTimeMillis()-countingStart);
+			log.trace "[" + agentKey + "] TIME DURATION (call.countAnnotationGraphs): " + (System.currentTimeMillis()-countingStart);
 			
 			long retrievalStart = System.currentTimeMillis();
-			// TODO Add bibliogrpahic identity management
-			Set<Dataset> annotationGraphs = openAnnotationWithPermissionsStorageService.listAnnotation("user:"+loggedUser.id, loggedUser, max, offset, tgtUrls, tgtFgt, tgtExt, tgtIds, incGph, text, permissionsFacet, sourcesFacet, motivationsFacet, inclusionsFacet);
+			Set<Dataset> annotationGraphs = openAnnotationWithPermissionsStorageService
+				.listAnnotation(agentKey, loggedUser, max, offset, tgtUrls, tgtFgt, tgtExt, tgtIds, incGph, text, permissionsFacet, sourcesFacet, motivationsFacet, inclusionsFacet);
+			
 			def summaryPrefix = '"total":"' + annotationsTotal + '", ' +
 					'"pages":"' + annotationsPages + '", ' +
 					'"duration": "' + (System.currentTimeMillis()-startTime) + 'ms", ' +
 					'"offset": "' + offset + '", ' +
 					'"max": "' + max + '", ' +
 					'"items":[';
-			log.trace "TIME: " + (System.currentTimeMillis()-retrievalStart);
+			log.trace "[" + agentKey + "] TIME DURATION (call.retrieveAnnotationGraphsNames): " + (System.currentTimeMillis()-retrievalStart);
 
 			Object contextJson = null;
 			response.contentType = RESPONSE_CONTENT_TYPE
@@ -332,9 +354,9 @@ class ProtectedController extends BaseController {
 						// This serializes with and according to the context
 						if(contextJson==null) {
 							if(outCmd==OUTCMD_CONTEXT) {
-								contextJson = JsonUtils.fromInputStream(callExternalUrl(apiKey, grailsApplication.config.annotopia.jsonld.openannotation.context));
+								contextJson = JsonUtils.fromInputStream(callExternalUrl(agentKey, grailsApplication.config.annotopia.jsonld.openannotation.context));
 							} else if(outCmd==OUTCMD_FRAME) {
-								contextJson = JsonUtils.fromInputStream(callExternalUrl(apiKey, grailsApplication.config.annotopia.jsonld.openannotation.framing));
+								contextJson = JsonUtils.fromInputStream(callExternalUrl(agentKey, grailsApplication.config.annotopia.jsonld.openannotation.framing));
 							}
 						}
 
@@ -360,13 +382,13 @@ class ProtectedController extends BaseController {
 				}
 			} else {
 				// No Annotation Sets found with the specified criteria
-				log.info("[" + apiKey + "] No Annotation found with the specified criteria");
+				log.info("[" + agentKey + "] No Annotation found with the specified criteria");
 				response.outputStream << '{"status":"nocontent","message":"No results with the chosen criteria" , "result": {' + summaryPrefix
 			}
 			response.outputStream <<  ']}}';
 			response.outputStream.flush()
 		} catch(Exception e) {
-			trackException(loggedUser.id, "", "FAILURE: Retrieval of the list of existing annotations failed " + e.getMessage());
+			trackException(agentKey, "", "FAILURE: Retrieval of the list of existing annotations failed " + e.getMessage());
 		}
 	}
 	
@@ -375,25 +397,15 @@ class ProtectedController extends BaseController {
 		render(view: "profile", model: [menu: 'index', user: user])
 	}
 	
-	def listUsers = {
-		log.debug("List-users max:" + params.max + " offset:" + params.offset)
-		render (view:'users-list', model:[users:User.list(params), usersTotal: User.count(), max: params.max, offset: params.offset]);
-	}
-	
-	def users = {
-		log.debug("List-users max:" + params.max + " offset:" + params.offset)
-		render (view:'listUsers', model:[users:User.list(params), usersTotal: User.count(), max: params.max, offset: params.offset]);
-	}
-	
-	private void trackException(def userId, String textContent, String msg) {
-		logException(userId, msg);
-		//def ticket = saveAnnotationExitStrategy(userId, textContent, msg);
-		response.status = 500
-		//render (packageJsonErrorMessage(userId, msg, ticket) as JSON);
-		return;
-	}
-	
-	private InputStream callExternalUrl(def apiKey, String URL) {
+	// TODO should this rely on the BaseController?
+	/**
+	 * Method for calling external URLs with or without proxy.
+	 * @param agentKey 	The agent key for logging
+	 * @param URL		The external URL to call
+	 * @return The InputStream of the external URL.
+	 */
+	/*
+	private InputStream callExternalUrl(def agentKey, String URL) {
 		Proxy httpProxy = null;
 		if(grailsApplication.config.annotopia.server.proxy.host && grailsApplication.config.annotopia.server.proxy.port) {
 			String proxyHost = grailsApplication.config.annotopia.server.proxy.host; //replace with your proxy server name or IP
@@ -404,35 +416,41 @@ class ProtectedController extends BaseController {
 		
 		if(httpProxy!=null) {
 			long startTime = System.currentTimeMillis();
-			log.info ("[" + apiKey + "] " + "Proxy request: " + URL);
+			logInfo(agentKey, "Proxy request: " + URL);
 			URL url = new URL(URL);
-			//Pass the Proxy instance defined above, to the openConnection() method
 			URLConnection urlConn = url.openConnection(httpProxy);
 			urlConn.connect();
-			log.info ("[" + apiKey + "] " + "Proxy resolved in (" + (System.currentTimeMillis()-startTime) + "ms)");
+			logInfo(agentKey, "Proxy resolved in (" + (System.currentTimeMillis()-startTime) + "ms)");
 			return urlConn.getInputStream();
 		} else {
-			log.info ("[" + apiKey + "] " + "No proxy request: " + URL);
+			logInfo(agentKey, "No proxy request: " + URL);
 			return new URL(URL).openStream();
 		}
 	}
+	*/
 	
 	// --------------------------------------------
-	//  Logging utils
+	//  Exceptions and Logging utils
 	// --------------------------------------------
+	private void trackException(def userId, String textContent, String msg) {
+		logException(userId, msg);
+		response.status = 500
+		return;
+	}
+	
 	private def logInfo(def userId, message) {
-		log.info(":" + userId + ": " + message);
+		log.info("[" + userId + "] " + message);
 	}
 	
 	private def logDebug(def userId, message) {
-		log.debug(":" + userId + ": " + message);
+		log.debug("[" + userId + "] " + message);
 	}
 	
 	private def logWarning(def userId, message) {
-		log.warn(":" + userId + ": " + message);
+		log.warn("[" + userId + "] " + message);
 	}
 	
 	private def logException(def userId, message) {
-		log.error(":" + userId + ": " + message);
+		log.error("[" + userId + "] " + message);
 	}
 }
