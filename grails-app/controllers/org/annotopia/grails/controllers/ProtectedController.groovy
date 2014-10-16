@@ -32,6 +32,9 @@ import com.hp.hpl.jena.query.Dataset
 import com.hp.hpl.jena.rdf.model.Model
 
 /**
+ * This controller is the mirror of SecureController with the addtion
+ * of permissions management.
+ * 
  * @author Paolo Ciccarese <paolo.ciccarese@gmail.com>
  */
 class ProtectedController extends BaseController {
