@@ -14,7 +14,8 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 	$scope.permissions = [
 	    {name:'public', selected:true},
         {name:'groups', selected:true},
-        {name:'private', selected:true}
+        {name:'private', selected:true},
+        {name:'unspecified', selected:true}
 	];
 	
 	// selected fruits
