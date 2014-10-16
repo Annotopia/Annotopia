@@ -284,7 +284,7 @@
 										<span ng-if="annotation[0]['serializedBy']=='urn:application:domeo'"><img src="${resource(dir:'images/secure',file:'domeo_logo.png')}" title="Domeo Annotation Tool" style="width:24px;"/><br/><span style="font-size:11px;">Domeo</span></span>
 										<span ng-if="annotation[0]['serializedBy']=='urn:application:utopia'"><img src="${resource(dir:'images/secure',file:'utopia_logo.png')}" title="Utopia for PDF" style="width:24px;"/><br/><span style="font-size:11px;">Utopia</span></span>
 										<br/>
-										<span style="font-size:12px;border-bottom: solid 1px gray; text-transform: uppercase;">Permissions</span>
+										<span style="font-size:12px;border-bottom: solid 1px gray; text-transform: uppercase;">Access</span>
 										<br/>
 										
 										<span ng-if="annotation[0]['permissions']==null" style="font-size:11px;">?</span>
