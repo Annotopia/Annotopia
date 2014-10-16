@@ -397,38 +397,6 @@ class ProtectedController extends BaseController {
 		render(view: "profile", model: [menu: 'index', user: user])
 	}
 	
-	// TODO should this rely on the BaseController?
-	/**
-	 * Method for calling external URLs with or without proxy.
-	 * @param agentKey 	The agent key for logging
-	 * @param URL		The external URL to call
-	 * @return The InputStream of the external URL.
-	 */
-	/*
-	private InputStream callExternalUrl(def agentKey, String URL) {
-		Proxy httpProxy = null;
-		if(grailsApplication.config.annotopia.server.proxy.host && grailsApplication.config.annotopia.server.proxy.port) {
-			String proxyHost = grailsApplication.config.annotopia.server.proxy.host; //replace with your proxy server name or IP
-			int proxyPort = grailsApplication.config.annotopia.server.proxy.port.toInteger(); //your proxy server port
-			SocketAddress addr = new InetSocketAddress(proxyHost, proxyPort);
-			httpProxy = new Proxy(Proxy.Type.HTTP, addr);
-		}
-		
-		if(httpProxy!=null) {
-			long startTime = System.currentTimeMillis();
-			logInfo(agentKey, "Proxy request: " + URL);
-			URL url = new URL(URL);
-			URLConnection urlConn = url.openConnection(httpProxy);
-			urlConn.connect();
-			logInfo(agentKey, "Proxy resolved in (" + (System.currentTimeMillis()-startTime) + "ms)");
-			return urlConn.getInputStream();
-		} else {
-			logInfo(agentKey, "No proxy request: " + URL);
-			return new URL(URL).openStream();
-		}
-	}
-	*/
-	
 	// --------------------------------------------
 	//  Exceptions and Logging utils
 	// --------------------------------------------
