@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="secure"/>
+		<meta name="layout" content="protected"/>
 		<title>Annotations</title>
 		
 		<script type="text/javascript" src="${resource(dir: 'js/angular', file: 'angular.min.js')}"></script>

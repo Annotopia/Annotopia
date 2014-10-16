@@ -106,6 +106,7 @@ environments {
 					'org.commonsemantics.grails.agents.utils',
 					'org.commonsemantics.grails.users.utils',
 					'org.commonsemantics.grails.groups.utils',
+					'org.annotopia.groovy.service.store',
 					
 					'grails.app.services.org.commonsemantics.grails.users.services',
 					'grails.app.services.org.commonsemantics.grails.groups.services',
