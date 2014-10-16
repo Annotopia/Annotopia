@@ -22,5 +22,11 @@ file_wav.png - http://findicons.com/icon/251480/file_wav
 file_avi.png - http://findicons.com/icon/251227/file_avi
 file_wma.png - http://findicons.com/icon/251236/file_wma
 
+Aha-Soft Team - http://findicons.com/pack/2015/24x24_free_application
+people.png - http://findicons.com/icon/219137/people
+
+wilsoninc
+public.png - http://findicons.com/icon/197124/idisk_public
+
 
 
