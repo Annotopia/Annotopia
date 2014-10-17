@@ -141,7 +141,7 @@ class ProtectedController extends BaseController {
 		if(motivations) motivationsFacet = motivations.split(",");
 		
 		try {
-			int annotationsTotal = openAnnotationWithPermissionsVirtuosoService
+			int annotationsTotal = openAnnotationWithPermissionsStorageService
 				.countAnnotationGraphs(agentKey, loggedUser, tgtUrl, tgtFgt, permissionsFacet, sourcesFacet, motivationsFacet);
 			
 			// Case with no results
@@ -310,7 +310,7 @@ class ProtectedController extends BaseController {
 
 		try {
 			long countingStart = System.currentTimeMillis();
-			int annotationsTotal = openAnnotationWithPermissionsVirtuosoService
+			int annotationsTotal = openAnnotationWithPermissionsStorageService
 				.countAnnotationGraphs(agentKey, loggedUser, tgtUrl, tgtFgt, text, permissionsFacet, sourcesFacet, motivationsFacet, inclusionsFacet);
 				
 			// Case with no results.
