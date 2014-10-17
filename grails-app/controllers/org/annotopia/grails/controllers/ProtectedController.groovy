@@ -142,7 +142,7 @@ class ProtectedController extends BaseController {
 		
 		try {
 			int annotationsTotal = openAnnotationWithPermissionsVirtuosoService
-				.countAnnotationGraphs(agentKey, loggedUser, tgtUrl, tgtFgt, permissionsFacet, motivationsFacet);
+				.countAnnotationGraphs(agentKey, loggedUser, tgtUrl, tgtFgt, permissionsFacet, sourcesFacet, motivationsFacet);
 			
 			if(annotationsTotal==0) {
 				def summaryPrefix = '"total":"' + annotationsTotal + '", ' +
@@ -175,7 +175,7 @@ class ProtectedController extends BaseController {
 			
 			// TODO Add bibliogrpahic identity management   
 			Set<Dataset> annotationGraphs = openAnnotationWithPermissionsStorageService
-				.listAnnotation(agentKey, loggedUser, max, offset, tgtUrls, tgtFgt, null, null, incGph, permissionsFacet, motivationsFacet);
+				.listAnnotation(agentKey, loggedUser, max, offset, tgtUrls, tgtFgt, null, null, incGph, permissionsFacet, sourcesFacet, motivationsFacet);
 			
 			def summaryPrefix = '"total":"' + annotationsTotal + '", ' +
 					'"pages":"' + annotationsPages + '", ' +
