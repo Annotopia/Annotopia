@@ -144,6 +144,18 @@ class ProtectedController extends BaseController {
 			int annotationsTotal = openAnnotationWithPermissionsVirtuosoService
 				.countAnnotationGraphs(agentKey, loggedUser, tgtUrl, tgtFgt, permissionsFacet, motivationsFacet);
 			
+			if(annotationsTotal==0) {
+				def summaryPrefix = '"total":"' + annotationsTotal + '", ' +
+				'"pages":"0", ' +
+				'"duration": "' + (System.currentTimeMillis()-startTime) + 'ms", ' +
+				'"offset": "0", ' +
+				'"max": "' + max + '", ' +
+				'"items":[]';
+				response.outputStream << '{"status":"nocontent","message":"No results with the chosen criteria" , "result": {' + summaryPrefix
+				response.outputStream <<  '}}';
+				return;
+			}
+				
 			// Check for results offset validity
 			int annotationsPages = (annotationsTotal/Integer.parseInt(max));
 			if(annotationsTotal>0 && Integer.parseInt(offset)>0 && Integer.parseInt(offset)>=annotationsTotal) {
@@ -306,6 +318,18 @@ class ProtectedController extends BaseController {
 			long countingStart = System.currentTimeMillis();
 			int annotationsTotal = openAnnotationWithPermissionsVirtuosoService
 				.countAnnotationGraphs(agentKey, loggedUser, tgtUrl, tgtFgt, text, permissionsFacet, sourcesFacet, motivationsFacet, inclusionsFacet);
+				
+			if(annotationsTotal==0) {
+				def summaryPrefix = '"total":"' + annotationsTotal + '", ' +
+				'"pages":"0", ' +
+				'"duration": "' + (System.currentTimeMillis()-startTime) + 'ms", ' +
+				'"offset": "0", ' +
+				'"max": "' + max + '", ' +
+				'"items":[]';
+				response.outputStream << '{"status":"nocontent","message":"No results with the chosen criteria" , "result": {' + summaryPrefix
+				response.outputStream <<  '}}';
+				return;
+			}
 				
 			// Check for results offset validity
 			int annotationsPages = (annotationsTotal/Integer.parseInt(max));
