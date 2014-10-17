@@ -144,15 +144,9 @@ class ProtectedController extends BaseController {
 			int annotationsTotal = openAnnotationWithPermissionsVirtuosoService
 				.countAnnotationGraphs(agentKey, loggedUser, tgtUrl, tgtFgt, permissionsFacet, sourcesFacet, motivationsFacet);
 			
+			// Case with no results
 			if(annotationsTotal==0) {
-				def summaryPrefix = '"total":"' + annotationsTotal + '", ' +
-				'"pages":"0", ' +
-				'"duration": "' + (System.currentTimeMillis()-startTime) + 'ms", ' +
-				'"offset": "0", ' +
-				'"max": "' + max + '", ' +
-				'"items":[]';
-				response.outputStream << '{"status":"nocontent","message":"No results with the chosen criteria" , "result": {' + summaryPrefix
-				response.outputStream <<  '}}';
+				response.outputStream << returnNoContent(startTime, max)
 				return;
 			}
 				
@@ -319,15 +313,9 @@ class ProtectedController extends BaseController {
 			int annotationsTotal = openAnnotationWithPermissionsVirtuosoService
 				.countAnnotationGraphs(agentKey, loggedUser, tgtUrl, tgtFgt, text, permissionsFacet, sourcesFacet, motivationsFacet, inclusionsFacet);
 				
+			// Case with no results.
 			if(annotationsTotal==0) {
-				def summaryPrefix = '"total":"' + annotationsTotal + '", ' +
-				'"pages":"0", ' +
-				'"duration": "' + (System.currentTimeMillis()-startTime) + 'ms", ' +
-				'"offset": "0", ' +
-				'"max": "' + max + '", ' +
-				'"items":[]';
-				response.outputStream << '{"status":"nocontent","message":"No results with the chosen criteria" , "result": {' + summaryPrefix
-				response.outputStream <<  '}}';
+				response.outputStream << returnNoContent(startTime, max)
 				return;
 			}
 				
@@ -431,6 +419,16 @@ class ProtectedController extends BaseController {
 		logException(userId, msg);
 		response.status = 500
 		return;
+	}
+	
+	private String returnNoContent(startTime, max) {
+		def summaryPrefix = '"total":"0", ' +
+		'"pages":"0", ' +
+		'"duration": "' + (System.currentTimeMillis()-startTime) + 'ms", ' +
+		'"offset": "0", ' +
+		'"max": "' + max + '", ' +
+		'"items":[]';
+		return '{"status":"nocontent","message":"No results with the chosen criteria" , "result": {' + summaryPrefix + '}}';
 	}
 	
 	private def logInfo(def userId, message) {
