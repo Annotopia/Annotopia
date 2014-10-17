@@ -183,7 +183,7 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/**/favicon.ico'   		: ['permitAll']
 ]
 
-cors.url.pattern = ['/s/annotation/*','/s/annotationset/*','/cn/bioportal/*']
+cors.url.pattern = ['/s/annotation/*','/s/annotationset/*','/cn/bioportal/*','/cn/nif/*']
 cors.headers = ['Access-Control-Allow-Origin':'*']
 
 // For OAuth add to the existing Auth Providers
