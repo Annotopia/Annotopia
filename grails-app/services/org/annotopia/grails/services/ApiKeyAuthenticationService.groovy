@@ -36,6 +36,7 @@ class ApiKeyAuthenticationService extends org.annotopia.grails.services.storage.
 
 	def springSecurityService
 	def grailsApplication
+	def configAccessService
 	def systemsService;
 	
 	/**
@@ -49,8 +50,8 @@ class ApiKeyAuthenticationService extends org.annotopia.grails.services.storage.
 		log.info("New-> Validating API key [" + apiKey + "] on request from IP: " + ip);
 		// Validation mockup for testing mode
 		boolean allowed = (
-			grailsApplication.config.annotopia.storage.testing.enabled=='true' &&
-			apiKey==grailsApplication.config.annotopia.storage.testing.apiKey
+			configAccessService.getAsString("annotopia.storage.testing.enabled")=='true' &&
+			apiKey==configAccessService.getAsString("annotopia.storage.testing.apiKey")
 		);
 		// Validation against real apiKeys
 		if(!allowed) {
@@ -62,9 +63,9 @@ class ApiKeyAuthenticationService extends org.annotopia.grails.services.storage.
 	def getUserId(def ip, def id) {
 		log.info("Authenticating User [" + id + "] on request from IP: " + ip);
 		// Validation mockup for testing mode
-		if(grailsApplication.config.annotopia.storage.testing.enabled=='true' &&
-				grailsApplication.config.annotopia.storage.testing.userid!=null)
-			return grailsApplication.config.annotopia.storage.testing.userid;
+		if(configAccessService.getAsString("annotopia.storage.testing.enabled")=='true' &&
+				configAccessService.getAsString("annotopia.storage.testing.userid")!=null)
+			return configAccessService.getAsString("annotopia.storage.testing.userid");
 			
 		def principal = springSecurityService.principal;
 		if(!principal.equals("anonymousUser")) {

@@ -29,7 +29,8 @@ import org.springframework.context.ApplicationContext
 class BootStrap {
 
 	def grailsApplication
-   	def springSecurityService;
+   	def springSecurityService; 
+	def configAccessService;   
 	   
 	def usersInitializationService
 	def groupsInitializationService
@@ -140,8 +141,10 @@ class BootStrap {
 		if (!manager.authorities.contains(Role.findByAuthority(DefaultUsersRoles.MANAGER.value())))
 			UserRole.create manager, Role.findByAuthority(DefaultUsersRoles.MANAGER.value())
 		
+		// --------------------------------------
 		// Test user, system and authentication
-		if(grailsApplication.config.annotopia.storage.testing.enabled=='true') {
+		// --------------------------------------
+		if(configAccessService.getAsString("annotopia.storage.testing.enabled")=='true') {
 			// create test user
 			def userUsername = 'user'
 			log.info  "Initializing: " + userUsername
@@ -156,6 +159,27 @@ class BootStrap {
 			}
 			if (!user.authorities.contains(Role.findByAuthority(DefaultUsersRoles.USER.value())))
 				UserRole.create user, Role.findByAuthority(DefaultUsersRoles.USER.value())
+				
+			def testGroupName = "Testing Group "
+			def testGroup = Group.findByName(testGroupName) ?: new Group(
+				name: testGroupName,
+				shortName: 'TG',
+				description: testGroupName,
+				enabled: true,
+				locked: false,
+				createdBy: admin,
+				status: GroupStatus.findByValue(DefaultGroupStatus.ACTIVE.value()),
+				privacy: GroupPrivacy.findByValue(DefaultGroupPrivacy.PUBLIC.value())
+			).save(failOnError: true)
+			
+			if (!AgentUri.findByAgentAndUri(testGroup, 'http://localhost:8090/agent/testinggroup'))
+			AgentUri.create testGroup, 'local', 'http://localhost:8090/agent/testinggroup'
+			
+			def testUserGroup = UserGroup.findByUserAndGroup(user, testGroup)?: new UserGroup(
+				user: user,
+				group: testGroup,
+				status: UserStatusInGroup.findByValue(DefaultUserStatusInGroup.ACTIVE.value())
+			).save(failOnError: true, flash: true)
 				
 			// create test system
 			def systemName = "TestSystem";
@@ -242,12 +266,12 @@ class BootStrap {
 //		pluginManager.getAllPlugins().each {
 //			if(it.name.startsWith("cn") && it.name.endsWith("Connector")) {
 //				separator("** Detected: " + it.name);
-//				log.info("Service: " +it.getProperties().get('service'));
+//				//log.info("Service: " +it.getProperties().get('service'));
 //				//println Class.forName(it.getProperties().get('service'));
 //								
 //				ApplicationContext ctx = Holders.grailsApplication.mainContext
 //				Object service = ctx.getBean("bioPortalService");
-//				
+//				println service
 //				println service.getClass()
 //				println (service.getClass() instanceof Class)
 //				
@@ -257,6 +281,7 @@ class BootStrap {
 //				Class[] interfaces=service.getClass().getInterfaces()
 //				println interfaces.each{ println it}
 //				
+//				//Class[] ints = GrailsClassUtils.getAllInterfaces(service);
 //				Class[] ints = GrailsClassUtils.getAllInterfacesForClass(service.getClass());
 //				
 //				//println service.metaClass.methods*.name.sort().unique()

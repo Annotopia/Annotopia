@@ -51,6 +51,7 @@ class ProtectedController extends BaseController {
 	private final INCGPH_NO = "false";
 	
 	def springSecurityService
+	def configAccessService
 	def openAnnotationVirtuosoService
 	def openAnnotationStorageService
 	
@@ -198,9 +199,9 @@ class ProtectedController extends BaseController {
 						// This serializes with and according to the context
 						if(contextJson==null) {
 							if(outCmd==OUTCMD_CONTEXT) {
-								contextJson = JsonUtils.fromInputStream(callExternalUrl(agentKey, grailsApplication.config.annotopia.jsonld.openannotation.context));
+								contextJson = JsonUtils.fromInputStream(callExternalUrl(agentKey, configAccessService.getAsString("annotopia.jsonld.openannotation.context")));
 							} else if(outCmd==OUTCMD_FRAME) {
-								contextJson = JsonUtils.fromInputStream(callExternalUrl(agentKey, grailsApplication.config.annotopia.jsonld.openannotation.framing));						
+								contextJson = JsonUtils.fromInputStream(callExternalUrl(agentKey, configAccessService.getAsString("annotopia.jsonld.openannotation.framing")));						
 							}
 						}
 
@@ -369,9 +370,9 @@ class ProtectedController extends BaseController {
 						// This serializes with and according to the context
 						if(contextJson==null) {
 							if(outCmd==OUTCMD_CONTEXT) {
-								contextJson = JsonUtils.fromInputStream(callExternalUrl(agentKey, grailsApplication.config.annotopia.jsonld.openannotation.context));
+								contextJson = JsonUtils.fromInputStream(callExternalUrl(agentKey, configAccessService.getAsString("annotopia.jsonld.openannotation.context")));
 							} else if(outCmd==OUTCMD_FRAME) {
-								contextJson = JsonUtils.fromInputStream(callExternalUrl(agentKey, grailsApplication.config.annotopia.jsonld.openannotation.framing));
+								contextJson = JsonUtils.fromInputStream(callExternalUrl(agentKey, configAccessService.getAsString("annotopia.jsonld.openannotation.framing")));
 							}
 						}
 

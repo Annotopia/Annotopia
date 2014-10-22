@@ -48,6 +48,7 @@ class SecureController extends BaseController {
 	private final INCGPH_NO = "false";
 	
 	def springSecurityService
+	def configAccessService
 	def openAnnotationVirtuosoService
 	def openAnnotationStorageService
 	
@@ -201,9 +202,9 @@ class SecureController extends BaseController {
 						// This serializes with and according to the context
 						if(contextJson==null) {
 							if(outCmd==OUTCMD_CONTEXT) {
-								contextJson = JsonUtils.fromInputStream(callExternalUrl(apiKey, grailsApplication.config.annotopia.jsonld.openannotation.context));
+								contextJson = JsonUtils.fromInputStream(callExternalUrl(apiKey, configAccessService.getAsString("annotopia.jsonld.openannotation.context")));
 							} else if(outCmd==OUTCMD_FRAME) {
-								contextJson = JsonUtils.fromInputStream(callExternalUrl(apiKey, grailsApplication.config.annotopia.jsonld.openannotation.framing));						
+								contextJson = JsonUtils.fromInputStream(callExternalUrl(apiKey, configAccessService.getAsString("annotopia.jsonld.openannotation.framing")));						
 							}
 						}
 
@@ -369,9 +370,9 @@ class SecureController extends BaseController {
 						// This serializes with and according to the context
 						if(contextJson==null) {
 							if(outCmd==OUTCMD_CONTEXT) {
-								contextJson = JsonUtils.fromInputStream(callExternalUrl(apiKey, grailsApplication.config.annotopia.jsonld.openannotation.context));
+								contextJson = JsonUtils.fromInputStream(callExternalUrl(apiKey, configAccessService.getAsString("annotopia.jsonld.openannotation.context")));
 							} else if(outCmd==OUTCMD_FRAME) {
-								contextJson = JsonUtils.fromInputStream(callExternalUrl(apiKey, grailsApplication.config.annotopia.jsonld.openannotation.framing));
+								contextJson = JsonUtils.fromInputStream(callExternalUrl(apiKey, configAccessService.getAsString("annotopia.jsonld.openannotation.framing")));
 							}
 						}
 
@@ -433,8 +434,8 @@ class SecureController extends BaseController {
 	private InputStream callExternalUrl(def apiKey, String URL) {
 		Proxy httpProxy = null;
 		if(grailsApplication.config.annotopia.server.proxy.host && grailsApplication.config.annotopia.server.proxy.port) {
-			String proxyHost = grailsApplication.config.annotopia.server.proxy.host; //replace with your proxy server name or IP
-			int proxyPort = grailsApplication.config.annotopia.server.proxy.port.toInteger(); //your proxy server port
+			String proxyHost = configAccessService.getAsString("annotopia.server.proxy.host"); //replace with your proxy server name or IP
+			int proxyPort = configAccessService.getAsString("annotopia.server.proxy.port").toInteger(); //your proxy server port
 			SocketAddress addr = new InetSocketAddress(proxyHost, proxyPort);
 			httpProxy = new Proxy(Proxy.Type.HTTP, addr);
 		}
