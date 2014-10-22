@@ -20,47 +20,107 @@
  */
 package org.annotopia.grails.services
 
-import java.nio.Buffer;
-
 /**
+ * This class mediates the access to the Grails configuration. When retrieving
+ * configuration values the getAsString() method should be used to make sure 
+ * the returned value is a String.  
+ * 
  * @author Paolo Ciccarese <paolo.ciccarese@gmail.com>
  */
 class ConfigAccessService {
 
 	def grailsApplication;
 	
-	public static final String DEFAULT_EMAIL_ADDRESS = "paolo.ciccarese@gmail.com"
-	public static final String DEFAULT_EMAIL_LABEL = "-please define instance administrator email-"
-	
+	/**
+	 * Returns the value identified by the requested key in
+	 * the Grails configuraiton.
+	 * @param key	The requested key.
+	 * @return The Grails configuration property value or null if no property is found.
+	 */
 	public String getAsString(key) {
 		def buffer = grailsApplication.config;
 		List tokens = key.tokenize('.');
-		tokens.each { token ->
-			buffer = buffer[token];
-		}
-		return buffer.toString();
+		tokens.each { token -> buffer = buffer[token]; }
+		if(buffer.isEmpty()) return null;
+		buffer.toString();
 	}
 	
+	/**
+	 * Private method for simplifying the retrieval of specific properties.
+	 * If the property is not present, an exception is thrown.
+	 * @param key			The key of the requested property
+	 * @return The value of the requested property if present.
+	 */
+	public String getPropertyAsStringNotNull(key) {
+		String value = getAsString(key);
+		if(value==null) {
+			log.error("Parameter not found: " + key);
+			throw new IllegalArgumentException(key + " not found.");
+		}
+		return value;
+	}
+	
+	/**
+	 * Private method for simplifying the retrieval of specific properties.
+	 * If the property is not present, an exception is thrown.
+	 * @param key			The key of the requested property
+	 * @param errorMessage	The message to log in case of error/missing parameter
+	 * @param returnMessage The message to return to the requester.
+	 * @return The value of the requested property if present.
+	 */
+	public String getPropertyAsStringNotNull(key, errorMessage, returnMessage) {
+		String value = getAsString(key);
+		if(value==null) {
+			log.error(errorMessage);
+			throw new IllegalArgumentException(returnMessage);
+		}
+		return value;
+	}
+	
+	/**
+	 * Private method for simplifying the retrieval of specific properties.
+	 * If the property is not present the return message is returned.
+	 * @param key			The key of the requested property
+	 * @param returnMessage	The message to log in case of missing parameter
+	 * @param returnMessage The message to return to the requester.
+	 * @return The value of the requested property if present.
+	 */
+	public String getPropertyAsString(key, warnMessage, returnMessage) {
+		String value = getAsString(key);
+		if(value==null) {
+			log.warn(warnMessage);
+			return returnMessage;
+		}
+		return value;
+	}
+	
+	/**
+	 * Returns true if the property exists and is not empty.
+	 * @param key	The key of the requested property
+	 * @return True if the property exists and is not empty.
+	 */
+	public boolean doesPropertyExists(key) {
+		return (grailsApplication.config.annotopia.admin.email.address && getAsString(key).length()>0);
+	}
+	
+	/*
 	public String getConfigAdminMissingMessage() {
 		return '--->>> Please define the administratin properties'
 	}
 	
+	public static final String DEFAULT_EMAIL_ADDRESS = "paolo.ciccarese@gmail.com"
+	public static final String DEFAULT_EMAIL_LABEL = "-please define instance administrator email-"
+	
 	public String getAdministratorName() {
-		try {
-			return (configAccessService.getAsString("annotopia.admin.name"));
-		} catch (Exception e) {
-			log.error("Administrator name not defined");
-			return "-Please define instance administrator name-";
-		}
+		getPropertyAsString(
+			"annotopia.admin.name", "Administrator name not defined", 
+			"-Please define instance administrator name-");
 	}
 	
 	public String getAdministratorOrganization() {
-		try {
-			return (configAccessService.getAsString("annotopia.admin.organization"));
-		} catch (Exception e) {
-			log.error("Administrator organization not defined");
-			return "-Please define instance administrator organization-";
-		}
+		getPropertyAsString(
+			"annotopia.admin.organization", "Administrator organization not defined",
+			"-Please define instance administrator organization-");
 	}
 	
 	public boolean doesAdministratorEmailAddressExists() {
@@ -73,20 +133,15 @@ class ConfigAccessService {
 	}
 	
 	public String getAdministratorEmailAddress() {
-		if(doesAdministratorEmailAddressExists()) {
-			return getAsString("annotopia.admin.email.to");
-		} else {
-			log.warn("Administrator email address not defined");
-			return DEFAULT_EMAIL_ADDRESS
-		}
+		getPropertyAsString(
+			"annotopia.admin.email.to", "Administrator email address not defined",
+			DEFAULT_EMAIL_ADDRESS);
 	}
 	
 	public String getAdministratorEmailLabel() {
-		try {
-			return getAsString("annotopia.admin.email.display");
-		} catch (Exception e) {
-			log.error("Administrator email label not defined");
-			return DEFAULT_EMAIL_LABEL;
-		}
+		getPropertyAsString(
+			"annotopia.admin.email.display", "Administrator email label not defined",
+			DEFAULT_EMAIL_LABEL);
 	}
+	*/
 }
