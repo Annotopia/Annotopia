@@ -122,7 +122,7 @@ class BootStrap {
 		if (!admin.authorities.contains(Role.findByAuthority(DefaultUsersRoles.ADMIN.value())))
 			UserRole.create admin, Role.findByAuthority(DefaultUsersRoles.ADMIN.value())
 			
-		log.error admin.person.uris
+		log.info admin.person.uris
 
 		def managerUsername = 'manager'
 		log.info  "Initializing: " + managerUsername
@@ -256,41 +256,43 @@ class BootStrap {
 		).save(failOnError: true, flash: true)
 		testUserGroup2.addToRoles GroupRole.findByAuthority(DefaultGroupRoles.ADMIN.value())
 		
-//		//---------------------------------------
-//		// CONNECTORS
-//		//---------------------------------------
-//		println bioPortalService;
-//		
-//		demarcation(">> CONNECTORS");
-//		def pluginManager = PluginManagerHolder.getPluginManager();
-//		pluginManager.getAllPlugins().each {
-//			if(it.name.startsWith("cn") && it.name.endsWith("Connector")) {
-//				separator("** Detected: " + it.name);
-//				//log.info("Service: " +it.getProperties().get('service'));
-//				//println Class.forName(it.getProperties().get('service'));
-//								
-//				ApplicationContext ctx = Holders.grailsApplication.mainContext
-//				Object service = ctx.getBean("bioPortalService");
-//				println service
-//				println service.getClass()
-//				println (service.getClass() instanceof Class)
-//				
-//				println service.getMetaClass();
-//				println service.getMetaClass().getMetaMethods();
-//				
-//				Class[] interfaces=service.getClass().getInterfaces()
-//				println interfaces.each{ println it}
-//				
-//				//Class[] ints = GrailsClassUtils.getAllInterfaces(service);
-//				Class[] ints = GrailsClassUtils.getAllInterfacesForClass(service.getClass());
-//				
-//				//println service.metaClass.methods*.name.sort().unique()
-//				
-//				//println service.metaClass.intefaces*.name.sort().unique()
-//				//println service.getClass().getIntefaces().name.sort().unique()			
-//			}
-//		}
-		
+		//---------------------------------------
+		// CONNECTORS
+		//---------------------------------------
+		demarcation(">> CONNECTORS DETECTION");
+		def pluginManager = PluginManagerHolder.getPluginManager();
+		pluginManager.getAllPlugins().each {
+			if(it.name.startsWith("cn") && it.name.endsWith("Connector")) {
+				separator("** Detected: " + it.name);
+				def serviceName = it.name.substring(2).replaceAll("Connector", "") + "Service";
+				char[] c = serviceName.toCharArray();
+				c[0] = Character.toLowerCase(c[0]);
+				serviceName = new String( c );
+			
+				ApplicationContext ctx = Holders.grailsApplication.mainContext
+				Object service = ctx.getBean(serviceName);
+
+				// retrieve interfaces for the service class
+				Class<?> clazz = service.getClass( ).getSuperclass( );
+				Class<?>[ ] interfaces = clazz.getInterfaces( );
+				for(Class<?> i : interfaces) {
+					switch(i.getName( )) {
+						case "org.annotopia.grails.connectors.ITermSearchService":
+							log.info("Found Term Search Connector");
+							break;
+							
+						case "org.annotopia.grails.connectors.ITextMiningService":
+							log.info("Found Text Mining Connector");
+							break;
+							
+						case "org.annotopia.grails.connectors.IVocabulariesListService":
+							log.info("Found Vocabularies List Connector");
+							break;
+					}
+				}
+			}
+		}
+
 		demarcation(">> Bootstrapping completed!")
 		separator()
     }
