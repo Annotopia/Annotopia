@@ -31,6 +31,7 @@ class BootStrap {
 	def grailsApplication
    	def springSecurityService; 
 	def configAccessService;   
+	def connectorsManagerService;
 	   
 	def usersInitializationService
 	def groupsInitializationService
@@ -260,39 +261,7 @@ class BootStrap {
 		// CONNECTORS
 		//---------------------------------------
 		demarcation(">> CONNECTORS DETECTION");
-		def pluginManager = PluginManagerHolder.getPluginManager();
-		pluginManager.getAllPlugins().each {
-			if(it.name.startsWith("cn") && it.name.endsWith("Connector")) {
-				separator("** Detected: " + it.name);
-				def serviceName = it.name.substring(2).replaceAll("Connector", "") + "Service";
-				char[] c = serviceName.toCharArray();
-				c[0] = Character.toLowerCase(c[0]);
-				serviceName = new String( c );
-			
-				ApplicationContext ctx = Holders.grailsApplication.mainContext
-				Object service = ctx.getBean(serviceName);
-
-				// retrieve interfaces for the service class
-				Class<?> clazz = service.getClass( ).getSuperclass( );
-				Class<?>[ ] interfaces = clazz.getInterfaces( );
-				for(Class<?> i : interfaces) {
-					switch(i.getName( )) {
-						case "org.annotopia.grails.connectors.ITermSearchService":
-							log.info("Found Term Search Connector");
-							break;
-							
-						case "org.annotopia.grails.connectors.ITextMiningService":
-							log.info("Found Text Mining Connector");
-							break;
-							
-						case "org.annotopia.grails.connectors.IVocabulariesListService":
-							log.info("Found Vocabularies List Connector");
-							break;
-					}
-				}
-			}
-		}
-
+		connectorsManagerService.registerConnectors();
 		demarcation(">> Bootstrapping completed!")
 		separator()
     }
