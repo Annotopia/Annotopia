@@ -260,6 +260,8 @@ class BootStrap {
 		//---------------------------------------
 		// CONNECTORS
 		//---------------------------------------
+		demarcation(">> CONNECTORS EXTENSION INTERFACES");
+		connectorsManagerService.registerInterfaces();
 		demarcation(">> CONNECTORS DETECTION");
 		connectorsManagerService.registerConnectors();
 		demarcation(">> Bootstrapping completed!")
