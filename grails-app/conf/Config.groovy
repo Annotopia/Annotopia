@@ -166,7 +166,7 @@ grails.plugin.springsecurity.logout.postOnly = false
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/**'               		: ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_USER'],
 	'/oauth/authorize.dispatch' : ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_USER'],
-	'/oauth/token.dispatch'     : ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_USER'],
+	'/oauth/token.dispatch'     : ['ROLE_CLIENT'],
 	'/public/**'							: ['permitAll'],
 	'/openAnnotation/**'					: ['permitAll'],
 	'/annotationIntegrated/**'				: ['permitAll'],
@@ -188,4 +188,19 @@ cors.url.pattern = ['/s/annotation/*','/s/annotationset/*','/cn/bioportal/*','/c
 cors.headers = ['Access-Control-Allow-Origin':'*']
 
 // For OAuth add to the existing Auth Providers
-grails.plugin.springsecurity.providerNames = ["daoAuthenticationProvider", "clientCredentialsAuthenticationProvider"]
+grails.plugin.springsecurity.providerNames = [
+	"daoAuthenticationProvider",
+	"customOAuthAuthenticationProvider",
+	"clientCredentialsAuthenticationProvider"
+]
+
+grails.plugin.springsecurity.oauthProvider.defaultClientConfig.authorizedGrantTypes = ["authorization_code", "refresh_token", "client_credentials"]
+grails.plugin.springsecurity.oauthProvider.defaultClientConfig.authorities = ["ROLE_CLIENT"]
+
+// Allow HTTP Basic for client credentials
+grails.plugin.springsecurity.useBasicAuth = true
+grails.plugin.springsecurity.basic.realmName = "Annotopia"
+grails.plugin.springsecurity.filterChain.chainMap = [
+	'/oauth/token': 'JOINED_FILTERS,-exceptionTranslationFilter',
+	'/**': 'JOINED_FILTERS,-basicAuthenticationFilter,-basicExceptionTranslationFilter'
+]
