@@ -98,6 +98,6 @@ grails.project.dependency.resolution = {
 		compile ":spring-security-core:2.0-RC2"
 		compile ":spring-security-oauth2-provider:1.0.5.2"
 		
-		runtime ":cors:1.1.4"
+		runtime ":cors:1.1.6"
     }
 }
