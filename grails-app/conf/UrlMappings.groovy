@@ -34,6 +34,11 @@ class UrlMappings {
 			action = [POST:"textmine"]
 		}
 		
+		"/cn/nif/search"{
+			controller = "nif"
+			action = [GET:"search"]
+		}
+		
 		// Validation
 		"/oa/validate"{
 			controller = "openAnnotation"
