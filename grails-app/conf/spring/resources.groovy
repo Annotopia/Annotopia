@@ -14,6 +14,8 @@ beans = {
 	//userDetailsService(CustomUserDetailsService)
 	
 	// OAuth
+	customOAuthAuthenticationProvider(OAuthClientCredentialsAuthenticationProvider)
+	
 	clientDetailsService(OAuthClientDetailsService) {
 		grailsApplication = ref("grailsApplication")
 	}
@@ -37,8 +39,15 @@ beans = {
     oauth2TokenGranter2(RefreshTokenGranter,
             tokenServices = ref("tokenServices"),
             clientDetailsService = ref("clientDetailsService"))
+			
+	oauth2TokenGranter3(ClientCredentialsTokenGranter,
+			tokenServices = ref("tokenServices"),
+			clientDetailsService = ref("clientDetailsService"))
 
-    oauth2TokenGranter(CompositeTokenGranter, [ref("oauth2TokenGranter1"), ref("oauth2TokenGranter2")])
-
-
+    oauth2TokenGranter(CompositeTokenGranter, [
+		ref("oauth2TokenGranter1"), 
+		ref("oauth2TokenGranter2"),
+		ref("oauth2TokenGranter3")
+	])
+	
 }
