@@ -3,6 +3,7 @@ import org.commonsemantics.grails.security.oauth.OAuthAuthorizationCodeTokenGran
 import org.commonsemantics.grails.security.oauth.OAuthClientCredentialsAuthenticationProvider
 import org.commonsemantics.grails.security.oauth.OAuthClientDetailsService
 import org.commonsemantics.grails.security.oauth.OAuthTokenStore
+import org.springframework.security.oauth2.provider.client.ClientCredentialsTokenGranter
 import org.springframework.security.oauth2.provider.CompositeTokenGranter
 import org.springframework.security.oauth2.provider.code.InMemoryAuthorizationCodeServices
 import org.springframework.security.oauth2.provider.refresh.RefreshTokenGranter
