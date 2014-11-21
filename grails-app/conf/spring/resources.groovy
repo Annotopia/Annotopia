@@ -1,5 +1,6 @@
 import org.annotopia.grails.security.LoggingSecurityEventListener
 import org.commonsemantics.grails.security.oauth.OAuthAuthorizationCodeTokenGranter
+import org.commonsemantics.grails.security.oauth.OAuthClientCredentialsAuthenticationProvider
 import org.commonsemantics.grails.security.oauth.OAuthClientDetailsService
 import org.commonsemantics.grails.security.oauth.OAuthTokenStore
 import org.springframework.security.oauth2.provider.CompositeTokenGranter
