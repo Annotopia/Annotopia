@@ -39,6 +39,10 @@ class UrlMappings {
 			action = [GET:"search"]
 		}
 		
+		"/cn/pubmed/"{
+			controller = "pubmed"
+		}
+		
 		// Validation
 		"/oa/validate"{
 			controller = "openAnnotation"
