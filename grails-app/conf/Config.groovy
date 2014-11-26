@@ -95,8 +95,8 @@ environments {
 					'org.springframework.security'
 			
 			trace  	'grails.app.controllers.org.annotopia.grails.controllers.ProtectedController',
-					'grails.app.services.org.commonsemantics.grails.agents.services.AgentsService',
 					'grails.app.services.org.commonsemantics.grails.users.services.UsersService',
+					'grails.app.services.org.commonsemantics.grails.agents.services.AgentsService',
 					'grails.app.services.org.commonsemantics.grails.groups.services.GroupsService',
 					'grails.app.services.org.commonsemantics.grails.systems.services.SystemsService',
 					'grails.app.services.org.annotopia.grails.services.storage.jena.virtuoso.JenaVirtuosoStoreService',
@@ -107,6 +107,8 @@ environments {
 					'org.commonsemantics.grails.users.utils',
 					'org.commonsemantics.grails.groups.utils',
 					'org.annotopia.groovy.service.store',
+					
+					'grails.app.controllers.org.annotopia.grails.connectors.plugin.pubmed.PubmedController',
 					
 					'grails.app.services.org.commonsemantics.grails.users.services',
 					'grails.app.services.org.commonsemantics.grails.groups.services',
@@ -173,7 +175,8 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/openAnnotationWithPermissions/**'		: ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_USER'],	
 	'/bioPortal/**'					: ['permitAll'],
 	'/nif/**'					: ['permitAll'],
-	'/secure/**'				: ['ROLE_ADMIN','ROLE_MANAGER'],
+	'/pubmed/**'				: ['permitAll'],
+	'/secure/**'				: ['ROLE_ADMIN','ROLE_MANAGER','ROLE_USER'],
 	'/secret/**'				: ['ROLE_ADMIN'],
 	'/crunch/**'				: ['ROLE_ADMIN'],
 	'/dashboard/**'				: ['ROLE_ADMIN','ROLE_MANAGER'],
@@ -184,7 +187,7 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/**/favicon.ico'   		: ['permitAll']
 ]
 
-cors.url.pattern = ['/s/annotation/*','/s/annotationset/*','/cn/bioportal/*','/cn/nif/*']
+cors.url.pattern = ['/s/annotation/*','/s/annotationset/*','/cn/bioportal/*','/cn/nif/*','/cn/pubmed/*']
 cors.headers = ['Access-Control-Allow-Origin':'*']
 
 // For OAuth add to the existing Auth Providers
@@ -193,6 +196,7 @@ grails.plugin.springsecurity.providerNames = [
 	"customOAuthAuthenticationProvider",
 	"clientCredentialsAuthenticationProvider"
 ]
+
 
 grails.plugin.springsecurity.oauthProvider.defaultClientConfig.authorizedGrantTypes = ["authorization_code", "refresh_token", "client_credentials"]
 grails.plugin.springsecurity.oauthProvider.defaultClientConfig.authorities = ["ROLE_CLIENT"]
@@ -204,3 +208,4 @@ grails.plugin.springsecurity.filterChain.chainMap = [
 	'/oauth/token': 'JOINED_FILTERS,-exceptionTranslationFilter',
 	'/**': 'JOINED_FILTERS,-basicAuthenticationFilter,-basicExceptionTranslationFilter'
 ]
+
