@@ -39,9 +39,7 @@ class UrlMappings {
 			action = [GET:"search"]
 		}
 		
-		"/cn/pubmed/"{
-			controller = "pubmed"
-		}
+		"/cn/pubmed/$action" (controller: "pubmed")
 		
 		// Validation
 		"/oa/validate"{
