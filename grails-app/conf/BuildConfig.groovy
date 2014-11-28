@@ -9,6 +9,8 @@ grails.plugin.location.'at-data-cruncher' = '../AtDataCruncher'
 grails.plugin.location.'at-connectors' = '../AtConnectors'
 grails.plugin.location.'cn-bioportal-connector' = '../CnBioPortalConnector'
 grails.plugin.location.'cn-nif-connector' = '../CnNifConnector'
+grails.plugin.location.'cn-ebi-connector' = '../CnEbiConnector'
+
 grails.plugin.location.'cn-pubmed-connector' = '../CnPubMedConnector'
 
 grails.plugin.location.'cs-commons' = '../commonsemantics/CsCommons'

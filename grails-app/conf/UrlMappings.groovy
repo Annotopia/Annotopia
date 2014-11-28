@@ -39,6 +39,11 @@ class UrlMappings {
 			action = [GET:"search"]
 		}
 		
+		"/cn/ebi/textmine"{
+			controller = "ebi"
+			action = [POST:"textmine"]
+		}
+		
 		"/cn/pubmed/$action" (controller: "pubmed")
 		
 		// Validation
