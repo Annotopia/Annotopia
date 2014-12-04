@@ -304,6 +304,14 @@
 									       		...
 									       	</blockquote>
 										</span>
+										<span ng-if="annotation[0]['hasTarget']['hasScope']!=null && annotation[0]['hasTarget']['hasSource']['format']=='image/jpeg'">
+											<div class="contextTitle">Annotating 
+												<span style="font-size: 12px; cursor:pointer;"> <a ng-click="exploreResource(annotation[0]['hasTarget']['hasSource'])">{{annotation[0]['hasTarget']['hasSource']['@id']}}</a></span> 
+											</div> 
+											<div style="padding:5px;">
+												<img src="{{annotation[0]['hasTarget']['hasSource']['@id']}}" style="max-width:580px"/>
+											</div>
+										</span>
 									</td>
 									<td style="vertical-align: top; padding: 5px; padding-left: 10px; text-align: center;">
 										<span ng-if="annotation[0]['serializedBy']=='urn:application:domeo'"><img src="${resource(dir:'images/secure',file:'domeo_logo.png')}" title="Domeo Annotation Tool" style="width:24px;"/><br/><span style="font-size:11px;">Domeo</span></span>
