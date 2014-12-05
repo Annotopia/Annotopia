@@ -265,7 +265,7 @@
 											<div  ng-switch-when="oa:tagging" class="ann-body-content" >
 												<span ng-if="annotation[0].hasBody.length>0">
 													<span ng-repeat="body in annotation[0].hasBody">
-														<a style="background:#CC6600; color:white; border-radius:5px; padding:5px;" ng-click="exploreSemanticTag(body)">
+														<a style="background:#CC6600; color:white; border-radius:5px; padding:5px; cursor:pointer;" ng-click="exploreSemanticTag(body)">
 														{{body.label}}
 														</a>
 														&nbsp;

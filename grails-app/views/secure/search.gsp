@@ -286,7 +286,20 @@
 											<div  ng-switch-when="oa:commenting" class="ann-body-content"  style="background: #428bca; color: white; border-radius: 5px; padding: 5px;">{{annotation[0].hasBody.chars}}</div>
 											<div  ng-switch-when="oa:highlighting" class="ann-body-content" style="background: yellow; border-radius: 5px;  padding: 5px;">{{annotation[0]['hasTarget']['hasSelector'].exact}}</div>
 											<div  ng-switch-when="oa:tagging" class="ann-body-content" >
-												<a style="background: #CC6600; color: white; border-radius: 5px;  padding: 5px;" ng-click="exploreSemanticTag(annotation[0].hasBody)">{{annotation[0].hasBody.label}}</a>
+												<span ng-if="annotation[0].hasBody.length>0">
+													<span ng-repeat="body in annotation[0].hasBody">
+														<a style="background:#CC6600; color:white; border-radius:5px; padding:5px; cursor:pointer;" ng-click="exploreSemanticTag(body)">
+														{{body.label}}
+														</a>
+														&nbsp;
+													</span>
+												</span>
+												<span ng-if="!annotation[0].hasBody.length">												
+													<a style="background:#CC6600; color:white; border-radius:5px; padding:5px; cursor:pointer;" ng-click="exploreSemanticTag(annotation[0].hasBody)">
+													{{annotation[0].hasBody.label}}
+													</a>
+													&nbsp;
+												</span>
 											</div>
 										</span>
 										
