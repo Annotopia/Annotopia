@@ -305,7 +305,7 @@
 									</td>
 									<td style="vertical-align: top; padding: 5px; padding-left: 10px; text-align: center;">
 										<span ng-if="annotation[0]['serializedBy']=='urn:application:domeo'"><img src="${resource(dir:'images/secure',file:'domeo_logo.png')}" title="Domeo Annotation Tool" style="width:24px;"/><br/><span style="font-size:11px;">Domeo</span></span>
-										<span ng-if="annotation[0]['serializedBy']=='urn:application:utopia'"><img src="${resource(dir:'images/secure',file:'utopia_logo.png')}" title="Domeo Annotation Tool" style="width:24px;"/><br/><span style="font-size:11px;">Utopia</span></span>
+										<span ng-if="annotation[0]['serializedBy']=='urn:application:utopia'"><img src="${resource(dir:'images/secure',file:'utopia_logo.png')}" title="Utopia for PDF" style="width:24px;"/><br/><span style="font-size:11px;">Utopia</span></span>
 									</td>
 								</tr>
 							</tbody>

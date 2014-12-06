@@ -305,16 +305,16 @@
 											<span style="font-size:12px;border-bottom: solid 1px gray; text-transform: uppercase;">Access</span><br/>										
 											<span ng-if="annotation[0]['permissions']==null" style="font-size:11px;">?</span>
 											<span ng-if="annotation[0]['permissions']!=null">
-												<span ng-if="annotation[0]['permissions']['read']==null"><img src="${resource(dir:'images/secure',file:'public.png')}" title="Domeo Annotation Tool" style="width:24px;"/><br/><span style="font-size:11px;">Public</span></span>
+												<span ng-if="annotation[0]['permissions']['read']==null"><img src="${resource(dir:'images/secure',file:'public.png')}" title="Public annotation" style="width:24px;"/><br/><span style="font-size:11px;">Public</span></span>
 												<%--
 												--%>
 												<span ng-if="annotation[0]['permissions']['read']!=null">
 													<span ng-if="!isArray(annotation[0]['permissions']['read'])">
-														<img src="${resource(dir:'images/secure',file:'person.png')}" title="Domeo Annotation Tool" style="width:24px;"/>
+														<img src="${resource(dir:'images/secure',file:'person.png')}" title="Private annotation" style="width:24px;"/>
 														<br/><span style="font-size:11px;">Private</span>
 													</span>
 													<span ng-if="isArray(annotation[0]['permissions']['read'])">
-														<img src="${resource(dir:'images/secure',file:'people.png')}" title="Domeo Annotation Tool" style="width:24px;"/>
+														<img src="${resource(dir:'images/secure',file:'people.png')}" title="Group shared annotation" style="width:24px;"/>
 														<br/><span style="font-size:11px;">Shared</span>
 													</span>
 												</span>
