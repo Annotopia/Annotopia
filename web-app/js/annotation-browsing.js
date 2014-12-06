@@ -177,15 +177,15 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 		}
 			
 		$('#sidebar').html(
-			resource['@type'] + '<br/>' +
-			'resource: ' + resource['@id'] + '<br/>' + 
+			resource['@id'] + '<br/>' + 
+			'type: ' +resource['@type'] + '<br/>' +
 			'format: ' + resource['format'] + '<br/>' +
 			ids
 			);
 	}
 	
 	$scope.exploreSemanticTag = function(semantictag) {
-		$('#sidebar').html('semantictag: ' + semantictag['@id'] + '<br/>' +
+		$('#sidebar').html('Semantic Tag: <br/>' + semantictag['@id'] + '<br/>' +
 				'label: ' + semantictag['label']
 				);
 	}
