@@ -177,6 +177,7 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 		}
 			
 		$('#sidebar').html(
+				'Target: <br/>' +
 			resource['@id'] + '<br/>' + 
 			'type: ' +resource['@type'] + '<br/>' +
 			'format: ' + resource['format'] + '<br/>' +
