@@ -33,6 +33,8 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 	}, true);
 */
 	
+	$scope.isArray = angular.isArray;
+	
 	$scope.sources = [
           {name:'domeo', selected:true},
           {name:'utopia', selected:true},/*,

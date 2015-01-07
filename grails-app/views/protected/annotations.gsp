@@ -256,25 +256,59 @@
 										<span ng-if="annotation[0]['annotatedAt']!=null" style="font-size: 12px;"> on {{annotation[0]['annotatedAt']}}</span>	
 										<hr style="height: 5px; padding:0px; margin-top: 4px; margin-bottom: 0px; border-top: 0px dotted #aaa;"/>
 										
-										<span ng-switch="annotation[0]['motivatedBy']">
-											<div  ng-switch-when="oa:commenting" class="ann-body-content"  style="background: #428bca; color: white; border-radius: 5px; padding: 5px;">{{annotation[0].hasBody.chars}}</div>
-											<div  ng-switch-when="oa:highlighting" class="ann-body-content" style="background: yellow; border-radius: 5px;  padding: 5px;">{{annotation[0]['hasTarget']['hasSelector'].exact}}</div>
-											<div  ng-switch-when="oa:tagging" class="ann-body-content" >
-												<span ng-if="annotation[0].hasBody.length>0">
-													<span ng-repeat="body in annotation[0].hasBody">
+										<%-- Display of bodies if any --%>
+																				<span ng-if="annotation[0].hasBody.length>0">
+											<div ng-repeat="body in annotation[0].hasBody">											
+												<span ng-if="body.chars">
+													YOLO1
+													<div class="ann-body-content"  style="background: #428bca; color: white; border-radius: 5px; padding: 5px;">
+														<span ng-if="body.chars.length>0">
+															<div ng-repeat="chars in body.chars">
+																{{chars}}
+															</div>
+														</span>
+														<span ng-if="!body.chars.length">
+															{{body.chars}}
+														</span>
+													</div>
+												</span>
+												<span ng-if="body['@type']=='oa:SemanticTag'">
+													<div class="ann-body-content" >
 														<a style="background:#CC6600; color:white; border-radius:5px; padding:5px; cursor:pointer;" ng-click="exploreSemanticTag(body)">
-														{{body.label}}
+															{{body.label}}
+															</a>
+															&nbsp;
+													</div>
+												</span>
+												
+											</div>
+										</span>
+										<span ng-if="!annotation[0].hasBody.length && annotation[0].hasBody">	
+											<span ng-switch="annotation[0]['motivatedBy']">
+												<div ng-switch-when="oa:commenting">
+													<span ng-if="isArray(annotation[0].hasBody.chars)">
+														<ul ng-repeat="chars in annotation[0].hasBody.chars">
+															<div style="background: #428bca; color: white; border-radius: 5px; padding: 5px;">
+																<li class="ann-body-content">{{chars}}</li>
+															</div>
+														</ul>
+													</span>
+													<span class="ann-body-content" ng-if="!isArray(annotation[0].hasBody.chars)">
+														{{annotation[0].hasBody.chars}}
+													</span>													
+												</div>
+												<div ng-switch-when="oa:tagging" class="ann-body-content" >
+													<a style="background:#CC6600; color:white; border-radius:5px; padding:5px; cursor:pointer;" ng-click="exploreSemanticTag(annotation[0].hasBody)">
+														{{annotation[0].hasBody.label}}
 														</a>
 														&nbsp;
-													</span>
-												</span>
-												<span ng-if="!annotation[0].hasBody.length">												
-													<a style="background:#CC6600; color:white; border-radius:5px; padding:5px; cursor:pointer;" ng-click="exploreSemanticTag(annotation[0].hasBody)">
-													{{annotation[0].hasBody.label}}
-													</a>
-													&nbsp;
-												</span>
-											</div>
+												</div>
+											</span>
+										</span>
+										<span ng-if="!annotation[0].hasBody.length && !annotation[0].hasBody">	
+											<span ng-switch="annotation[0]['motivatedBy']">
+												<div  ng-switch-when="oa:highlighting" class="ann-body-content" style="background: yellow; border-radius: 5px;  padding: 5px;">{{annotation[0]['hasTarget']['hasSelector'].exact}}</div>
+											</span>
 										</span>
 										
 										<%-- Display of textual fragment if any --%>
@@ -295,6 +329,9 @@
 											<div class="contextTitle">Annotating 
 												<span style="font-size: 12px; cursor:pointer;"> <a ng-click="exploreResource(annotation[0]['hasTarget']['hasSource'])">{{annotation[0]['hasTarget']['hasSource']['@id']}}</a></span> 
 											</div> 
+											<div class="contextTitle">In document 
+												<span style="font-size: 12px; cursor:pointer;"> <a ng-click="exploreResource(annotation[0]['hasTarget']['hasScope'])">{{annotation[0]['hasTarget']['hasScope']}}</a></span> 
+											</div>
 											<div style="padding:5px;">
 												<img src="{{annotation[0]['hasTarget']['hasSource']['@id']}}" style="max-width:580px"/>
 											</div>
