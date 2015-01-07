@@ -455,6 +455,10 @@ class SecureController extends BaseController {
 		}
 	}
 	
+	def secretIndex = {
+		render(view: "/secret/index", model: [layout: "secure"])
+	}
+	
 	// --------------------------------------------
 	//  Logging utils
 	// --------------------------------------------

@@ -25,7 +25,7 @@
 </head>
 <body>
 	<div class="header" >
-	    <g:render template="/secure/navigation-bar" />
+	    <g:render template="/secure/navigation-bar" model="['controller':'secure']" />
 	</div>
 	<div style="top:60px;">
 		<g:layoutBody/>

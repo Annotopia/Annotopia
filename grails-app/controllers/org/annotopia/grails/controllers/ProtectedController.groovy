@@ -413,6 +413,10 @@ class ProtectedController extends BaseController {
 		render(view: "profile", model: [menu: 'index', user: user])
 	}
 	
+	def secretIndex = {
+		render(view: "/secret/index", model: [layout: "protected"])
+	}
+	
 	// --------------------------------------------
 	//  Exceptions and Logging utils
 	// --------------------------------------------
