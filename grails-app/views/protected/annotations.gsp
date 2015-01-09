@@ -257,10 +257,9 @@
 										<hr style="height: 5px; padding:0px; margin-top: 4px; margin-bottom: 0px; border-top: 0px dotted #aaa;"/>
 										
 										<%-- Display of bodies if any --%>
-																				<span ng-if="annotation[0].hasBody.length>0">
+										<span ng-if="annotation[0].hasBody.length>0">
 											<div ng-repeat="body in annotation[0].hasBody">											
 												<span ng-if="body.chars">
-													YOLO1
 													<div class="ann-body-content"  style="background: #428bca; color: white; border-radius: 5px; padding: 5px;">
 														<span ng-if="body.chars.length>0">
 															<div ng-repeat="chars in body.chars">
@@ -293,8 +292,10 @@
 															</div>
 														</ul>
 													</span>
-													<span class="ann-body-content" ng-if="!isArray(annotation[0].hasBody.chars)">
-														{{annotation[0].hasBody.chars}}
+													<span ng-if="!isArray(annotation[0].hasBody.chars)">
+														<div class="ann-body-content" style="background: #428bca; color: white; border-radius: 5px; padding: 5px;">
+															{{annotation[0].hasBody.chars}}
+														</div>
 													</span>													
 												</div>
 												<div ng-switch-when="oa:tagging" class="ann-body-content" >

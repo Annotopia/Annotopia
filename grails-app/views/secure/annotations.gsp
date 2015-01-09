@@ -263,7 +263,6 @@
 										<span ng-if="annotation[0].hasBody.length>0">
 											<div ng-repeat="body in annotation[0].hasBody">											
 												<span ng-if="body.chars">
-													YOLO1
 													<div class="ann-body-content"  style="background: #428bca; color: white; border-radius: 5px; padding: 5px;">
 														<span ng-if="body.chars.length>0">
 															<div ng-repeat="chars in body.chars">
@@ -288,7 +287,7 @@
 										</span>
 										<span ng-if="!annotation[0].hasBody.length && annotation[0].hasBody">	
 											<span ng-switch="annotation[0]['motivatedBy']">
-												<div ng-switch-when="oa:commenting">
+												<div ng-switch-when="oa:commenting">												
 													<span ng-if="isArray(annotation[0].hasBody.chars)">
 														<ul ng-repeat="chars in annotation[0].hasBody.chars">
 															<div style="background: #428bca; color: white; border-radius: 5px; padding: 5px;">
@@ -296,8 +295,10 @@
 															</div>
 														</ul>
 													</span>
-													<span class="ann-body-content" ng-if="!isArray(annotation[0].hasBody.chars)">
-														{{annotation[0].hasBody.chars}}
+													<span ng-if="!isArray(annotation[0].hasBody.chars)">
+														<div class="ann-body-content" style="background: #428bca; color: white; border-radius: 5px; padding: 5px;">
+															{{annotation[0].hasBody.chars}}
+														</div>
 													</span>													
 												</div>
 												<div ng-switch-when="oa:tagging" class="ann-body-content" >
@@ -342,8 +343,14 @@
 										</span>
 									</td>
 									<td style="vertical-align: top; padding: 5px; padding-left: 10px; text-align: center;">
-										<span ng-if="annotation[0]['serializedBy']=='urn:application:domeo'"><img src="${resource(dir:'images/secure',file:'domeo_logo.png')}" title="Domeo Annotation Tool" style="width:24px;"/><br/><span style="font-size:11px;">Domeo</span></span>
-										<span ng-if="annotation[0]['serializedBy']=='urn:application:utopia'"><img src="${resource(dir:'images/secure',file:'utopia_logo.png')}" title="Utopia for PDF" style="width:24px;"/><br/><span style="font-size:11px;">Utopia</span></span>
+										<span ng-if="annotation[0]['serializedBy']=='urn:application:domeo'">
+											<img src="${resource(dir:'images/secure',file:'domeo_logo.png')}" title="Domeo Annotation Tool" style="width:24px;"/><br/>
+											<span style="font-size:11px;">Domeo</span>
+										</span>
+										<span ng-if="annotation[0]['serializedBy']=='urn:application:utopia'">
+											<img src="${resource(dir:'images/secure',file:'utopia_logo.png')}" title="Utopia for PDF" style="width:24px;"/><br/>
+											<span style="font-size:11px;">Utopia</span>
+										</span>
 									</td>
 								</tr>
 							</tbody>
