@@ -240,6 +240,8 @@
 									<td style="vertical-align: top; padding: 5px; text-align: center;">
 										<span ng-if="annotation[0]['hasTarget']['format']=='text/html' || annotation[0]['hasTarget']['hasSource']['format']=='text/html'"><img src="${resource(dir:'images/secure',file:'file_html.png')}" style="width:40px;"/></span>
 										<span ng-if="annotation[0]['hasTarget']['format']=='application/pdf' || annotation[0]['hasTarget']['hasSource']['format']=='application/pdf'"><img src="${resource(dir:'images/secure',file:'file_pdf.png')}" style="width:40px;"/></span>
+										<span ng-if="annotation[0]['hasTarget']['format']=='image/jpeg' || annotation[0]['hasTarget']['hasSource']['format']=='image/jpeg'"><img src="${resource(dir:'images/secure',file:'file_jpg.png')}" style="width:40px;"/></span>
+										<span ng-if="annotation[0]['hasTarget']['format']=='annotopia/database' || annotation[0]['hasTarget']['hasSource']['format']=='annotopia/database'"><img src="${resource(dir:'images/secure',file:'resource_database.png')}" style="width:40px;"/></span>
 									</td>
 									<td style="vertical-align: top; padding-bottom: 10px; ">
 										<span ng-switch="annotation[0]['motivatedBy']" style="font-size: 11px; font-weight: bold; text-transform:uppercase; letter-spacing:1px">
