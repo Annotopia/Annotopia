@@ -329,6 +329,7 @@
 									       	</blockquote>
 										</span>
 										<span ng-if="annotation[0]['hasTarget']['hasScope']!=null && annotation[0]['hasTarget']['hasSource']['format']=='image/jpeg'">
+											<hr style="height: 5px; padding:0px; margin-top: 4px; margin-bottom: 4px; border-bottom: 1px dotted #aaa;"/>
 											<div class="contextTitle">Annotating 
 												<span style="font-size: 12px; cursor:pointer;"> <a ng-click="exploreResource(annotation[0]['hasTarget']['hasSource'])">{{annotation[0]['hasTarget']['hasSource']['@id']}}</a></span> 
 											</div> 
@@ -338,6 +339,18 @@
 											<div style="padding:5px;">
 												<img src="{{annotation[0]['hasTarget']['hasSource']['@id']}}" style="max-width:580px"/>
 											</div>
+										</span>
+										<span ng-if="annotation[0]['hasTarget']['format']=='annotopia/database'">
+											<hr style="height: 5px; padding:0px; margin-top: 4px; margin-bottom: 4px; border-bottom: 1px dotted #aaa;"/>
+											<div class="contextTitle">Annotating database
+												<span style="font-size: 12px; cursor:pointer;"> <a ng-click="exploreResource(annotation[0]['hasTarget'])">{{annotation[0]['hasTarget']['@id']}}</a></span> 
+											</div> 
+										</span>
+										<span ng-if="annotation[0]['hasTarget']['hasSource']['format']=='annotopia/database'">
+											<hr style="height: 5px; padding:0px; margin-top: 4px; margin-bottom: 4px; border-bottom: 1px dotted #aaa;"/>
+											<div class="contextTitle">Annotating database
+												<span style="font-size: 12px; cursor:pointer;"> <a ng-click="exploreResource(annotation[0]['hasTarget']['hasSource'])">{{annotation[0]['hasTarget']['hasSource']['@id']}}</a></span> 
+											</div> 
 										</span>
 									</td>
 									<td style="vertical-align: top; padding: 5px; padding-left: 10px; text-align: center;">
