@@ -263,12 +263,12 @@
 											<div ng-repeat="body in annotation[0].hasBody">											
 												<span ng-if="body.chars">
 													<div class="ann-body-content"  style="background: #428bca; color: white; border-radius: 5px; padding: 5px;">
-														<span ng-if="body.chars.length>0">
+														<span ng-if="isArray(body.chars)">
 															<div ng-repeat="chars in body.chars">
 																{{chars}}
 															</div>
 														</span>
-														<span ng-if="!body.chars.length">
+														<span ng-if="!isArray(body.chars)">
 															{{body.chars}}
 														</span>
 													</div>
