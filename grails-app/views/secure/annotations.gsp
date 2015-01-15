@@ -321,7 +321,12 @@
 										<span ng-if="annotation[0]['hasTarget']['hasSelector']['@type']=='oa:TextQuoteSelector'">
 											<hr style="height: 5px; padding:0px; margin-top: 4px; margin-bottom: 4px; border-bottom: 1px dotted #aaa;"/>
 											<div class="contextTitle">Annotating 
-												<span style="font-size: 12px; cursor:pointer;"> <a ng-click="exploreResource(annotation[0]['hasTarget']['hasSource'])">{{annotation[0]['hasTarget']['hasSource']['@id']}}</a></span> 
+												<span ng-if="annotation[0]['hasTarget']['hasSource']['@id']">
+													<span style="font-size: 12px; cursor:pointer;"> <a ng-click="exploreResource(annotation[0]['hasTarget']['hasSource'])">{{annotation[0]['hasTarget']['hasSource']['@id']}}</a></span> 
+												</span>
+												<span ng-if="!annotation[0]['hasTarget']['hasSource']['@id']">
+													<span style="font-size: 12px; cursor:pointer;"> <a ng-click="exploreResource(annotation[0]['hasTarget']['hasSource'])">{{annotation[0]['hasTarget']['hasSource']}}</a></span> 
+												</span>
 											</div>
 											<blockquote class="contextQuote">
 												...
