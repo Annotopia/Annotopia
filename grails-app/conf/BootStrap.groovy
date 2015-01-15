@@ -54,6 +54,17 @@ class BootStrap {
 		log.info  ' Released under the Apache License, Version 2.0'
 		log.info  ' url:http://www.apache.org/licenses/LICENSE-2.0'
 		demarcation('>> Bootstrapping....');
+		
+		// Databases
+		// ---------
+		separator('** MySQL Configuration');
+		log.info "Url: " + grailsApplication.config.dataSource.url
+		log.info "Username: " + grailsApplication.config.dataSource.username
+		
+		separator('** Triplestore Configuration');
+		log.info "Host: " + grailsApplication.config.annotopia.storage.triplestore.host
+		log.info "User: " + grailsApplication.config.annotopia.storage.triplestore.user
+		
 		demarcation('>> INITIALIZING DEFAULTS ENUMERATIONS');
 		
 		// USERS
