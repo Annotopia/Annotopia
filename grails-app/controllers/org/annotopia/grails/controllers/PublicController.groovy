@@ -103,7 +103,7 @@ class PublicController {
 					}
 					render (view:'signup', model:[user:c]);
 				} else {
-					def user = new User(username: params.username, password: params.password, person:person, profilePrivacy: UsersUtils.getProfilePrivacy(params.userProfilePrivacy))
+					def user = new User(username: params.username, password: springSecurityService.encodePassword(params.password), person:person, profilePrivacy: UsersUtils.getProfilePrivacy(params.userProfilePrivacy))
 					if(!user.save(flush: true)) {
 						log.error("[TEST] While Saving User " + cmd.errors)
 						user.errors.each {
