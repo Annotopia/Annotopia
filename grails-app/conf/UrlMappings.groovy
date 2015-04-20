@@ -1,6 +1,11 @@
 class UrlMappings {
 
 	static mappings = {
+		// New "incremental" API
+		"/s/annotationset/$id/annotations"{
+			controller = "openAnnotationSetREST"
+			action = [POST:"createAnnotation"]
+		}
 		// Storage
 		"/s/annotationset/$id?"{
 			controller = "annotationIntegrated"
