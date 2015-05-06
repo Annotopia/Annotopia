@@ -9,11 +9,11 @@ class UrlMappings {
 		// Storage
 		"/s/annotationset/$id?"{
 			controller = "annotationIntegrated"
-			action = [GET:"show", POST:"create", PUT:"update"]
+			action = [GET:"show", PUT:"update"]
 		}
 		"/s/annotationset"{
 			controller = "annotationIntegrated"
-			action = [GET:"index"]
+			action = [GET:"index", POST:"create"]
 		}
 		"/s/annotation/$id?"{
 			controller = "openAnnotation"       /* Plain single Open Annotation */
