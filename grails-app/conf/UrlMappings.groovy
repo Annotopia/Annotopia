@@ -4,11 +4,12 @@ class UrlMappings {
 		// Storage
 		"/s/annotationset/$id?"{
 			controller = "annotationIntegrated"
-			action = [GET:"showAnnotationSet", POST:"saveAnnotationSet", PUT:"updateAnnotationSet"]
+			//action = [GET:"showAnnotationSet", POST:"saveAnnotationSet", PUT:"updateAnnotationSet"]
+			action = [GET:"show", POST:"create", PUT:"update"]
 		}
 		"/s/annotation/$id?"{
 			controller = "openAnnotation"       /* Plain single Open Annotation */
-			/*controller = "openAnnotationWithPermissions" */
+			/*controller = "openAnnotationWithPermissions"*/ 
 			/*controller = "annotationIntegrated"*/ /* Domeo-Utopia */
 			action = [GET:"show", POST:"save", PUT:"update", DELETE:"delete"]
 		}
