@@ -1,6 +1,11 @@
 class UrlMappings {
 
 	static mappings = {
+		// Discovering user identity from OAuth token
+		"/u/whoami" {
+			controller = "identity"
+			action = [GET:"whoami"]
+		}
 		// New "RESTful"/"incremental" API
 		"/s/annotationset/$id/annotations"{
 			controller = "openAnnotationSetREST"
