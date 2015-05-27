@@ -74,9 +74,9 @@ class ApiKeyAuthenticationService extends org.annotopia.grails.services.storage.
 		}
 	}
 	
-	def getUserIdentifiedByToken(def userTokenParameter) {
-		if(userTokenParameter.length()<30) return null;
-		def oauthToken = OAuthToken.findByToken(userTokenParameter.substring(7))
+	def getUserIdentifiedByToken(def userToken) {
+		if(userToken.length()<32) return null;
+		def oauthToken = OAuthToken.findByToken(userToken)
 		def user = oauthToken.user;
 		return user;
 	}
