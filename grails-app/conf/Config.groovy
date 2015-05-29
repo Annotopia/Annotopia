@@ -72,10 +72,10 @@ environments {
 	development {
 		log4j = {
 		    appenders {
-				console name:'stdout', threshold: org.apache.log4j.Level.ALL, 
+				console name:'stdout', threshold: org.apache.log4j.Level.ALL,
 					layout:pattern(conversionPattern: '%d{mm:ss,SSS} %5p %c{1} %m%n')
 			}
-		
+
 		    error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
 		           'org.codehaus.groovy.grails.web.pages', //  GSP
 		           'org.codehaus.groovy.grails.web.sitemesh', //  layouts
@@ -87,13 +87,13 @@ environments {
 		           'org.springframework',
 		           'org.hibernate',
 		           'net.sf.ehcache.hibernate'
-		
+
 		    warn    'org.mortbay.log'
-			
+
 			info 	'grails.app', 									// Necessary for Bootstrap logging
 			        'org.annotopia.grails.security',
 					'org.springframework.security'
-			
+
 			trace  	'grails.app.controllers.org.annotopia.grails.controllers.ProtectedController',
 					'grails.app.services.org.commonsemantics.grails.users.services.UsersService',
 					'grails.app.services.org.commonsemantics.grails.agents.services.AgentsService',
@@ -107,22 +107,22 @@ environments {
 					'org.commonsemantics.grails.users.utils',
 					'org.commonsemantics.grails.groups.utils',
 					'org.annotopia.groovy.service.store',
-					
+
 					'grails.app.controllers.org.annotopia.grails.connectors.plugin.pubmed.PubmedController',
-					
+
 					'grails.app.services.org.commonsemantics.grails.users.services',
 					'grails.app.services.org.commonsemantics.grails.groups.services',
 					'grails.app.services.org.commonsemantics.grails.systems.services'
 		}
 	}
-	
+
 	production {
 		log4j = {
 			appenders {
 				console name:'stdout', threshold: org.apache.log4j.Level.INFO,
 					layout:pattern(conversionPattern: '%d{mm:ss,SSS} %5p %c{1} %m%n')
 			}
-		
+
 			error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
 				   'org.codehaus.groovy.grails.web.pages', //  GSP
 				   'org.codehaus.groovy.grails.web.sitemesh', //  layouts
@@ -134,12 +134,12 @@ environments {
 				   'org.springframework',
 				   'org.hibernate',
 				   'net.sf.ehcache.hibernate'
-		
+
 			warn    'org.mortbay.log'
-			
+
 			info 	'grails.app', 									// Necessary for Bootstrap logging
 					'org.annotopia.grails.security'
-			
+
 			debug  	'grails.app.services.org.commonsemantics.grails.agents.services.AgentsService',
 					'grails.app.services.org.commonsemantics.grails.users.services.UsersService',
 					'grails.app.services.org.commonsemantics.grails.groups.services.GroupsService',
@@ -173,7 +173,7 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/openAnnotation/**'					: ['permitAll'],
 	'/annotationIntegrated/**'				: ['permitAll'],
 	'/openAnnotationSetREST/**'             : ['permitAll'],
-	'/openAnnotationWithPermissions/**'		: ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_USER'],	
+	'/openAnnotationWithPermissions/**'		: ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_USER'],
 	'/bioPortal/**'					: ['permitAll'],
 	'/nif/**'					: ['permitAll'],
 	'/ebi/**'					: ['permitAll'],
@@ -200,7 +200,7 @@ grails.plugin.springsecurity.providerNames = [
 ]
 
 
-grails.plugin.springsecurity.oauthProvider.defaultClientConfig.authorizedGrantTypes = ["authorization_code", "refresh_token", "client_credentials"]
+grails.plugin.springsecurity.oauthProvider.defaultClientConfig.authorizedGrantTypes = ["authorization_code", "refresh_token", "client_credentials", "password"]
 grails.plugin.springsecurity.oauthProvider.defaultClientConfig.authorities = ["ROLE_CLIENT"]
 
 // Allow HTTP Basic for client credentials
