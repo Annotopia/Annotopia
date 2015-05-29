@@ -3,6 +3,7 @@ import org.commonsemantics.grails.security.oauth.OAuthAuthorizationCodeTokenGran
 import org.commonsemantics.grails.security.oauth.OAuthClientCredentialsAuthenticationProvider
 import org.commonsemantics.grails.security.oauth.OAuthClientDetailsService
 import org.commonsemantics.grails.security.oauth.OAuthTokenStore
+import org.commonsemantics.grails.security.oauth.ResourceOwnerPasswordTokenGranter
 import org.springframework.security.oauth2.provider.client.ClientCredentialsTokenGranter
 import org.springframework.security.oauth2.provider.CompositeTokenGranter
 import org.springframework.security.oauth2.provider.code.InMemoryAuthorizationCodeServices
@@ -14,10 +15,10 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices
 beans = {
 	securityEventListener(LoggingSecurityEventListener)
 	//userDetailsService(CustomUserDetailsService)
-	
+
 	// OAuth
 	customOAuthAuthenticationProvider(OAuthClientCredentialsAuthenticationProvider)
-	
+
 	clientDetailsService(OAuthClientDetailsService) {
 		grailsApplication = ref("grailsApplication")
 	}
@@ -41,15 +42,21 @@ beans = {
     oauth2TokenGranter2(RefreshTokenGranter,
             tokenServices = ref("tokenServices"),
             clientDetailsService = ref("clientDetailsService"))
-			
+
 	oauth2TokenGranter3(ClientCredentialsTokenGranter,
 			tokenServices = ref("tokenServices"),
 			clientDetailsService = ref("clientDetailsService"))
 
+	oauth2TokenGranter4(ResourceOwnerPasswordTokenGranter,
+		authenticationManager = ref("authenticationManager"),
+		tokenServices = ref("tokenServices"),
+		clientDetailsService = ref("clientDetailsService"))
+
     oauth2TokenGranter(CompositeTokenGranter, [
-		ref("oauth2TokenGranter1"), 
+		ref("oauth2TokenGranter1"),
 		ref("oauth2TokenGranter2"),
-		ref("oauth2TokenGranter3")
+		ref("oauth2TokenGranter3"),
+		ref("oauth2TokenGranter4")
 	])
-	
+
 }
