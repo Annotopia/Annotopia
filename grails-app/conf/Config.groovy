@@ -173,6 +173,7 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/openAnnotation/**'					: ['permitAll'],
 	'/annotationIntegrated/**'				: ['permitAll'],
 	'/openAnnotationSetREST/**'             : ['permitAll'],
+	'/micropublications/**'                 : ['permitAll'],
 	'/openAnnotationWithPermissions/**'		: ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_USER'],
 	'/bioPortal/**'					: ['permitAll'],
 	'/nif/**'					: ['permitAll'],
@@ -189,7 +190,7 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/**/favicon.ico'   		: ['permitAll']
 ]
 
-cors.url.pattern = ['/s/annotation/*','/s/annotationset/*','/cn/bioportal/*','/cn/nif/*','/cn/ebi/*','/cn/pubmed/*']
+cors.url.pattern = ['/s/annotation/*','/s/annotationset/*','/s/micropublications/*','/cn/bioportal/*','/cn/nif/*','/cn/ebi/*','/cn/pubmed/*']
 cors.headers = ['Access-Control-Allow-Origin':'*']
 
 // For OAuth add to the existing Auth Providers
