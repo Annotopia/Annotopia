@@ -37,8 +37,8 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 	
 	$scope.sources = [
           {name:'domeo', selected:true},
-          {name:'utopia', selected:true},/*,
-          {name:'others', selected:true},*/
+          {name:'utopia', selected:true},
+          {name:'any', selected:true},
           {name:'unspecified', selected:true}
     ];
   	                  
@@ -61,6 +61,7 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
         {name:'commenting', selected:true},
         {name:'highlighting', selected:true},
         {name:'tagging', selected:true},
+        {name:'describing', selected:true},
         {name:'unmotivated', selected:true}
     ];
 	                  

@@ -250,6 +250,7 @@
 											<span ng-switch-when="oa:commenting">Comment</span>
 											<span ng-switch-when="oa:highlighting">Highlight</span>
 											<span ng-switch-when="oa:tagging">Tagging</span>
+											<span ng-switch-when="oa:describing">Micropublication</span>
 											<span ng-switch-default>Annotation</span>
 										</span>
 										
