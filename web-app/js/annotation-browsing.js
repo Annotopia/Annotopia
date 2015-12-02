@@ -62,6 +62,7 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
         {name:'highlighting', selected:true},
         {name:'tagging', selected:true},
         {name:'describing', selected:true},
+        {name:'micropublishing', selected:true},
         {name:'unmotivated', selected:true}
     ];
 	                  
