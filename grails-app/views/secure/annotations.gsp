@@ -250,7 +250,7 @@
 											<span ng-switch-when="oa:commenting">Comment</span>
 											<span ng-switch-when="oa:highlighting">Highlight</span>
 											<span ng-switch-when="oa:tagging">Tagging</span>
-											<span ng-switch-when="oa:micropublishing">Micropublication</span>
+											<span ng-switch-when="mp:micropublishing">Micropublication</span>
 											<span ng-switch-default>Annotation</span>
 										</span>
 										
@@ -306,9 +306,29 @@
 												<div ng-switch-when="oa:tagging" class="ann-body-content" >
 													<a style="background:#CC6600; color:white; border-radius:5px; padding:5px; cursor:pointer;" ng-click="exploreSemanticTag(annotation[0].hasBody)">
 														{{annotation[0].hasBody.label}}
-														</a>
-														&nbsp;
+													</a>
+													&nbsp;
 												</div>
+												<div ng-switch-when="mp:micropublishing" class="ann-body-content" >
+													<g:set var="argues" value="{{annotation[0].hasBody['mp:argues']}}"/>
+													<g:if test="{{annotation[0].hasBody['mp:argues']['@type']!=null}}">
+														{{annotation[0].hasBody['mp:argues']['@type']}}:
+													</g:if>
+													<a style="background:#fff; color:black; border-radius:5px; padding:5px; cursor:pointer;">
+														{{annotation[0].hasBody.label}}
+													</a>
+													<br/><br/>
+													<g:if test="{{annotation[0].hasBody['mp:argues']['mp:qualifiedBy']!=null}}">
+														Qualified by:
+														<span ng-repeat="tag in annotation[0].hasBody['mp:argues']['mp:qualifiedBy']">
+															<span style="background:#CC6600; color:white; border-radius:5px; padding:5px; cursor:pointer;" ng-click="exploreSemanticTag(body)">
+																{{tag.label}}
+															</span>
+															&nbsp;
+														</span>
+													</g:if>
+												</div>
+												
 											</span>
 										</span>
 										<span ng-if="!annotation[0].hasBody.length && !annotation[0].hasBody">	
