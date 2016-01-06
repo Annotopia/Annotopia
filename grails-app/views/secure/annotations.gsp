@@ -240,6 +240,7 @@
 										<input id="annotation" type="checkbox">
 									</td>
 									<td style="vertical-align: top; padding: 5px; text-align: center;">
+										
 										<span ng-if="annotation[0]['hasTarget']['format']=='text/html' || annotation[0]['hasTarget']['hasSource']['format']=='text/html'"><img src="${resource(dir:'images/secure',file:'file_html.png')}" style="width:40px;"/></span>
 										<span ng-if="annotation[0]['hasTarget']['format']=='application/pdf' || annotation[0]['hasTarget']['hasSource']['format']=='application/pdf'"><img src="${resource(dir:'images/secure',file:'file_pdf.png')}" style="width:40px;"/></span>
 										<span ng-if="annotation[0]['hasTarget']['format']=='image/jpeg' || annotation[0]['hasTarget']['hasSource']['format']=='image/jpeg'"><img src="${resource(dir:'images/secure',file:'file_jpg.png')}" style="width:40px;"/></span>
@@ -324,12 +325,20 @@
 													</div>
 													<div ng-if="annotation[0].hasBody['mp:argues']['mp:qualifiedBy']!=null" style="padding-top: 10px;">
 														<span style="text-transform:uppercase;">Qualified by</span>
-														<span ng-repeat="tag in annotation[0].hasBody['mp:argues']['mp:qualifiedBy']">
+														<div ng-if="annotation[0].hasBody['mp:argues']['mp:qualifiedBy'].length">
+															<span ng-repeat="tag in annotation[0].hasBody['mp:argues']['mp:qualifiedBy']">
+																<span style="background:#CC6600; color:white; border-radius:5px; padding:5px; cursor:pointer;" ng-click="exploreSemanticTag(tag)">
+																	{{tag.label}}
+																</span>
+																&nbsp;
+															</span>
+														</div>
+														<div ng-if="!annotation[0].hasBody['mp:argues']['mp:qualifiedBy'].length">
 															<span style="background:#CC6600; color:white; border-radius:5px; padding:5px; cursor:pointer;" ng-click="exploreSemanticTag(tag)">
-																{{tag.label}}
+																{{annotation[0].hasBody['mp:argues']['mp:qualifiedBy'].label}}
 															</span>
 															&nbsp;
-														</span>
+														</div>
 													</div>
 													<div ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']!=null" style="padding-top: 10px;">
 														<span style="text-transform:uppercase;">Supported by</span><br/>
@@ -341,9 +350,8 @@
 															</span>
 															<span ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']=='mp:ImageData'">
 																<%--{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']}}--%>
-																<i class="fa fa-file-image-o"></i> 
-																Image:
-																<img src="{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['value']}}">
+																Image <i class="fa fa-file-image-o"></i> 
+																<img src="{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['value']}}" alt="Not found">
 															</span>
 															<span ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']!='mp:Reference' && annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']!='mp:ImageData'">
 																{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']}}
@@ -368,7 +376,7 @@
 															<span ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']=='mp:ImageData'">
 																<%--{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']}}--%>
 																Image <i class="fa fa-file-image-o"></i> 
-																<img src="{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['value']}}">
+																<img src="{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['value']}}" alt="Not found">
 															</span>
 															<span ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']!='mp:Reference' && annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']!='mp:ImageData'">
 																{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']}}
@@ -407,16 +415,16 @@
 									       	</blockquote>
 										</span>
 										<span ng-if="annotation[0]['hasTarget']['hasScope']!=null && annotation[0]['hasTarget']['hasSource']['format']=='image/jpeg'">
-										<hr style="height: 5px; padding:0px; margin-top: 4px; margin-bottom: 4px; border-bottom: 1px dotted #aaa;"/>
+											<hr style="height: 5px; padding:0px; margin-top: 4px; margin-bottom: 4px; border-bottom: 1px dotted #aaa;"/>
 											<div class="contextTitle">Annotating 
 												<span style="font-size: 12px; cursor:pointer;"> <a ng-click="exploreResource(annotation[0]['hasTarget']['hasSource'])">{{annotation[0]['hasTarget']['hasSource']['@id']}}</a></span> 
-											</div> 
+											</div>
 											<div class="contextTitle">In document 
 												<span style="font-size: 12px; cursor:pointer;"> <a ng-click="exploreResource(annotation[0]['hasTarget']['hasScope'])">{{annotation[0]['hasTarget']['hasScope']}}</a></span> 
 											</div>
 											<div style="padding:5px;">
 												<img src="{{annotation[0]['hasTarget']['hasSource']['@id']}}" style="max-width:580px"/>
-											</div>
+											</div>								
 										</span>
 										<span ng-if="annotation[0]['hasTarget']['format']=='annotopia/database'">
 											<hr style="height: 5px; padding:0px; margin-top: 4px; margin-bottom: 4px; border-bottom: 1px dotted #aaa;"/>

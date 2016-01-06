@@ -98,6 +98,12 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 	    $http({method: 'GET', url: '/secure/getAnnotation?max=' + $scope.paginationMax + '&offset=' + $scope.paginationOffset  + sources + permissions + motivations + '&outCmd=frame'}).
 		    success(function(data, status, headers, config) {
 		    	results = data.result.items;
+		    	
+		    	// Cache all items
+//		    	$scope.cache = [];
+//		    	$scope.retrieveById(results, "http://127.0.0.1:8888/tests/index.html", $scope.cache);
+//		    	console.error(JSON.stringify($scope.cache));
+		    	
 		    	$scope.totalResults = data.result.total;
 		    	$scope.duration = data.result.duration;
 		    	
@@ -116,6 +122,60 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 		
 		console.log("browse [page:" + (page?page:0) + ", max:" + $scope.paginationMax + "]")
 	};
+	
+	
+	/*
+	---------------------------------------------------------------------
+	 Object retrieval
+	---------------------------------------------------------------------
+	*/
+	$scope.retrieveById = function(json, id, matches) {
+		$scope.traverse(json, 0, id, matches);
+		return matches[0];
+	}
+	
+	/*
+	---------------------------------------------------------------------
+	 JSON traversal
+	---------------------------------------------------------------------
+	*/
+	$scope.isArray = function(what) {
+	    return Object.prototype.toString.call(what) === '[object Array]';
+	}
+	
+	$scope.traverseArray = function(arr, level, targetId, matches) {
+		//console.log(level + "<array>");
+		arr.forEach(function(x) {
+			$scope.traverse(x, level + "  ", targetId, matches);
+		});
+	}
+	
+	$scope.traverseObject = function(obj, level, targetId, matches) {
+		//console.log(level + "<object>");
+		for (var key in obj) {
+		    if (obj.hasOwnProperty(key)) {
+		    	if(key==="@context") continue;
+		    	if(key==="@id") {
+		    		//console.log(obj[key]);
+		    		if(obj[key]===targetId) {
+		    			matches.push(obj);
+			    	}
+		    	}
+		    	//console.log(level + "  " + key + ":");
+		    	$scope.traverse(obj[key], level + "    ", targetId, matches);
+		    }
+		}
+	}
+	
+	$scope.traverse = function(x, level, targetId, matches) {
+		if ($scope.isArray(x)) {
+			$scope.traverseArray(x, level, targetId, matches);
+		} else if ((typeof x === 'object') && (x !== null)) {
+			$scope.traverseObject(x, level, targetId, matches);
+		} else {
+		    //console.log(level + x);
+		}
+	}
 	
 	// ---------------------------
 	//  PAGINATION
@@ -140,9 +200,6 @@ function AnnotationBrowsingCtrl($scope, $sce, $http) {
 	
 	$scope.refreshPagination  = function(page) {
 		console.log('refreshingPagination max: ' + $scope.paginationMax + ' offset: ' + $scope.paginationOffset + ' total: ' + $scope.paginationTotal);
-		//console.log($scope.paginationTotal /  $scope.paginationMax);
-		//console.log(Math.floor($scope.paginationTotal /  $scope.paginationMax));
-		//console.log($scope.paginationTotal %  $scope.paginationMax)
 		
 		var linksNumber = Math.floor($scope.paginationTotal /  $scope.paginationMax) + (($scope.paginationTotal %  $scope.paginationMax>0)?1:0);
 		console.log("# links "+ linksNumber);
