@@ -272,6 +272,7 @@
 											<span ng-switch-when="oa:commenting">Comment</span>
 											<span ng-switch-when="oa:highlighting">Highlight</span>
 											<span ng-switch-when="oa:tagging">Tagging</span>
+											<span ng-switch-when="mp:micropublishing">Micropublication</span>
 											<span ng-switch-default>Annotation</span>
 										</span>
 										
@@ -301,6 +302,81 @@
 													&nbsp;
 												</span>
 											</div>
+											<div ng-switch-when="mp:micropublishing" >
+													<g:set var="argues" value="{{annotation[0].hasBody['mp:argues']}}"/>
+													<span ng-if="annotation[0].hasBody['mp:argues']['@type']!=null">
+														<span ng-if="annotation[0].hasBody['mp:argues']['@type']=='mp:Claim'" style="text-transform:uppercase;">
+															Claim
+														</span>
+														<span ng-if="annotation[0].hasBody['mp:argues']['@type']=='mp:Hypothesis'" style="text-transform:uppercase;">
+															Hypothesis
+														</span>
+													</span>
+													<div style="background: #FFD732; color: blak; border-radius: 5px; padding: 5px; font-weight: bold;">
+														{{annotation[0].hasBody.label}}
+													</div>
+													<div ng-if="annotation[0].hasBody['mp:argues']['mp:qualifiedBy']!=null" style="padding-top: 10px;">
+														<span style="text-transform:uppercase;">Qualified by</span>
+														<div ng-if="annotation[0].hasBody['mp:argues']['mp:qualifiedBy'].length">
+															<span ng-repeat="tag in annotation[0].hasBody['mp:argues']['mp:qualifiedBy']">
+																<span style="background:#CC6600; color:white; border-radius:5px; padding:5px; cursor:pointer;" ng-click="exploreSemanticTag(tag)">
+																	{{tag.label}}
+																</span>
+																&nbsp;
+															</span>
+														</div>
+														<div ng-if="!annotation[0].hasBody['mp:argues']['mp:qualifiedBy'].length">
+															<span style="background:#CC6600; color:white; border-radius:5px; padding:5px; cursor:pointer;" ng-click="exploreSemanticTag(tag)">
+																{{annotation[0].hasBody['mp:argues']['mp:qualifiedBy'].label}}
+															</span>
+															&nbsp;
+														</div>
+													</div>
+													<div ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']!=null" style="padding-top: 10px;">
+														<span style="text-transform:uppercase;">Supported by</span><br/>
+														<span ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']!=null">
+															<span ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']=='mp:Reference'">
+																<%--{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']}}--%>
+																Citation <i class="fa fa-book"></i> 
+																{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['mp:citation']}}
+															</span>
+															<span ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']=='mp:ImageData'">
+																<%--{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']}}--%>
+																Image <i class="fa fa-file-image-o"></i> 
+																<img src="{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['value']}}" alt="Not found">
+															</span>
+															<span ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']!='mp:Reference' && annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']!='mp:ImageData'">
+																{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']}}
+																{{annotation[0].hasBody['mp:argues']['mp:supportedBy']}}
+															</span>
+														</span>
+														<%--<span ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']==null">
+															<span ng-repeat="challenge in annotation[0].hasBody['mp:argues']['mp:supportedBy']">
+																{{challenge['@type']}}
+																{{challenge['mp:citation']}}
+															</span>
+														</span>
+													--%></div>
+													<div ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']!=null" style="padding-top: 10px;">
+														<span style="text-transform:uppercase;">Challenged by</span><br/>
+														<span ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']!=null">
+															<span ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']=='mp:Reference'">
+																<%--{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']}}--%>
+																Citation <i class="fa fa-book"></i> 
+																{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['mp:citation']}}
+															</span>
+															<span ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']=='mp:ImageData'">
+																<%--{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']}}--%>
+																Image <i class="fa fa-file-image-o"></i> 
+																<img src="{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['value']}}" alt="Not found">
+															</span>
+															<span ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']!='mp:Reference' && annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']!='mp:ImageData'">
+																{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']}}
+																{{annotation[0].hasBody['mp:argues']['mp:challengedBy']}}
+															</span>
+														</span>
+													</div>
+												</div>
 										</span>
 										
 										<%-- Display of textual fragment if any --%>
