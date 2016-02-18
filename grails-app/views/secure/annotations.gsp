@@ -350,10 +350,10 @@
 																	<%--{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']}}--%>
 																	Citation <i class="fa fa-book"></i> 
 																	{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['mp:citation']}}
-																	<span ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['http://purl.org/vocab/frbr/core#embodimentOf']!=null && annotation[0].hasBody['mp:argues']['mp:supportedBy']['http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPubMedId']!=null">
+																	<span style="white-space:nowrap;word-wrap:no;" ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['http://purl.org/vocab/frbr/core#embodimentOf']!=null && annotation[0].hasBody['mp:argues']['mp:supportedBy']['http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPubMedId']!=null">
 																		<a target="_blank"  href="http://www.ncbi.nlm.nih.gov/pubmed/{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPubMedId']}}"><i class="fa fa-external-link"></i> PubMed</a>
 																	</span>
-																	<span ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['http://purl.org/vocab/frbr/core#embodimentOf']!=null && annotation[0].hasBody['mp:argues']['mp:supportedBy']['http://purl.org/vocab/frbr/core#embodimentOf']['http://prismstandard.org/namespaces/basic/2.0/doi']!=null">
+																	<span style="white-space:nowrap;word-wrap:no;" ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['http://purl.org/vocab/frbr/core#embodimentOf']!=null && annotation[0].hasBody['mp:argues']['mp:supportedBy']['http://purl.org/vocab/frbr/core#embodimentOf']['http://prismstandard.org/namespaces/basic/2.0/doi']!=null">
 																		<a target="_blank"  href="https://dx.doi.org/{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['http://purl.org/vocab/frbr/core#embodimentOf']['http://prismstandard.org/namespaces/basic/2.0/doi']}}"><i class="fa fa-external-link"></i> DOI</a>
 																	</span>
 																</span>
@@ -374,10 +374,10 @@
 																	<span ng-if="support['@type']=='mp:Reference'">																	
 																		Citation <i class="fa fa-book"></i> 
 																		{{support['mp:citation']}}																
-																		<span ng-if="support['http://purl.org/vocab/frbr/core#embodimentOf']!=null && support['http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPubMedId']!=null">
+																		<span style="white-space:nowrap;word-wrap:no;" ng-if="support['http://purl.org/vocab/frbr/core#embodimentOf']!=null && support['http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPubMedId']!=null">
 																			<a target="_blank"  href="http://www.ncbi.nlm.nih.gov/pubmed/{{support['http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPubMedId']}}"><i class="fa fa-external-link"></i> PubMed</a>
 																		</span>
-																		<span ng-if="support['http://purl.org/vocab/frbr/core#embodimentOf']!=null && support['http://purl.org/vocab/frbr/core#embodimentOf']['http://prismstandard.org/namespaces/basic/2.0/doi']!=null">
+																		<span style="white-space:nowrap;word-wrap:no;" ng-if="support['http://purl.org/vocab/frbr/core#embodimentOf']!=null && support['http://purl.org/vocab/frbr/core#embodimentOf']['http://prismstandard.org/namespaces/basic/2.0/doi']!=null">
 																			<a target="_blank"  href="https://dx.doi.org/{{support['http://purl.org/vocab/frbr/core#embodimentOf']['http://prismstandard.org/namespaces/basic/2.0/doi']}}"><i class="fa fa-external-link"></i> DOI</a>
 																		</span>
 																	</span>
@@ -402,10 +402,10 @@
 																	<%--{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']}}--%>
 																	Citation <i class="fa fa-book"></i> 
 																	{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['mp:citation']}}
-																	<span ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']['http://purl.org/vocab/frbr/core#embodimentOf']!=null && annotation[0].hasBody['mp:argues']['mp:challengedBy']['http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPubMedId']!=null">
+																	<span style="white-space:nowrap;word-wrap:no;" ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']['http://purl.org/vocab/frbr/core#embodimentOf']!=null && annotation[0].hasBody['mp:argues']['mp:challengedBy']['http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPubMedId']!=null">
 																		<a target="_blank" href="http://www.ncbi.nlm.nih.gov/pubmed/{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPubMedId']}}"><i class="fa fa-external-link"></i> PubMed</a>
 																	</span>
-																	<span ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']['http://purl.org/vocab/frbr/core#embodimentOf']!=null && annotation[0].hasBody['mp:argues']['mp:challengedBy']['http://purl.org/vocab/frbr/core#embodimentOf']['http://prismstandard.org/namespaces/basic/2.0/doi']!=null">
+																	<span style="white-space:nowrap;word-wrap:no;" ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']['http://purl.org/vocab/frbr/core#embodimentOf']!=null && annotation[0].hasBody['mp:argues']['mp:challengedBy']['http://purl.org/vocab/frbr/core#embodimentOf']['http://prismstandard.org/namespaces/basic/2.0/doi']!=null">
 																		<a target="_blank"  href="https://dx.doi.org/{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['http://purl.org/vocab/frbr/core#embodimentOf']['http://prismstandard.org/namespaces/basic/2.0/doi']}}"><i class="fa fa-external-link"></i> DOI</a>
 																	</span>
 																</span>
@@ -426,10 +426,10 @@
 																	<span ng-if="challenge'@type']=='mp:Reference'">																	
 																		Citation <i class="fa fa-book"></i> 
 																		{{support['mp:citation']}}																
-																		<span ng-if="challenge'http://purl.org/vocab/frbr/core#embodimentOf']!=null && challenge'http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPubMedId']!=null">
+																		<span style="white-space:nowrap;word-wrap:no;" ng-if="challenge'http://purl.org/vocab/frbr/core#embodimentOf']!=null && challenge'http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPubMedId']!=null">
 																			<a target="_blank"  href="http://www.ncbi.nlm.nih.gov/pubmed/{{challenge['http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPubMedId']}}"><i class="fa fa-external-link"></i> PubMed</a>
 																		</span>
-																		<span ng-if="challenge'http://purl.org/vocab/frbr/core#embodimentOf']!=null && challenge'http://purl.org/vocab/frbr/core#embodimentOf']['http://prismstandard.org/namespaces/basic/2.0/doi']!=null">
+																		<span style="white-space:nowrap;word-wrap:no;" ng-if="challenge'http://purl.org/vocab/frbr/core#embodimentOf']!=null && challenge'http://purl.org/vocab/frbr/core#embodimentOf']['http://prismstandard.org/namespaces/basic/2.0/doi']!=null">
 																			<a target="_blank"  href="https://dx.doi.org/{{challenge['http://purl.org/vocab/frbr/core#embodimentOf']['http://prismstandard.org/namespaces/basic/2.0/doi']}}"><i class="fa fa-external-link"></i> DOI</a>
 																		</span>
 																	</span>
