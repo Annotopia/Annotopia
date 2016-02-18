@@ -323,6 +323,7 @@
 													<div style="background: #FFD732; color: blak; border-radius: 5px; padding: 5px; font-weight: bold;">
 														{{annotation[0].hasBody.label}}
 													</div>
+													<%-- QUALIFIER --%>
 													<div ng-if="annotation[0].hasBody['mp:argues']['mp:qualifiedBy']!=null" style="padding-top: 10px;">
 														<span style="text-transform:uppercase;">Qualified by</span>
 														<div ng-if="annotation[0].hasBody['mp:argues']['mp:qualifiedBy'].length">
@@ -340,49 +341,109 @@
 															&nbsp;
 														</div>
 													</div>
-													<div ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']!=null" style="padding-top: 10px;">
+													<%-- SUPPPORT --%>
+													<div ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']!=null" style="padding-top: 10px;">	
 														<span style="text-transform:uppercase;">Supported by</span><br/>
-														<span ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']!=null">
-															<span ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']=='mp:Reference'">
-																<%--{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']}}--%>
-																Citation <i class="fa fa-book"></i> 
-																{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['mp:citation']}}
+														<div ng-if="!annotation[0].hasBody['mp:argues']['mp:supportedBy'].length">
+															<span ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']!=null">
+																<span ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']=='mp:Reference'">
+																	<%--{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']}}--%>
+																	Citation <i class="fa fa-book"></i> 
+																	{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['mp:citation']}}
+																	<span ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['http://purl.org/vocab/frbr/core#embodimentOf']!=null && annotation[0].hasBody['mp:argues']['mp:supportedBy']['http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPubMedId']!=null">
+																		<a target="_blank"  href="http://www.ncbi.nlm.nih.gov/pubmed/{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPubMedId']}}"><i class="fa fa-external-link"></i> PubMed</a>
+																	</span>
+																	<span ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['http://purl.org/vocab/frbr/core#embodimentOf']!=null && annotation[0].hasBody['mp:argues']['mp:supportedBy']['http://purl.org/vocab/frbr/core#embodimentOf']['http://prismstandard.org/namespaces/basic/2.0/doi']!=null">
+																		<a target="_blank"  href="https://dx.doi.org/{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['http://purl.org/vocab/frbr/core#embodimentOf']['http://prismstandard.org/namespaces/basic/2.0/doi']}}"><i class="fa fa-external-link"></i> DOI</a>
+																	</span>
+																</span>
+																<span ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']=='mp:ImageData'">
+																	<%--{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']}}--%>
+																	Image <i class="fa fa-file-image-o"></i> 
+																	<img src="{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['value']}}" alt="Not found">
+																</span>
+																<span ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']!='mp:Reference' && annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']!='mp:ImageData'">
+																	{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']}}
+																	{{annotation[0].hasBody['mp:argues']['mp:supportedBy']}}
+																</span>
 															</span>
-															<span ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']=='mp:ImageData'">
-																<%--{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']}}--%>
-																Image <i class="fa fa-file-image-o"></i> 
-																<img src="{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['value']}}" alt="Not found">
+														</div>
+														<div ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy'].length">
+															<span ng-repeat="support in annotation[0].hasBody['mp:argues']['mp:supportedBy']">
+																<div ng-if="support['@type']!=null">														
+																	<span ng-if="support['@type']=='mp:Reference'">																	
+																		Citation <i class="fa fa-book"></i> 
+																		{{support['mp:citation']}}																
+																		<span ng-if="support['http://purl.org/vocab/frbr/core#embodimentOf']!=null && support['http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPubMedId']!=null">
+																			<a target="_blank"  href="http://www.ncbi.nlm.nih.gov/pubmed/{{support['http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPubMedId']}}"><i class="fa fa-external-link"></i> PubMed</a>
+																		</span>
+																		<span ng-if="support['http://purl.org/vocab/frbr/core#embodimentOf']!=null && support['http://purl.org/vocab/frbr/core#embodimentOf']['http://prismstandard.org/namespaces/basic/2.0/doi']!=null">
+																			<a target="_blank"  href="https://dx.doi.org/{{support['http://purl.org/vocab/frbr/core#embodimentOf']['http://prismstandard.org/namespaces/basic/2.0/doi']}}"><i class="fa fa-external-link"></i> DOI</a>
+																		</span>
+																	</span>
+																	<span ng-if="support['@type']=='mp:ImageData'">
+																		Image <i class="fa fa-file-image-o"></i> 
+																		<img src="{{support['value']}}" alt="Not found">
+																	</span>
+																	<span ng-if="support['@type']!='mp:Reference' && support['@type']!='mp:ImageData'">
+																		{{support['@type']}}
+																		{{support}}
+																	</span>															
+																</div>
 															</span>
-															<span ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']!='mp:Reference' && annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']!='mp:ImageData'">
-																{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']}}
-																{{annotation[0].hasBody['mp:argues']['mp:supportedBy']}}
-															</span>
-														</span>
-														<%--<span ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']==null">
-															<span ng-repeat="challenge in annotation[0].hasBody['mp:argues']['mp:supportedBy']">
-																{{challenge['@type']}}
-																{{challenge['mp:citation']}}
-															</span>
-														</span>
-													--%></div>
+														</div>
+													</div>
+													<%-- CHALLENGE --%>
 													<div ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']!=null" style="padding-top: 10px;">
 														<span style="text-transform:uppercase;">Challenged by</span><br/>
-														<span ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']!=null">
-															<span ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']=='mp:Reference'">
-																<%--{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']}}--%>
-																Citation <i class="fa fa-book"></i> 
-																{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['mp:citation']}}
+														<div ng-if="!annotation[0].hasBody['mp:argues']['mp:challengedBy'].length">
+															<span ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']!=null">
+																<span ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']=='mp:Reference'">
+																	<%--{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']}}--%>
+																	Citation <i class="fa fa-book"></i> 
+																	{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['mp:citation']}}
+																	<span ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']['http://purl.org/vocab/frbr/core#embodimentOf']!=null && annotation[0].hasBody['mp:argues']['mp:challengedBy']['http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPubMedId']!=null">
+																		<a target="_blank" href="http://www.ncbi.nlm.nih.gov/pubmed/{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPubMedId']}}"><i class="fa fa-external-link"></i> PubMed</a>
+																	</span>
+																	<span ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']['http://purl.org/vocab/frbr/core#embodimentOf']!=null && annotation[0].hasBody['mp:argues']['mp:challengedBy']['http://purl.org/vocab/frbr/core#embodimentOf']['http://prismstandard.org/namespaces/basic/2.0/doi']!=null">
+																		<a target="_blank"  href="https://dx.doi.org/{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['http://purl.org/vocab/frbr/core#embodimentOf']['http://prismstandard.org/namespaces/basic/2.0/doi']}}"><i class="fa fa-external-link"></i> DOI</a>
+																	</span>
+																</span>
+																<span ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']=='mp:ImageData'">
+																	<%--{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']}}--%>
+																	Image <i class="fa fa-file-image-o"></i> 
+																	<img src="{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['value']}}" alt="Not found">
+																</span>
+																<span ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']!='mp:Reference' && annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']!='mp:ImageData'">
+																	{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']}}
+																	{{annotation[0].hasBody['mp:argues']['mp:challengedBy']}}
+																</span>
 															</span>
-															<span ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']=='mp:ImageData'">
-																<%--{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']}}--%>
-																Image <i class="fa fa-file-image-o"></i> 
-																<img src="{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['value']}}" alt="Not found">
+														</div>
+														<div ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy'].length">
+															<span ng-repeat="challenge in annotation[0].hasBody['mp:argues']['mp:challengedBy']">
+																<div ng-if="challenge['@type']!=null">														
+																	<span ng-if="challenge'@type']=='mp:Reference'">																	
+																		Citation <i class="fa fa-book"></i> 
+																		{{support['mp:citation']}}																
+																		<span ng-if="challenge'http://purl.org/vocab/frbr/core#embodimentOf']!=null && challenge'http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPubMedId']!=null">
+																			<a target="_blank"  href="http://www.ncbi.nlm.nih.gov/pubmed/{{challenge['http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPubMedId']}}"><i class="fa fa-external-link"></i> PubMed</a>
+																		</span>
+																		<span ng-if="challenge'http://purl.org/vocab/frbr/core#embodimentOf']!=null && challenge'http://purl.org/vocab/frbr/core#embodimentOf']['http://prismstandard.org/namespaces/basic/2.0/doi']!=null">
+																			<a target="_blank"  href="https://dx.doi.org/{{challenge['http://purl.org/vocab/frbr/core#embodimentOf']['http://prismstandard.org/namespaces/basic/2.0/doi']}}"><i class="fa fa-external-link"></i> DOI</a>
+																		</span>
+																	</span>
+																	<span ng-if="challenge'@type']=='mp:ImageData'">
+																		Image <i class="fa fa-file-image-o"></i> 
+																		<img src="{{challenge['value']}}" alt="Not found">
+																	</span>
+																	<span ng-if="support['@type']!='mp:Reference' && challenge[]'@type']!='mp:ImageData'">
+																		{{challenge['@type']}}
+																		{{challenge}}
+																	</span>															
+																</div>
 															</span>
-															<span ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']!='mp:Reference' && annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']!='mp:ImageData'">
-																{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']}}
-																{{annotation[0].hasBody['mp:argues']['mp:challengedBy']}}
-															</span>
-														</span>
+														</div>
 													</div>
 												</div>
 												
