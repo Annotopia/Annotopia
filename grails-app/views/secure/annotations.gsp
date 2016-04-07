@@ -344,6 +344,7 @@
 													<%-- SUPPPORT --%>
 													<div ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']!=null" style="padding-top: 10px;">	
 														<span style="text-transform:uppercase;">Supported by</span><br/>
+														
 														<div ng-if="!annotation[0].hasBody['mp:argues']['mp:supportedBy'].length">
 															<span ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']!=null">
 																<span ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']=='mp:Reference'">
@@ -358,9 +359,8 @@
 																	</span>
 																</span>
 																<span ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']=='mp:ImageData'">
-																	<%--{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']}}--%>
 																	Image <i class="fa fa-file-image-o"></i> 
-																	<img src="{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['value']}}" alt="Not found">
+																	<img ng-src="{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['value']}}" alt="Not found">
 																</span>
 																<span ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']!='mp:Reference' && annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']!='mp:ImageData'">
 																	{{annotation[0].hasBody['mp:argues']['mp:supportedBy']['@type']}}
@@ -368,6 +368,7 @@
 																</span>
 															</span>
 														</div>
+														
 														<div ng-if="annotation[0].hasBody['mp:argues']['mp:supportedBy'].length">
 															<span ng-repeat="support in annotation[0].hasBody['mp:argues']['mp:supportedBy']">
 																<div ng-if="support['@type']!=null">														
@@ -383,7 +384,7 @@
 																	</span>
 																	<span ng-if="support['@type']=='mp:ImageData'">
 																		Image <i class="fa fa-file-image-o"></i> 
-																		<img src="{{support['value']}}" alt="Not found">
+																		<img ng-src="{{support['value']}}" alt="Not found">
 																	</span>
 																	<span ng-if="support['@type']!='mp:Reference' && support['@type']!='mp:ImageData'">
 																		{{support['@type']}}
@@ -399,7 +400,6 @@
 														<div ng-if="!annotation[0].hasBody['mp:argues']['mp:challengedBy'].length">
 															<span ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']!=null">
 																<span ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']=='mp:Reference'">
-																	<%--{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']}}--%>
 																	Citation <i class="fa fa-book"></i> 
 																	{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['mp:citation']}}
 																	<span style="white-space:nowrap;word-wrap:no;" ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']['http://purl.org/vocab/frbr/core#embodimentOf']!=null && annotation[0].hasBody['mp:argues']['mp:challengedBy']['http://purl.org/vocab/frbr/core#embodimentOf']['http://purl.org/spar/fabio#hasPubMedId']!=null">
@@ -410,9 +410,8 @@
 																	</span>
 																</span>
 																<span ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']=='mp:ImageData'">
-																	<%--{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']}}--%>
 																	Image <i class="fa fa-file-image-o"></i> 
-																	<img src="{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['value']}}" alt="Not found">
+																	<img ng-src="{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['value']}}" alt="Not found">
 																</span>
 																<span ng-if="annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']!='mp:Reference' && annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']!='mp:ImageData'">
 																	{{annotation[0].hasBody['mp:argues']['mp:challengedBy']['@type']}}
@@ -433,9 +432,9 @@
 																			<a target="_blank"  href="https://dx.doi.org/{{challenge['http://purl.org/vocab/frbr/core#embodimentOf']['http://prismstandard.org/namespaces/basic/2.0/doi']}}"><i class="fa fa-external-link"></i> DOI</a>
 																		</span>
 																	</span>
-																	<span ng-if="challenge'@type']=='mp:ImageData'">
+																	<span ng-if="challenge['@type']=='mp:ImageData'">
 																		Image <i class="fa fa-file-image-o"></i> 
-																		<img src="{{challenge['value']}}" alt="Not found">
+																		<img ng-src="{{challenge['value']}}" alt="Not found">
 																	</span>
 																	<span ng-if="support['@type']!='mp:Reference' && challenge[]'@type']!='mp:ImageData'">
 																		{{challenge['@type']}}
@@ -484,7 +483,7 @@
 												<span style="font-size: 12px; cursor:pointer;"> <a ng-click="exploreResource(annotation[0]['hasTarget']['hasScope'])">{{annotation[0]['hasTarget']['hasScope']}}</a></span> 
 											</div>
 											<div style="padding:5px;">
-												<img src="{{annotation[0]['hasTarget']['hasSource']['@id']}}" style="max-width:580px"/>
+												<img ng-src="{{annotation[0]['hasTarget']['hasSource']['@id']}}" style="max-width:580px"/>
 											</div>								
 										</span>
 										<span ng-if="annotation[0]['hasTarget']['format']=='annotopia/database'">
@@ -502,11 +501,11 @@
 									</td>
 									<td style="vertical-align: top; padding: 5px; padding-left: 10px; text-align: center;">
 										<span ng-if="annotation[0]['serializedBy']=='urn:application:domeo'">
-											<img src="${resource(dir:'images/secure',file:'domeo_logo.png')}" title="Domeo Annotation Tool" style="width:24px;"/><br/>
+											<img ng-src="${resource(dir:'images/secure',file:'domeo_logo.png')}" title="Domeo Annotation Tool" style="width:24px;"/><br/>
 											<span style="font-size:11px;">Domeo</span>
 										</span>
 										<span ng-if="annotation[0]['serializedBy']=='urn:application:utopia'">
-											<img src="${resource(dir:'images/secure',file:'utopia_logo.png')}" title="Utopia for PDF" style="width:24px;"/><br/>
+											<img ng-src="${resource(dir:'images/secure',file:'utopia_logo.png')}" title="Utopia for PDF" style="width:24px;"/><br/>
 											<span style="font-size:11px;">Utopia</span>
 										</span>
 									</td>
