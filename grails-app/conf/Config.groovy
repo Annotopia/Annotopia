@@ -175,7 +175,9 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/openAnnotationSetREST/**'             : ['permitAll'],
 	'/micropublications/**'                 : ['permitAll'],
 	'/openAnnotationWithPermissions/**'		: ['ROLE_ADMIN', 'ROLE_MANAGER', 'ROLE_USER'],
+	'/micropublication/**'					: ['permitAll'],
 	'/bioPortal/**'					: ['permitAll'],
+	'/cn/**'					: ['permitAll'],
 	'/nif/**'					: ['permitAll'],
 	'/ebi/**'					: ['permitAll'],
 	'/pubmed/**'				: ['permitAll'],
@@ -190,7 +192,7 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/**/favicon.ico'   		: ['permitAll']
 ]
 
-cors.url.pattern = ['/s/annotation/*','/s/annotationset/*','/s/micropublications/*','/cn/bioportal/*','/cn/nif/*','/cn/ebi/*','/cn/pubmed/*']
+cors.url.pattern = ['/s/annotation/*','/s/annotationset/*','/s/micropublications/*','/cn/micropubs/*','/cn/bioportal/*','/cn/nif/*','/cn/ebi/*','/cn/pubmed/*']
 cors.headers = ['Access-Control-Allow-Origin':'*']
 
 // For OAuth add to the existing Auth Providers
@@ -211,4 +213,6 @@ grails.plugin.springsecurity.filterChain.chainMap = [
 	'/oauth/token': 'JOINED_FILTERS,-exceptionTranslationFilter',
 	'/**': 'JOINED_FILTERS,-basicAuthenticationFilter,-basicExceptionTranslationFilter'
 ]
+
+
 

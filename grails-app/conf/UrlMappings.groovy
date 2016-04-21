@@ -31,6 +31,11 @@ class UrlMappings {
 			/*controller = "annotationIntegrated"*/ /* Domeo-Utopia */
 			action = [GET:"show", POST:"save", PUT:"update", DELETE:"delete"]
 		}
+		
+		"/cn/micropubs"{
+			controller = "micropublication"
+			action = [GET:"search"]
+		}
 
 		// BioPortal Connector
 		"/cn/bioportal/search"{
